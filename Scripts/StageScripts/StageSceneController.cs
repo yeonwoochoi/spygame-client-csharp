@@ -91,10 +91,10 @@ namespace StageScripts
 
             // Set joystick
             joystickMoveController = joystick;
-            joystickMoveController.SetJoystick(playerObj, eControlType);
+            joystickMoveController.SetJoystick(playerMoveController, eControlType);
             
             // Set line generator
-            if (playerMoveController.eControlType == EControlType.Mouse)
+            if (eControlType == EControlType.Mouse)
             {
                 var lineGenerator = gameObject.AddComponent<LineGenerator>();
                 lineGenerator.SetLineGenerator(tilemap, line, playerObj);

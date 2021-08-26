@@ -33,7 +33,22 @@ namespace Control.Movement
             }
             moveCoroutine = StartCoroutine(Move(positions));
         }
-        
+
+        public void MovePlayer(bool isMove, Vector2 dir)
+        {
+            if (!isMove)
+            {
+                CurrentState = MoveStateType.Idle;
+                rb2D.velocity = Vector3.zero;
+                return;
+            }
+
+            CurrentState = MoveStateType.Move;
+            rb2D.velocity = dir * speed;
+            animator.SetFloat(ANIMATION_VARIABLE_PLAYER_HORIZONTAL, dir.x * 50);
+            animator.SetFloat(ANIMATION_VARIABLE_PLAYER_VERTICAL, dir.y * 50);
+        }
+
         public void StopMove()
         {
             if (moveCoroutine == null) return;

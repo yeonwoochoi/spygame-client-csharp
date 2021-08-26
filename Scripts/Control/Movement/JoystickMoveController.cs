@@ -14,35 +14,19 @@ namespace Control.Movement
         
         private float joystickBgRadius;
         
-        private GameObject playerObj;
         private PlayerMoveController playerMoveController;
         private EControlType eControlType;
-        private float speed;
         private bool isSet = false;
 
-        private bool isTouched;
-        private bool IsTouched
+        public void SetJoystick(PlayerMoveController controller, EControlType e)
         {
-            get => isTouched;
-            set
-            {
-                isTouched = value;
-                playerMoveController.CurrentState = isTouched ? MoveStateType.Move : MoveStateType.Idle;
-                if (!isTouched) playerMoveController.rb2D.velocity = Vector2.zero;
-            }
-        }
-        
-        public void SetJoystick(GameObject player, EControlType e)
-        {
-            isSet = false;
             eControlType = e;
             if (eControlType == EControlType.Mouse) return;
-            playerObj = player;
-            playerMoveController = player.GetComponent<PlayerMoveController>();
-            speed = playerMoveController.speed;
+
+            playerMoveController = controller;
             joystickBgRadius = joystickBgRect.rect.width * 0.5f;
-            isTouched = false;
-            actionButton.onClick.AddListener(playerMoveController.OnClickActionBtn);
+            actionButton.onClick.AddListener(controller.OnClickActionBtn);
+            
             isSet = true;
         }
         
@@ -65,18 +49,14 @@ namespace Control.Movement
 
             if (touchOffsetNormal.sqrMagnitude > 0)
             {
-                playerMoveController.rb2D.velocity = touchOffsetNormal * speed;
+                playerMoveController.MovePlayer(true, touchOffsetNormal);
             }
-            
-            playerMoveController.animator.SetFloat(BaseMoveController.ANIMATION_VARIABLE_PLAYER_HORIZONTAL, touchOffsetNormal.x * 50);
-            playerMoveController.animator.SetFloat(BaseMoveController.ANIMATION_VARIABLE_PLAYER_VERTICAL, touchOffsetNormal.y * 50);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             if (!isSet) return;
             MovePlayerByJoystick(eventData.position);
-            IsTouched = true;
         }
 
         // button 클릭시 실행되는 event 함수
@@ -84,15 +64,14 @@ namespace Control.Movement
         {
             if (!isSet) return;
             MovePlayerByJoystick(eventData.position);
-            IsTouched = true;
         }
 
         // button click 떼는 순간 실행되는 event 함수
         public void OnPointerUp(PointerEventData eventData)
         {
             if (!isSet) return;
+            playerMoveController.MovePlayer(false, Vector2.zero);
             joystickRect.localPosition = Vector2.zero;
-            IsTouched = false;
         }
     }
 }

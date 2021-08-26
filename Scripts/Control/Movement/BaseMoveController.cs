@@ -27,10 +27,12 @@ namespace Control.Movement
         public static string ANIMATION_VARIABLE_PLAYER_SPEED = "Speed";
         
         [HideInInspector] public MoveObjectType objectType;
-        [HideInInspector] public float speed;
-        [HideInInspector] public EControlType eControlType;
-        [HideInInspector] public Rigidbody2D rb2D;
-        [HideInInspector] public Animator animator;
+
+        protected float speed;
+        protected EControlType eControlType;
+        protected Rigidbody2D rb2D;
+        protected Animator animator;
+        
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
         protected bool isSet = false;
