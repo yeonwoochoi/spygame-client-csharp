@@ -217,13 +217,12 @@ namespace Control.Movement
             Destroy(gameObject);
         }
 
-        /*
+        
         protected void OnCollisionEnter2D(Collision2D other)
         {
             if (!IsSet) return;
             if (SpyStateType != SpyStateType.Free) return;
             if (other.collider.transform.IsChildOf(transform)) return;
-            SpyStateType = SpyStateType.Free;
             StopWandering();
         }
 
@@ -232,10 +231,9 @@ namespace Control.Movement
             if (!IsSet) return;
             if (SpyStateType != SpyStateType.Free) return;
             if (other.collider.transform.IsChildOf(transform)) return;
-            SpyStateType = SpyStateType.Free;
             StartWandering();
         }
-        */
+        
 
         private void InactivateSpy(object _, CaptureSpyEventArgs e)
         {
