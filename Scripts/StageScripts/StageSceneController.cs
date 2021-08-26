@@ -126,7 +126,7 @@ namespace StageScripts
                 spyObj.transform.SetParent(spyObjParent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
                 spyMoveController.Tilemap = tilemap;
-                spyMoveController.Spy = new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), currentSetNormalSpyCount >= goalNormalSpyCount);
+                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), currentSetNormalSpyCount >= goalNormalSpyCount));
                 currentSetNormalSpyCount++;
             }
             
@@ -137,7 +137,7 @@ namespace StageScripts
                 spyObj.transform.SetParent(spyObjParent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
                 spyMoveController.Tilemap = tilemap;
-                spyMoveController.Spy = new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), currentSetBossSpyCount >= goalBossSpyCount);
+                spyMoveController.Init(new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), currentSetBossSpyCount >= goalBossSpyCount));
                 currentSetBossSpyCount++;
             }
         }
@@ -151,7 +151,7 @@ namespace StageScripts
                 var itemObj = Instantiate(item, pos, Quaternion.identity);
                 itemObj.transform.SetParent(boxObjParent);
                 var itemBoxController = itemObj.GetComponent<ItemBoxController>();
-                itemBoxController.Item = new Item(i+3000, GetRandomQna((QnaDifficulty) Random.Range(0, 2)));
+                itemBoxController.Init(new Item(i+3000, GetRandomQna((QnaDifficulty) Random.Range(0, 2))));
             }
         }
 

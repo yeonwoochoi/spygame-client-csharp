@@ -15,48 +15,23 @@ namespace Control.Item
         [SerializeField] public GameObject speechBalloon;
 
         [HideInInspector] public BoxSpeechBalloonController boxSpeechBalloonController;
-        private bool isSet = false;
 
-        public bool IsSet
-        {
-            get => isSet;
-            set
-            {
-                isSet = value;
-                if (isSet)
-                {
-                    isOpen = false;
-                    animator = GetComponent<Animator>();
-                    animator.SetBool(ANIMATION_VARIABLE_BOX_OPEN, false);
-                }
-            }
-        }
-
+        private Animator animator;
+        
+        public bool IsSet { get; private set; } = false;
+        
         private bool isOpen;
         public bool IsOpen
         {
             get => isOpen;
-            set
+            private set
             {
                 isOpen = value;
                 animator.SetBool(ANIMATION_VARIABLE_BOX_OPEN, isOpen);
             }
         }
 
-        private Animator animator;
-        
-        private Domain.StageObj.Item item;
-        public Domain.StageObj.Item Item
-        {
-            get => item;
-            set
-            {
-                item = value;
-                boxSpeechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
-                boxSpeechBalloonController.item = value;
-                IsSet = true;
-            }
-        }
+        public Domain.StageObj.Item Item { get; private set; }
 
         private void Start()
         {
@@ -68,10 +43,21 @@ namespace Control.Item
             ItemQnaPopupBehavior.ItemGetEvent -= InactivateSpeechBalloon;
         }
 
+        public void Init(Domain.StageObj.Item item)
+        {
+            isOpen = false;
+            animator = GetComponent<Animator>();
+            animator.SetBool(ANIMATION_VARIABLE_BOX_OPEN, false);
+            Item = item;
+            boxSpeechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
+            boxSpeechBalloonController.item = item;
+            IsSet = true;
+        }
+
         private void InactivateSpeechBalloon(object _, ItemGetEventArgs e)
         {
             if (!IsSet) return;
-            if (e.item.index != item.index) return;
+            if (e.item.index != Item.index) return;
             IsOpen = true;
             speechBalloon.SetActive(false);
         }

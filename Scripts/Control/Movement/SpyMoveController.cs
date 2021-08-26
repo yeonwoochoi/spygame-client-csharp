@@ -30,17 +30,7 @@ namespace Control.Movement
         private SpriteRenderer spriteRenderer;
 
         private Spy spy;
-
-        public Spy Spy
-        {
-            get => spy;
-            set
-            {
-                spy = value;
-                speechBalloon.GetComponent<SpySpeechBalloonController>().spy = value;
-                InitSpy();
-            }
-        }
+        public Spy Spy => spy;
         
         private SpyStateType spyStateType;
 
@@ -84,8 +74,10 @@ namespace Control.Movement
             }
         }
 
-        private void InitSpy()
+        public void Init(Spy spy)
         {
+            this.spy = spy;
+            speechBalloon.GetComponent<SpySpeechBalloonController>().spy = spy;
             speed = 2f;
             objectType = MoveObjectType.Spy;
             SpyStateType = SpyStateType.Free;
