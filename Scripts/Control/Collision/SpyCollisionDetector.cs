@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForSpyCollision: MonoBehaviour
+    public class SpyCollisionDetector: MonoBehaviour
     {
         [SerializeField] private SpyMoveController spyMoveController;
 
