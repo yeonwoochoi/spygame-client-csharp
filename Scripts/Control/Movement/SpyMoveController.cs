@@ -23,6 +23,7 @@ namespace Control.Movement
         [SerializeField] public GameObject speechBalloon;
 
         public SpySpeechBalloonController speechBalloonController;
+        
         private readonly int wanderRange = 3;
         private readonly float wanderDelay = 3f;
         private Coroutine wanderCoroutine;
@@ -37,6 +38,7 @@ namespace Control.Movement
             {
                 spy = value;
                 speechBalloon.GetComponent<SpySpeechBalloonController>().spy = value;
+                InitSpy();
             }
         }
         
@@ -55,40 +57,23 @@ namespace Control.Movement
             }
         }
 
-        public bool IsSet
-        {
-            get => isSet;
-            set
-            {
-                isSet = value;
-                if (isSet)
-                {
-                    speed = 2f;
-                    objectType = MoveObjectType.Spy;
-                    SpyStateType = SpyStateType.Free;
-                    wanderCoroutine = StartCoroutine(Wander());
-                    StartCoroutine(CheckIdle());
-                }
-            }
-        }
-        
+        public bool IsSet => isSet;
+
         protected override void Start()
         {
             base.Start();
+            
             spriteRenderer = GetComponent<SpriteRenderer>();
             speechBalloonController = speechBalloon.GetComponent<SpySpeechBalloonController>();
-            IsSet = true;
-
+            
             SpyQnaPopupBehavior.CaptureSpyEvent += InactivateSpy;
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent += InactivateMoving;
-            //SpyTalkingUIBehavior.SkipSpyQnaEvent += ReactivateMoving;
         }
 
         protected void OnDestroy()
         {
             SpyQnaPopupBehavior.CaptureSpyEvent -= InactivateSpy;
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent -= InactivateMoving;
-            //SpyTalkingUIBehavior.SkipSpyQnaEvent -= ReactivateMoving;
         }
 
         private void Update()
@@ -97,6 +82,16 @@ namespace Control.Movement
             {
                 StopWandering();
             }
+        }
+
+        private void InitSpy()
+        {
+            speed = 2f;
+            objectType = MoveObjectType.Spy;
+            SpyStateType = SpyStateType.Free;
+            wanderCoroutine = StartCoroutine(Wander());
+            StartCoroutine(CheckIdle());
+            isSet = true;
         }
 
         private IEnumerator Wander()
@@ -156,11 +151,7 @@ namespace Control.Movement
             var offsetY = isHitY ? Random.Range(-wanderRange, 1) : Random.Range(0, wanderRange + 1);
             
             var result = GetNodeList(new Vector3(offsetX, offsetY, 0));
-            var str = "";
-            foreach (var pos in result)
-            {
-                str += $" => ({pos.x}, {pos.y}, {pos.z})";
-            }
+       
             return result;
         }
 
@@ -234,6 +225,7 @@ namespace Control.Movement
             Destroy(gameObject);
         }
 
+        /*
         protected void OnCollisionEnter2D(Collision2D other)
         {
             if (!IsSet) return;
@@ -251,6 +243,7 @@ namespace Control.Movement
             SpyStateType = SpyStateType.Free;
             StartWandering();
         }
+        */
 
         private void InactivateSpy(object _, CaptureSpyEventArgs e)
         {
@@ -269,12 +262,6 @@ namespace Control.Movement
         {
             if (e.spy.index != spy.index) return;
             SpyStateType = SpyStateType.Examined;
-        }
-
-        private void ReactivateMoving(object _, SkipSpyQnaEventArgs e)
-        {
-            if (e.spy.index != spy.index) return;
-            SpyStateType = SpyStateType.Free;
         }
     }
 }
