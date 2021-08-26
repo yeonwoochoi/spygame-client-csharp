@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8394152630be4a96bc13c4323cb0210a, type: 3}
+  m_Name: Chapter 1
+  m_EditorClassIdentifier: 
+  stages:
+  - {fileID: 11400000, guid: 7303ee0f6f3e9154fa0da15d07f2a02f, type: 2}
+  - {fileID: 11400000, guid: 0802a3e13d9f8bb4ba459b2e26fccc5e, type: 2}
+  - {fileID: 11400000, guid: dc24d2c5af5639b458ac1c01a858972b, type: 2}
+  - {fileID: 11400000, guid: 171755c1a012c514db06431da79a62d8, type: 2}
+  - {fileID: 11400000, guid: 95144e06a4c52c84ea71180210062a88, type: 2}
+  - {fileID: 11400000, guid: fcce62315ecf487438aabbe5905c9fba, type: 2}
+  mapPrefab: {fileID: 4933028714131932198, guid: 3cb3719eb740737498a64ae53bc0a1d6, type: 3}
+  chapterType: 1
+  isLocked: 0

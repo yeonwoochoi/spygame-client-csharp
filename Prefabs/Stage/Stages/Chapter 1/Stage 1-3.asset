@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e43e156967e5450eb52f958cd203746e, type: 3}
+  m_Name: Stage 1-3
+  m_EditorClassIdentifier: 
+  stagePrefab: {fileID: 4482352772700853897, guid: b553bd76909abe7468b02d7fb5840935, type: 3}
+  stageCaptureSprite: {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  stageMissionType: 0
+  chapterType: 1
+  stageType: 2
+  limitTime: 240
+  boxCount: 5
+  normalSpyCount: 6
+  bossSpyCount: 4
+  goalNormalSpyCount: 3
+  goalBossSpyCount: 2
+  score: 0
