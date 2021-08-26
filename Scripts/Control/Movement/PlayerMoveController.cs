@@ -17,8 +17,14 @@ namespace Control.Movement
             if (isSet) return;
             CurrentState = MoveStateType.Idle;
             objectType = MoveObjectType.Player;
-            speed = 3f;
-            if (eControlType == EControlType.KeyBoard) return;
+            
+            if (eControlType == EControlType.KeyBoard)
+            {
+                speed = 3f;
+                isSet = true;
+                return;
+            }
+            
             speed = 4f;
             StartCoroutine(CheckIdle());
             isSet = true;
