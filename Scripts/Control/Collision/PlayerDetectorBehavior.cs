@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForPlayer: BaseDetectorBehavior
+    public class PlayerDetectorBehavior: BaseDetectorBehavior
     {
         private List<GameObject> spies;
         private List<GameObject> boxes;

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForBox: BaseDetectorBehavior
+    public class BoxDetectorBehavior: BaseDetectorBehavior
     {
         private ItemBoxController itemBoxController;
 
@@ -42,9 +42,9 @@ namespace Control.Collision
 
         private bool IsValidTrigger(string tag)
         {
+            if (!isSet) return false;
             if (itemBoxController == null) return false;
             if (!itemBoxController.IsSet) return false;
-            if (itemBoxController.Item == null) return false;
             if (itemBoxController.IsOpen) return false;
             return tag == "Player";
         }

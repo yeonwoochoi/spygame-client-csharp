@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForSpy: BaseDetectorBehavior
+    public class SpyDetectorBehavior: BaseDetectorBehavior
     {
         private SpyMoveController spyMoveController;
 
