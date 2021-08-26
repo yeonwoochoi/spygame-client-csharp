@@ -9,22 +9,20 @@ using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForBox: MonoBehaviour
+    public class DetectorForBox: BaseDetectorBehavior
     {
-        [SerializeField] private ItemBoxController itemBoxController;
-
-        private EControlManager eControlManager;
+        private ItemBoxController itemBoxController;
 
         private void Start()
         {
-            eControlManager = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL);
+            itemBoxController = SetDetector<ItemBoxController>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
             AudioManager.instance.Play(SoundType.Meet);
-            if (eControlManager.eControlType == EControlType.KeyBoard) return;
+            if (eControlType == EControlType.KeyBoard) return;
             other.gameObject.GetComponent<PlayerMoveController>().StopMove();
         }
 
@@ -38,12 +36,13 @@ namespace Control.Collision
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
             itemBoxController.speechBalloon.SetActive(false);
-            if (eControlManager.eControlType == EControlType.KeyBoard) return;
+            if (eControlType == EControlType.KeyBoard) return;
             itemBoxController.speechBalloon.GetComponent<BoxSpeechBalloonController>().clicked = false;
         }
 
         private bool IsValidTrigger(string tag)
         {
+            if (itemBoxController == null) return false;
             if (!itemBoxController.IsSet) return false;
             if (itemBoxController.Item == null) return false;
             if (itemBoxController.IsOpen) return false;

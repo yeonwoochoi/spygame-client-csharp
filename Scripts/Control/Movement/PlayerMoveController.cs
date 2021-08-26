@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Control.Collision;
 using Domain;
@@ -9,7 +10,7 @@ namespace Control.Movement
 {
     public class PlayerMoveController: BaseMoveController
     {
-        [SerializeField] private DetectorForPlayer detectorForPlayer;
+        public Action onClickActionBtn;
 
         public void SetPlayer()
         {
@@ -17,7 +18,6 @@ namespace Control.Movement
             CurrentState = MoveStateType.Idle;
             objectType = MoveObjectType.Player;
             speed = 3f;
-            detectorForPlayer.Set(eControlType);
             if (eControlType == EControlType.KeyBoard) return;
             speed = 4f;
             StartCoroutine(CheckIdle());
@@ -63,18 +63,7 @@ namespace Control.Movement
         
         public void OnClickActionBtn()
         {
-            detectorForPlayer.OnClickActionBtn();
+            onClickActionBtn?.Invoke();
         }
-        
-
-        /*
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (moveCoroutine == null) return;
-            if (other.gameObject.tag == "Detector" || other.gameObject.layer == LayerMask.NameToLayer("UI")) return;
-            StopCoroutine(moveCoroutine);
-            CurrentState = MoveStateType.Idle;
-        }
-        */
     }
 }

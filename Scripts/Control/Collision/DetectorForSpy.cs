@@ -2,29 +2,23 @@
 using Control.SpeechBalloon;
 using Domain;
 using Manager;
-using Manager.Data;
 using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForSpy: MonoBehaviour
+    public class DetectorForSpy: BaseDetectorBehavior
     {
-        [SerializeField] private SpyMoveController spyMoveController;
-        
-        private EControlType eControlType;
+        private SpyMoveController spyMoveController;
 
         private void Start()
         {
-            eControlType = spyMoveController.eControlType;
+            spyMoveController = SetDetector<SpyMoveController>();
         }
         
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
-            if (eControlType == EControlType.Mouse)
-            {
-                other.gameObject.GetComponent<PlayerMoveController>().StopMove();
-            }
+            if (eControlType == EControlType.Mouse) other.gameObject.GetComponent<PlayerMoveController>().StopMove();
             spyMoveController.SpyStateType = SpyStateType.Examined;
             spyMoveController.speechBalloon.SetActive(true);
             AudioManager.instance.Play(SoundType.Meet);
@@ -47,6 +41,8 @@ namespace Control.Collision
 
         private bool IsValidTrigger(string tag)
         {
+            if (!isSet) return false;
+            if (spyMoveController == null) return false;
             if (!spyMoveController.IsSet) return false;
             if (tag == "Detector") return false;
             if (spyMoveController.SpyStateType == SpyStateType.Capture || spyMoveController.SpyStateType == SpyStateType.Release) return false;

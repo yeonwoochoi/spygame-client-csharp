@@ -4,25 +4,24 @@ using System.Linq;
 using Control.Item;
 using Control.Movement;
 using Domain;
-using Domain.StageObj;
 using Event;
-using Manager.Data;
 using UI.Qna;
 using UI.Talking;
 using UnityEngine;
 
 namespace Control.Collision
 {
-    public class DetectorForPlayer: MonoBehaviour
+    public class DetectorForPlayer: BaseDetectorBehavior
     {
         private List<GameObject> spies;
         private List<GameObject> boxes;
-        private EControlType eControlType;
-        private bool isSet = false;
         private bool isClicked = false;
 
         private void Start()
         {
+            var playerMoveController = SetDetector<PlayerMoveController>();
+            playerMoveController.onClickActionBtn = OnClickActionBtn;
+            
             SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyCapture;
             ItemTalkingUIBehavior.SkipItemQnaEvent += SkipItemOpen;
             SpyQnaPopupBehavior.SkipSpyQnaEvent += SkipSpyCapture;
@@ -30,27 +29,6 @@ namespace Control.Collision
             SpyQnaPopupBehavior.CaptureSpyEvent += RemoveCapturedSpy;
             ItemQnaPopupBehavior.ItemGetEvent += RemoveOpenedItemBox;
         }
-
-        /*
-        private void Update()
-        {
-            var result = "";
-            if (spies.Count > 0)
-            {
-                result = spies.Aggregate(result, (current, spy) => current + $"Spy {spy.GetComponent<SpyMoveController>().Spy.index}\r\n");
-            }
-
-            if (boxes.Count > 0)
-            {
-                result = boxes.Aggregate(result, (current, box) => current + $"Box {box.GetComponent<ItemBoxController>().Item.index}\r\n");
-            }
-
-            if (spies.Count > 0 || boxes.Count > 0)
-            {
-                Debug.Log(result);   
-            }
-        }
-        */
 
         private void OnDestroy()
         {
@@ -62,19 +40,16 @@ namespace Control.Collision
             ItemQnaPopupBehavior.ItemGetEvent -= RemoveOpenedItemBox;
         }
 
-        public void Set(EControlType e)
+        protected override T SetDetector<T>()
         {
-            spies = new List<GameObject>();
-            boxes = new List<GameObject>();
-            eControlType = e;
-            isSet = true;
+            spies ??= new List<GameObject>();
+            boxes ??= new List<GameObject>();
+            return base.SetDetector<T>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!IsValidTrigger()) return;
-            boxes ??= new List<GameObject>();
-            spies ??= new List<GameObject>();
             
             if (other.gameObject.TryGetComponent(out SpyMoveController spyMoveController))
             {
@@ -93,34 +68,9 @@ namespace Control.Collision
             }
         }
 
-        /*
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (boxes.Count == 0 || spies.Count == 0) return;
-            
-            if (other.gameObject.TryGetComponent(out SpyMoveController spyMoveController))
-            {
-                if (spies.Contains(other.gameObject))
-                {
-                    Debug.Log($"Error spy : {spyMoveController.Spy.index}");
-                }
-            }
-
-            if (other.gameObject.TryGetComponent(out ItemBoxController itemBoxController))
-            {
-                if (boxes.Contains(other.gameObject))
-                {
-                    Debug.Log($"Error item : {itemBoxController.Item.index}");
-                }
-            }
-        }
-        */
-
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!IsValidTrigger()) return;
-            boxes ??= new List<GameObject>();
-            spies ??= new List<GameObject>();
             
             if (other.gameObject.TryGetComponent(out SpyMoveController spyMoveController))
             {
@@ -139,7 +89,7 @@ namespace Control.Collision
             }
         }
 
-        public void OnClickActionBtn()
+        private void OnClickActionBtn()
         {
             if (!IsValidTrigger()) return;
             if (eControlType != EControlType.KeyBoard) return;
