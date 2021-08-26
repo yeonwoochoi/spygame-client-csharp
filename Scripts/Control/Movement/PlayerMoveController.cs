@@ -12,7 +12,7 @@ namespace Control.Movement
     {
         public Action onClickActionBtn;
 
-        public void SetPlayer()
+        public void Init()
         {
             if (isSet) return;
             CurrentState = MoveStateType.Idle;

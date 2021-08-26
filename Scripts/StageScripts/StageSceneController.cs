@@ -86,7 +86,7 @@ namespace StageScripts
             var playerObj = Instantiate(player, initPlayerTransform.position + nodeSize, Quaternion.identity);
             playerObj.transform.SetParent(playerObjParent);
             var playerMoveController = playerObj.GetComponent<PlayerMoveController>();
-            playerMoveController.SetPlayer();
+            playerMoveController.Init();
             playerMoveController.Tilemap = tilemap;
 
             // Set joystick
