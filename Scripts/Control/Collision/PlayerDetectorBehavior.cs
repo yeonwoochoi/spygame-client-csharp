@@ -19,7 +19,7 @@ namespace Control.Collision
 
         private void Start()
         {
-            var playerMoveController = SetDetector<PlayerMoveController>();
+            var playerMoveController = InitDetector<PlayerMoveController>();
             playerMoveController.onClickActionBtn = OnClickActionBtn;
             
             SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyCapture;
@@ -40,11 +40,11 @@ namespace Control.Collision
             ItemQnaPopupBehavior.ItemGetEvent -= RemoveOpenedItemBox;
         }
 
-        protected override T SetDetector<T>()
+        protected override T InitDetector<T>()
         {
             spies ??= new List<GameObject>();
             boxes ??= new List<GameObject>();
-            return base.SetDetector<T>();
+            return base.InitDetector<T>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)

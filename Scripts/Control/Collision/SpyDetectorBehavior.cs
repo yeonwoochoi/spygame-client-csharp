@@ -12,7 +12,7 @@ namespace Control.Collision
 
         private void Start()
         {
-            spyMoveController = SetDetector<SpyMoveController>();
+            spyMoveController = InitDetector<SpyMoveController>();
         }
         
         private void OnTriggerEnter2D(Collider2D other)

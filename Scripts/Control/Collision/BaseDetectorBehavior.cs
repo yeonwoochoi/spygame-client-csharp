@@ -10,7 +10,7 @@ namespace Control.Collision
         protected EControlType eControlType;
         protected bool isSet = false;
         
-        protected virtual T SetDetector<T>()
+        protected virtual T InitDetector<T>()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
             isSet = true;

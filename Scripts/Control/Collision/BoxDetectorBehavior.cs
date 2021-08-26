@@ -15,7 +15,7 @@ namespace Control.Collision
 
         private void Start()
         {
-            itemBoxController = SetDetector<ItemBoxController>();
+            itemBoxController = InitDetector<ItemBoxController>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
