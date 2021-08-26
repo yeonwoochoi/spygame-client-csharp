@@ -8,25 +8,24 @@ namespace Control.SpeechBalloon
     public abstract class BaseSpeechBalloonController: MonoBehaviour
     {
         [HideInInspector] public bool clicked;
+        private EControlType eControlType;
         
-        private EControlManager eControlManager;
-
         protected virtual void Start()
         {
-            eControlManager = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL);
+            eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
             gameObject.SetActive(false);
         }
         
         private void Update()
         {
-            if (eControlManager.eControlType == EControlType.KeyBoard) return;
+            if (eControlType == EControlType.KeyBoard) return;
             OnClickSpeechBalloon();
         }
         
         private void OnClickSpeechBalloon()
         {
             if (!Input.GetMouseButtonDown(0)) return;
-            if (eControlManager.eControlType != EControlType.Mouse) return;
+            if (eControlType != EControlType.Mouse) return;
             if (clicked) return;
             var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
             var hit2D = Physics2D.GetRayIntersection(ray);

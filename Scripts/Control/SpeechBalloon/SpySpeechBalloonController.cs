@@ -12,7 +12,7 @@ namespace Control.SpeechBalloon
     public class SpySpeechBalloonController: BaseSpeechBalloonController
     {
         public static event EventHandler<OpenSpyQnaEventArgs> OpenSpyQnaEvent;
-            
+        
         public Spy spy;
 
         protected override void Start()
