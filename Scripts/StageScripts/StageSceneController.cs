@@ -97,7 +97,7 @@ namespace StageScripts
             if (eControlType == EControlType.Mouse)
             {
                 var lineGenerator = gameObject.AddComponent<LineGenerator>();
-                lineGenerator.SetLineGenerator(tilemap, line, playerObj);
+                lineGenerator.Init(tilemap, line, playerObj, eControlType);
             }
 
             // Set Camera offset

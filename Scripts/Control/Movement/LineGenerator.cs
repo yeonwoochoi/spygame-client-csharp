@@ -23,23 +23,24 @@ namespace Control.Movement
         private void Start()
         {
             points = new List<Vector3>();
-            eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
         }
 
         private void Update()
         {
-            if (eControlType == EControlType.KeyBoard) return;
             if (!isSet) return;
+            if (eControlType == EControlType.KeyBoard) return;
             if (playerMoveController.objectType != MoveObjectType.Player) return;
+            
             DrawLine();
             ResetLine();
         }
 
-        public void SetLineGenerator(Tilemap tilemap, LineRenderer line, GameObject player)
+        public void Init(Tilemap tilemap, LineRenderer line, GameObject player, EControlType eControlType)
         {
             this.tilemap = tilemap;
             this.line = line;
             this.player = player;
+            this.eControlType = eControlType;
             playerMoveController = player.GetComponent<PlayerMoveController>();
             isSet = true;
         }
@@ -115,6 +116,7 @@ namespace Control.Movement
                 var point = points[i];
                 path.Add(point);
             }
+            
             playerMoveController.MovePlayer(path);
         }
     }
