@@ -31,13 +31,18 @@ namespace ChapterScripts
         {
             currentChapter = LoadingManager.Instance.chapter;
 
+            // map setting
             var currentChapterMap = Instantiate(currentChapter.mapPrefab, parent.position, Quaternion.identity);
             currentChapterMap.transform.SetParent(parent);
             currentChapterMap.GetComponent<RectTransform>().localScale = Vector3.one;
+            
+            // map controller setting
             chapterMapController = currentChapterMap.GetComponent<ChapterMapController>();
             chapterMapController.SetStageButtonEvent(OnClickStageBtn);
             chapterMapController.SetButtonScore(type => GetCurrentStage(type).score);
             chapterText.text = $"{currentChapter.chapterType}";
+            
+            // chapter scene setting is done
             loadingCanvasGroup.Visible(false);
         }
         
