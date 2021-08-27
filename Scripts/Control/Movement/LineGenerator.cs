@@ -50,7 +50,7 @@ namespace Control.Movement
         {
             if (!Input.GetMouseButton(0)) return;
             if (EventSystem.current.IsPointerOverGameObject()) return;
-            if (playerMoveController.CurrentState != MoveStateType.Idle) return;
+            if (playerMoveController.GetCurrentState() != MoveStateType.Idle) return;
             
             SetPoints();
 

@@ -87,7 +87,7 @@ namespace StageScripts
             playerObj.transform.SetParent(playerObjParent);
             var playerMoveController = playerObj.GetComponent<PlayerMoveController>();
             playerMoveController.Init();
-            playerMoveController.Tilemap = tilemap;
+            playerMoveController.SetTilemap(tilemap);
 
             // Set joystick
             joystickMoveController = joystick;
@@ -125,7 +125,7 @@ namespace StageScripts
                 var spyObj = Instantiate(normalSpy, pos, Quaternion.identity);
                 spyObj.transform.SetParent(spyObjParent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
-                spyMoveController.Tilemap = tilemap;
+                spyMoveController.SetTilemap(tilemap);
                 spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), currentSetNormalSpyCount >= goalNormalSpyCount));
                 currentSetNormalSpyCount++;
             }
@@ -136,7 +136,7 @@ namespace StageScripts
                 var spyObj = Instantiate(bossSpy, pos, Quaternion.identity);
                 spyObj.transform.SetParent(spyObjParent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
-                spyMoveController.Tilemap = tilemap;
+                spyMoveController.SetTilemap(tilemap);
                 spyMoveController.Init(new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), currentSetBossSpyCount >= goalBossSpyCount));
                 currentSetBossSpyCount++;
             }

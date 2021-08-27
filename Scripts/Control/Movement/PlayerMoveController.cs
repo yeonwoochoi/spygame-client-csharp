@@ -16,7 +16,7 @@ namespace Control.Movement
         public void Init()
         {
             if (isSet) return;
-            CurrentState = MoveStateType.Idle;
+            SetCurrentState(MoveStateType.Idle);
             objectType = MoveObjectType.Player;
             
             if (eControlType == EControlType.KeyBoard)
@@ -33,7 +33,7 @@ namespace Control.Movement
 
         public void MovePlayer(List<Vector3> positions)
         {
-            if (CurrentState != MoveStateType.Idle) return;
+            if (GetCurrentState() != MoveStateType.Idle) return;
             if (moveCoroutine != null)
             {
                 StopCoroutine(moveCoroutine);
@@ -45,12 +45,12 @@ namespace Control.Movement
         {
             if (!isMove)
             {
-                CurrentState = MoveStateType.Idle;
+                SetCurrentState(MoveStateType.Idle);
                 rb2D.velocity = Vector3.zero;
                 return;
             }
 
-            CurrentState = MoveStateType.Move;
+            SetCurrentState(MoveStateType.Move);
             rb2D.velocity = dir * speed;
             animator.SetFloat(ANIMATION_VARIABLE_PLAYER_HORIZONTAL, dir.x * 50);
             animator.SetFloat(ANIMATION_VARIABLE_PLAYER_VERTICAL, dir.y * 50);
@@ -60,7 +60,7 @@ namespace Control.Movement
         {
             if (moveCoroutine == null) return;
             StopCoroutine(moveCoroutine);
-            CurrentState = MoveStateType.Idle;
+            SetCurrentState(MoveStateType.Idle);
         }
         
         private IEnumerator CheckIdle()
@@ -71,10 +71,10 @@ namespace Control.Movement
                 var beforePos = transform.position;
                 yield return new WaitForSeconds(0.5f);
                 var afterPos = transform.position;
-                if (CurrentState == MoveStateType.Idle) continue;
+                if (GetCurrentState() == MoveStateType.Idle) continue;
                 if ((afterPos - beforePos).sqrMagnitude < 0.01f)
                 {
-                    CurrentState = MoveStateType.Idle;
+                    SetCurrentState(MoveStateType.Idle);
                     if (moveCoroutine != null)
                     {
                         StopCoroutine(moveCoroutine);

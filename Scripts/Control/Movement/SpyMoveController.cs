@@ -197,7 +197,7 @@ namespace Control.Movement
         {
             if (wanderCoroutine != null) StopCoroutine(wanderCoroutine);
             if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-            CurrentState = MoveStateType.Idle;
+            SetCurrentState(MoveStateType.Idle);
         }
         
         public void StartWandering()
@@ -205,7 +205,7 @@ namespace Control.Movement
             if (wanderCoroutine != null) StopCoroutine(wanderCoroutine);
             if (moveCoroutine != null) StopCoroutine(moveCoroutine);
             wanderCoroutine = StartCoroutine(Wander());
-            CurrentState = MoveStateType.Move;
+            SetCurrentState(MoveStateType.Move);
         }
         
         private IEnumerator FadeOut()
