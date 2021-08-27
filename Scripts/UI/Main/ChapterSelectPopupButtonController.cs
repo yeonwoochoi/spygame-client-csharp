@@ -16,7 +16,7 @@ namespace UI.Main
         public bool IsLocked
         {
             get => isLocked;
-            set
+            private set
             {
                 isLocked = value;
                 lockCanvasGroup.Visible(isLocked);

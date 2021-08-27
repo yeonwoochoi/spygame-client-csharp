@@ -57,6 +57,7 @@ namespace MainScripts
             }
         }
 
+        // TODO()
         private void InitScores()
         {
             for (var chapterIndex = 0; chapterIndex < chapters.Length; chapterIndex++)
@@ -73,7 +74,7 @@ namespace MainScripts
         {
             for (var i = 0; i < chapterButtons.Length; i++)
             {
-                SetButtonController(chapterButtons[i], (ChapterType) i+1 );
+                SetButtonController(chapterButtons[i], (ChapterType) i + 1);
             }
         }
 

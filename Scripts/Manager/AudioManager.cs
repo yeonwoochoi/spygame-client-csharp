@@ -47,7 +47,7 @@ namespace Manager
             }
         }
 
-        public static AudioManager instance;
+        public static AudioManager instance = null;
         private void Awake()
         {
             if (instance == null) instance = this;

@@ -18,7 +18,7 @@ namespace ChapterScripts
         [SerializeField] private Transform parent;
 
         private Chapter currentChapter;
-        private ChapterMapController chapterMapController;
+        private ChapterButtonController chapterButtonController;
 
         protected override void Start()
         {
@@ -37,9 +37,9 @@ namespace ChapterScripts
             currentChapterMap.GetComponent<RectTransform>().localScale = Vector3.one;
             
             // map controller setting
-            chapterMapController = currentChapterMap.GetComponent<ChapterMapController>();
-            chapterMapController.SetStageButtonEvent(OnClickStageBtn);
-            chapterMapController.SetButtonScore(type => GetCurrentStage(type).score);
+            chapterButtonController = currentChapterMap.GetComponent<ChapterButtonController>();
+            chapterButtonController.SetStageButtonEvent(OnClickStageBtn);
+            chapterButtonController.SetButtonScore(type => GetCurrentStage(type).score);
             chapterText.text = $"{currentChapter.chapterType}";
             
             // chapter scene setting is done

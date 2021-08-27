@@ -42,7 +42,7 @@ namespace Control.Layer
             other.gameObject.layer = LayerMask.NameToLayer(layer.LayerTypeToString());
 
             other.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayer.LayerTypeToString();
-            var spriteRenderers = other.gameObject.GetComponentsInChildren<SpriteRenderer>();
+            var spriteRenderers = other.gameObject.GetComponentsInChildren<SpriteRenderer>(); // TODO()
             foreach (var sr in spriteRenderers)
             {
                 sr.sortingLayerName = sortingLayer.LayerTypeToString();

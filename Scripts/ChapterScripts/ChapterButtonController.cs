@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 namespace ChapterScripts
 {
-    public class ChapterMapController: MonoBehaviour
+    // TODO
+    public class ChapterButtonController: MonoBehaviour
     {
         [SerializeField] private Button[] stageButtons;
         

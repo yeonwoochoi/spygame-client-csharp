@@ -42,6 +42,7 @@ namespace LoadingScripts
             StartCoroutine(LoadScene(nextScene));
         }
 
+        // TODO()
         private IEnumerator LoadScene(string nextScene)
         {
             yield return StartCoroutine(Fade(true));

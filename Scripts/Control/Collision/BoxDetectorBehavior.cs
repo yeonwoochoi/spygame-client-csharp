@@ -40,6 +40,7 @@ namespace Control.Collision
             itemBoxController.speechBalloon.GetComponent<BoxSpeechBalloonController>().clicked = false;
         }
 
+        // TODO
         private bool IsValidTrigger(string tag)
         {
             if (!isSet) return false;

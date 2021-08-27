@@ -3,6 +3,7 @@ using System.Collections;
 using Manager;
 using UnityEngine;
 
+// TODO()
 namespace MainScripts
 {
     public static class SceneNameManager {
@@ -13,6 +14,7 @@ namespace MainScripts
         public static readonly string SCENE_NORMAL_LOADING = "Normal Loading Scene";
     }
     
+    // TODO()
     public class BaseSceneController: MonoBehaviour
     {
         protected static string nextScene = "";

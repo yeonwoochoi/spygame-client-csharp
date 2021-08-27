@@ -22,8 +22,8 @@ namespace UI.Chapter
                 ShowStars(value);
             }
         }
-        
-        public void ShowStars(int score)
+
+        private void ShowStars(int score)
         {
             if (score > 3) score = 3;
             if (score <= 0)

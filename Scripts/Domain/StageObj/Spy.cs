@@ -12,8 +12,8 @@ namespace Domain.StageObj
         public int index;
         public SpyType type;
         private Qna qna;
-        public string question => qna.question;
-        public string answer => GetAnswer();
+        public string question => qna.question; // TODO(??)
+        public string answer => GetAnswer(); // TODO(??)
         public bool isSpy;
 
         public Spy(int index, SpyType type, Qna qna, bool isRandom = true)

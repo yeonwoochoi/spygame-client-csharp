@@ -43,6 +43,7 @@ namespace Control.SpeechBalloon
             clicked = false;
         }
         
+        // TODO()
         protected override void CheckValidHit(GameObject collider)
         {
             base.CheckValidHit(collider);

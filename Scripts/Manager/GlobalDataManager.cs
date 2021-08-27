@@ -9,8 +9,21 @@ namespace Manager
     public class GlobalDataManager : MonoBehaviour
     {
         private static GlobalDataManager instance = null;
+        public static GlobalDataManager Instance => instance;
 
-        public static GlobalDataManager Instance => instance ?? (instance = new GlobalDataManager());
+        private void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
+            DontDestroyOnLoad(gameObject);
+        }
 
         public void Set(GlobalDataKey key, object value)
         {
@@ -22,6 +35,11 @@ namespace Manager
         {
             var value = PlayerPrefs.GetString(key.key);
             return JsonConvert.DeserializeObject<T>(value);
+        }
+
+        public bool HasKey(GlobalDataKey key)
+        {
+            return PlayerPrefs.HasKey(key.key);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Domain.Network
 {
+    // TODO
     public class Response
     {
         public string title;

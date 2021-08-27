@@ -22,6 +22,7 @@ namespace Control.SpeechBalloon
             ItemTalkingUIBehavior.SkipItemQnaEvent += SkipQna;
         }
 
+        // TODO()
         protected void OnDestroy()
         {
             ItemQnaPopupBehavior.SkipItemQnaEvent -= SkipQna;
@@ -43,7 +44,7 @@ namespace Control.SpeechBalloon
             if (item != e.item) return;
             clicked = false;
         }
-
+        
         protected override void CheckValidHit(GameObject collider)
         {
             base.CheckValidHit(collider);

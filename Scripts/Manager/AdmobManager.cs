@@ -13,8 +13,10 @@ using UnityEngine.UI;
 
 namespace Manager
 {
+    // TODO()
     public class AdmobManager: MonoBehaviour
     {
+        // TODO("Const, Static 이름 규칙 찾아보기")
         private const string frontID = "ca-app-pub-3940256099942544/8691691433";
         private InterstitialAd frontAd;
 

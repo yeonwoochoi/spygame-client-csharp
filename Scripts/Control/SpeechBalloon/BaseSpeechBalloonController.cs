@@ -16,6 +16,7 @@ namespace Control.SpeechBalloon
             gameObject.SetActive(false);
         }
         
+        // TODO()
         private void Update()
         {
             if (eControlType == EControlType.KeyBoard) return;
@@ -27,6 +28,7 @@ namespace Control.SpeechBalloon
             if (!Input.GetMouseButtonDown(0)) return;
             if (eControlType != EControlType.Mouse) return;
             if (clicked) return;
+            // TODO()
             var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
             var hit2D = Physics2D.GetRayIntersection(ray);
             if (hit2D.collider != null)

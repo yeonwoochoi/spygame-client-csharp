@@ -86,6 +86,7 @@ namespace Control.Movement
             var nodeSizeX = tilemap.transform.localScale.x / 2;
             var nodeSizeY = tilemap.transform.localScale.y / 2;
 
+            // TODO()
             var playerPos = player.GetComponent<Rigidbody2D>().position;
 
             if (nodePosition.x - nodeSizeX <= playerPos.x && nodePosition.x + nodeSizeX >= playerPos.x)

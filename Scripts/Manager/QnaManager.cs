@@ -51,7 +51,11 @@ namespace Manager
             {
                 ProcessResponse(www.downloadHandler.text);
             }
-            else Debug.Log("No response from google spreed sheet");
+            else
+            {
+                // TODO("If data cannot receive. how can handle to user")
+                Debug.Log("No response from google spreed sheet");
+            }
         }
 
         private void ProcessResponse(string json)

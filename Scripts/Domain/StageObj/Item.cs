@@ -11,13 +11,18 @@ namespace Domain.StageObj
     
     public class Item
     {
+        #region Variables
+
         public int index;
         public ItemType type;
         private Qna qna;
-        public string question => qna.question;
-        public string answer => GetAnswer();
         public bool isCorrect;
         public int effect;
+
+        #endregion
+        
+        public string question => qna.question; // TODO(??)
+        public string answer => GetAnswer(); // TODO(??)
 
         public Item(int index, Qna qna)
         {
@@ -30,7 +35,9 @@ namespace Domain.StageObj
         
         private string GetAnswer()
         {
-            return isCorrect ? qna.correctAnswers[Random.Range(0, qna.correctAnswers.Length)] : qna.wrongAnswers[Random.Range(0, qna.wrongAnswers.Length)];
+            return isCorrect 
+                ? qna.correctAnswers[Random.Range(0, qna.correctAnswers.Length)] 
+                : qna.wrongAnswers[Random.Range(0, qna.wrongAnswers.Length)];
         }
     }
 }

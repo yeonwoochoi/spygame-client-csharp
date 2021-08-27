@@ -12,6 +12,7 @@ namespace Event
         GiveUp, GameOver, StageClear
     }
     
+    // TODO()
     public class UpdateStageStateEventArgs : EventArgs
     {
         public Stage currentStage;
