@@ -12,16 +12,24 @@ namespace Control.Collision
     public class BoxDetectorBehavior: BaseDetectorBehavior
     {
         private ItemBoxController itemBoxController;
+        private GameObject speechBalloon;
+        private BoxSpeechBalloonController speechBalloonController;
+        private AudioManager audioManager;
 
-        private void Start()
+        protected override void InitDetector()
         {
-            itemBoxController = InitDetector<ItemBoxController>();
+            base.InitDetector();
+            audioManager = AudioManager.instance;
+            itemBoxController = GetParentController<ItemBoxController>();
+            speechBalloon = itemBoxController.speechBalloon;
+            speechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
+            isSet = true;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
-            AudioManager.instance.Play(SoundType.Meet);
+            audioManager.Play(SoundType.Meet);
             if (eControlType == EControlType.KeyBoard) return;
             other.gameObject.GetComponent<PlayerMoveController>().StopMove();
         }
@@ -29,24 +37,20 @@ namespace Control.Collision
         private void OnTriggerStay2D(Collider2D other)
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
-            itemBoxController.speechBalloon.SetActive(true);
+            speechBalloon.SetActive(true);
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
-            itemBoxController.speechBalloon.SetActive(false);
+            speechBalloon.SetActive(false);
             if (eControlType == EControlType.KeyBoard) return;
-            itemBoxController.speechBalloon.GetComponent<BoxSpeechBalloonController>().clicked = false;
+            speechBalloonController.clicked = false;
         }
 
-        // TODO
         private bool IsValidTrigger(string tag)
         {
-            if (!isSet) return false;
-            if (itemBoxController == null) return false;
-            if (!itemBoxController.IsSet) return false;
-            if (itemBoxController.IsOpen) return false;
+            if (!isSet || itemBoxController == null || !itemBoxController.IsSet || itemBoxController.IsOpen) return false;
             return tag == "Player";
         }
     }
