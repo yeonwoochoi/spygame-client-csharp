@@ -15,20 +15,17 @@ namespace MainScripts
     {
         [SerializeField] private Chapter[] chapters;
 
-        [SerializeField] private Button chapter1Button;
-        [SerializeField] private Button chapter2Button;
-        [SerializeField] private Button chapter3Button;
-        [SerializeField] private Button chapter4Button;
-        [SerializeField] private Button chapter5Button;
-        [SerializeField] private Button chapter6Button;
+        [SerializeField] private Button[] chapterButtons;
+
+        private ChapterManager chapterManager;
         
         private void Awake()
         {
-            var manager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
-            if (manager == null)
+            chapterManager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
+            if (chapterManager == null)
             {
-                var initChapterManager = ChapterManager.Create();
-                GlobalDataManager.Instance.Set(GlobalDataKey.CHAPTER, initChapterManager);
+                chapterManager = ChapterManager.Create();
+                GlobalDataManager.Instance.Set(GlobalDataKey.CHAPTER, chapterManager);
             }
             
             var soundManager = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND);
@@ -62,7 +59,6 @@ namespace MainScripts
 
         private void InitScores()
         {
-            var chapterManager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
             for (var chapterIndex = 0; chapterIndex < chapters.Length; chapterIndex++)
             {
                 for (var stageIndex = 0; stageIndex < chapters[chapterIndex].stages.Length; stageIndex++)
@@ -75,12 +71,10 @@ namespace MainScripts
 
         private void SetButtonEvent()
         {
-            SetButtonController(chapter1Button, ChapterType.Chapter1);
-            SetButtonController(chapter2Button, ChapterType.Chapter2);
-            SetButtonController(chapter3Button, ChapterType.Chapter3);
-            SetButtonController(chapter4Button, ChapterType.Chapter4);
-            SetButtonController(chapter5Button, ChapterType.Chapter5);
-            SetButtonController(chapter6Button, ChapterType.Chapter6);
+            for (var i = 0; i < chapterButtons.Length; i++)
+            {
+                SetButtonController(chapterButtons[i], (ChapterType) i+1 );
+            }
         }
 
         private void SetButtonController(Button button, ChapterType chapterType)
