@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Control.Portal;
 using Event;
 using UnityEngine;
 using Util;
 
-namespace UI
+namespace UI.Stage
 {
     public class PortalMoveBgController: MonoBehaviour
     {
