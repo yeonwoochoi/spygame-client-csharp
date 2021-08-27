@@ -191,8 +191,8 @@ namespace Control.Movement
 
             return result;
         }
-        
-        public void StopWandering()
+
+        private void StopWandering()
         {
             if (wanderCoroutine != null) StopCoroutine(wanderCoroutine);
             if (moveCoroutine != null) StopCoroutine(moveCoroutine);
