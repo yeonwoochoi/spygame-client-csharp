@@ -1,10 +1,9 @@
-﻿using System;
-using Domain;
+﻿using Domain;
 using Manager;
 using Manager.Data;
 using UnityEngine;
 
-namespace Control.Collision
+namespace Control.Base
 {
     public abstract class BaseDetectorBehavior: MonoBehaviour
     {

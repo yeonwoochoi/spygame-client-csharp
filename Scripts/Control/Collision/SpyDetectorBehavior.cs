@@ -1,4 +1,5 @@
-﻿using Control.Movement;
+﻿using Control.Base;
+using Control.Movement;
 using Control.SpeechBalloon;
 using Domain;
 using Manager;

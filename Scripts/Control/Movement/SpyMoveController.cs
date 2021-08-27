@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Control.Base;
 using Control.SpeechBalloon;
 using Domain;
 using Domain.StageObj;

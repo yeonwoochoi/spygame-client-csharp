@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Domain;
 using Manager;
 using Manager.Data;
-using StageScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Control.Movement
+namespace Control.Base
 {
     public enum MoveObjectType
     {
