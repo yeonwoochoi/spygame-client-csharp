@@ -20,61 +20,76 @@ namespace Control.Base
     
     public abstract class BaseMoveController: MonoBehaviour
     {
-        public static string ANIMATION_VARIABLE_PLAYER_HORIZONTAL = "Horizontal";
-        public static string ANIMATION_VARIABLE_PLAYER_VERTICAL = "Vertical";
-        public static string ANIMATION_VARIABLE_PLAYER_SPEED = "Speed";
-        
+        #region public variables
         [HideInInspector] public MoveObjectType objectType;
+        #endregion
 
+        #region protected variables
         protected float speed;
         protected EControlType eControlType;
         protected Rigidbody2D rb2D;
         protected Animator animator;
-        
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
         protected bool isSet = false;
+        #endregion
 
-        private MoveStateType currentState;
-        public MoveStateType CurrentState
-        {
-            get => currentState;
-            set
-            {
-                currentState = value;
-                animator.SetFloat(ANIMATION_VARIABLE_PLAYER_SPEED, currentState == MoveStateType.Idle ? 0 : 1);
-            }
-        }
-
+        #region private variables
         private Tilemap tilemap;
-        public Tilemap Tilemap
-        {
-            get => tilemap;
-            set
-            {
-                tilemap = value;
-                nodeSize = tilemap.transform.localScale;
-            }
-        }
+        private MoveStateType currentState;
+        #endregion
 
+        #region static variables
+        protected static string ANIMATION_VARIABLE_PLAYER_HORIZONTAL = "Horizontal";
+        protected static string ANIMATION_VARIABLE_PLAYER_VERTICAL = "Vertical";
+        private static string ANIMATION_VARIABLE_PLAYER_SPEED = "Speed";
+        #endregion
+        
+        #region event methods
         private void Awake()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
             rb2D = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
         }
-
         protected virtual void Start() { }
+        #endregion
+
+        #region public methods
+        public MoveStateType GetCurrentState()
+        {
+            return currentState;
+        }
+
+        public void SetTilemap(Tilemap tilemap)
+        {
+            this.tilemap = tilemap;
+            nodeSize = tilemap.transform.localScale;
+        }
+
+        public Vector3 GetNodePosition(Vector3 position)
+        {
+            var posX = (int) (position.x / nodeSize.x) * nodeSize.x + nodeSize.x / 2;
+            var posY = (int) (position.y / nodeSize.y) * nodeSize.y + nodeSize.y / 2;
+            return new Vector3(posX, posY, 0);
+        }
+        #endregion
+
+        #region protected methods
+        protected void SetCurrentState(MoveStateType moveStateType)
+        {
+            currentState = moveStateType;
+            animator.SetFloat(ANIMATION_VARIABLE_PLAYER_SPEED, currentState == MoveStateType.Idle ? 0 : 1);
+        }
 
         protected IEnumerator Move(List<Vector3> positions)
         {
             if (positions.Count == 0) yield break;
 
-            CurrentState = MoveStateType.Move;
+            SetCurrentState(MoveStateType.Move);
 
-            for (var i = 0; i < positions.Count; i++)
+            foreach (var pos in positions)
             {
-                var pos = positions[i];
                 var offset = pos - transform.position;
                 var remainingDistance = offset.sqrMagnitude;
 
@@ -92,14 +107,8 @@ namespace Control.Base
                     yield return new WaitForFixedUpdate();
                 }
             }
-            CurrentState = MoveStateType.Idle;
+            SetCurrentState(MoveStateType.Idle);
         }
-
-        public Vector3 GetNodePosition(Vector3 position)
-        {
-            var posX = (int) (position.x / nodeSize.x) * nodeSize.x + nodeSize.x / 2;
-            var posY = (int) (position.y / nodeSize.y) * nodeSize.y + nodeSize.y / 2;
-            return new Vector3(posX, posY, 0);
-        }
+        #endregion
     }
 }
