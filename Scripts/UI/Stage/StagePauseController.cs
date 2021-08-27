@@ -28,8 +28,8 @@ namespace UI.Stage
             exitButton.onClick.AddListener(ExitGame);
             StageHudController.OpenStagePauseEvent += OpenPausePopup;
             
-            soundButton.GetComponent<ImageChangeButtonController>().Set(!AudioManager.instance.IsSoundMute);
-            effectButton.GetComponent<ImageChangeButtonController>().Set(!AudioManager.instance.IsEffectMute);
+            soundButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.IsSoundMute);
+            effectButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.IsEffectMute);
         }
 
         protected override void OnDestroy()

@@ -14,6 +14,7 @@ namespace StageScripts
         [SerializeField] private JoystickMoveController joystickMoveController;
         private Stage currentStage;
         private StageStateController stageStateController;
+        
         private EControlType eControlType;
         
         private void Start()

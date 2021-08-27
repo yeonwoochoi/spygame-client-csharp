@@ -36,9 +36,9 @@ namespace UI.Setting
             mouseControlButton.onClick.AddListener(OnClickMouseControlButton);
             keyboardControlButton.onClick.AddListener(OnClickKeyboardControlButton);
             
-            soundButton.GetComponent<ImageChangeButtonController>().Set(!soundManager.isSoundMute);
-            effectButton.GetComponent<ImageChangeButtonController>().Set(!soundManager.isEffectMute);
-            
+            soundButton.GetComponent<ImageChangeButtonController>().Init(!soundManager.isSoundMute);
+            effectButton.GetComponent<ImageChangeButtonController>().Init(!soundManager.isEffectMute);
+
             ActivateButton();
         }
 

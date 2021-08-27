@@ -22,9 +22,9 @@ namespace UI
             }
         }
 
-        public void Set(bool flag, bool isAuto = true)
+        public void Init(bool isDefaultImg, bool isAuto = true)
         {
-            IsDefault = flag;
+            IsDefault = isDefaultImg;
             if (isAuto)
             {
                 GetComponent<Button>().onClick.AddListener(ChangeImage);
