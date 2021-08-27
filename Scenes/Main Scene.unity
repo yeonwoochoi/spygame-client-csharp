@@ -2850,12 +2850,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 311e2de9abce8044185765179dedf031, type: 2}
   - {fileID: 11400000, guid: 89575bf507ef6c540bf485670aec06d8, type: 2}
   - {fileID: 11400000, guid: 042ecd77c776f404a8f0554caea39cbb, type: 2}
-  chapter1Button: {fileID: 1873358889}
-  chapter2Button: {fileID: 150238593}
-  chapter3Button: {fileID: 2074184948}
-  chapter4Button: {fileID: 1834536524}
-  chapter5Button: {fileID: 1223990695}
-  chapter6Button: {fileID: 560845357}
+  chapterButtons:
+  - {fileID: 1873358889}
+  - {fileID: 150238593}
+  - {fileID: 2074184948}
+  - {fileID: 1834536524}
+  - {fileID: 1223990695}
+  - {fileID: 560845357}
 --- !u!114 &1403926211
 MonoBehaviour:
   m_ObjectHideFlags: 0
