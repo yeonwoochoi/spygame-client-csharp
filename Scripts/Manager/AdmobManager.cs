@@ -20,39 +20,25 @@ namespace Manager
 
         private bool isSoundMute;
         private bool isEffectMute;
-
-        private bool isStageClear = false;
-
-        /*
-        public static event EventHandler<StageClearEventArgs> CloseStageAdEvent;
-        public static event EventHandler<GameOverEventArgs> CloseGameOverAdEvent;
-        */
         
         private void Start()
         {
             LoadFrontAd();
             SetTestAd();
-            StageStateController.StageClearEvent += ShowFrontAd;
-            StageStateController.GameOverEvent += ShowFrontAd;
+            StageStateController.StageDoneEvent += ShowFrontAd;
             TimerController.TimeOverEvent += ShowFrontAd;
         }
 
         private void OnDestroy()
         {
             frontAd.Destroy();
-            StageStateController.StageClearEvent -= ShowFrontAd;
-            StageStateController.GameOverEvent -= ShowFrontAd;
+            StageStateController.StageDoneEvent -= ShowFrontAd;
             TimerController.TimeOverEvent -= ShowFrontAd;
         }
 
-        private void ShowFrontAd(object _, StageClearEventArgs e)
+        private void ShowFrontAd(object _, ExitStageEventArgs e)
         {
-            isStageClear = true;
-            StartCoroutine(ShowFrontAd());
-        }
-        private void ShowFrontAd(object _, GameOverEventArgs e)
-        {
-            isStageClear = false;
+            if (e.exitType == StageExitType.GiveUp) return;
             StartCoroutine(ShowFrontAd());
         }
 

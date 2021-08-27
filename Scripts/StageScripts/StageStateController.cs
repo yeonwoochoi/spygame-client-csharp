@@ -27,7 +27,7 @@ namespace StageScripts
                 UpdateState();
                 if (currentHp <= 0)
                 {
-                    EmitGameOverEvent(new GameOverEventArgs());
+                    EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.GameOver));
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace StageScripts
                 {
                     if (currentStage.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
                     {
-                        EmitGameOverEvent(new GameOverEventArgs());   
+                        EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.GameOver));
                     }
                 }
             }
@@ -63,7 +63,7 @@ namespace StageScripts
                 {
                     if (currentStage.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
                     {
-                        EmitGameOverEvent(new GameOverEventArgs());   
+                        EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.GameOver));   
                     }
                 }
             }
@@ -79,7 +79,7 @@ namespace StageScripts
                 UpdateState();
                 if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
                 {
-                    EmitStageClearEvent(new StageClearEventArgs());
+                    EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.StageClear));
                 }
             }
         }
@@ -94,14 +94,13 @@ namespace StageScripts
                 UpdateState();
                 if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
                 {
-                    EmitStageClearEvent(new StageClearEventArgs());
+                    EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.StageClear));
                 }
             }
         }
 
         public static event EventHandler<UpdateStageStateEventArgs> UpdateStageStateEvent;
-        public static event EventHandler<GameOverEventArgs> GameOverEvent;
-        public static event EventHandler<StageClearEventArgs> StageClearEvent;
+        public static event EventHandler<ExitStageEventArgs> StageDoneEvent;
 
         private void Start()
         {
@@ -175,19 +174,10 @@ namespace StageScripts
             }
         }
         
-        private void EmitStageClearEvent(StageClearEventArgs e)
+        private void EmitStageDoneEvent(ExitStageEventArgs e)
         {
-            if (StageClearEvent == null) return;
-            foreach (var invocation in StageClearEvent.GetInvocationList())
-            {
-                invocation.DynamicInvoke(this, e);
-            }
-        }
-        
-        private void EmitGameOverEvent(GameOverEventArgs e)
-        {
-            if (GameOverEvent == null) return;
-            foreach (var invocation in GameOverEvent.GetInvocationList())
+            if (StageDoneEvent == null) return;
+            foreach (var invocation in StageDoneEvent.GetInvocationList())
             {
                 invocation.DynamicInvoke(this, e);
             }

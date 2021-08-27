@@ -28,22 +28,20 @@ namespace UI.Stage
         
         private bool isClear = false;
 
-        public static event EventHandler<GameOverEventArgs> TimeOverEvent; 
+        public static event EventHandler<ExitStageEventArgs> TimeOverEvent; 
 
         private void Start()
         {
             ItemTabController.ItemUseEvent += EatTimeUpItem;
             StageStateController.UpdateStageStateEvent += SetTimer;
-            StageStateController.StageClearEvent += StopTimerByStageClear;
-            StageStateController.GameOverEvent += StopTimerByGameOver;
+            StageStateController.StageDoneEvent += StopTimerByStageDone;
         }
 
         private void OnDestroy()
         {
             ItemTabController.ItemUseEvent -= EatTimeUpItem;
             StageStateController.UpdateStageStateEvent -= SetTimer;
-            StageStateController.StageClearEvent -= StopTimerByStageClear;
-            StageStateController.GameOverEvent -= StopTimerByGameOver;
+            StageStateController.StageDoneEvent -= StopTimerByStageDone;
         }
 
         private void SetTimer(object _, UpdateStageStateEventArgs e)
@@ -64,12 +62,12 @@ namespace UI.Stage
 
             if (!isClear)
             {
-                EmitGameOverEvent(new GameOverEventArgs());   
+                EmitGameOverEvent(new ExitStageEventArgs(StageExitType.GameOver));   
             }
             yield return null;
         }
 
-        private void EmitGameOverEvent(GameOverEventArgs e)
+        private void EmitGameOverEvent(ExitStageEventArgs e)
         {
             if (TimeOverEvent == null) return;
             foreach (var invocation in TimeOverEvent.GetInvocationList())
@@ -84,13 +82,9 @@ namespace UI.Stage
             time += e.item.effect;
         }
 
-        private void StopTimerByStageClear(object _, StageClearEventArgs e)
+        private void StopTimerByStageDone(object _, ExitStageEventArgs e)
         {
-            isClear = true;
-        }
-        
-        private void StopTimerByGameOver(object _, GameOverEventArgs e)
-        {
+            if (e.exitType == StageExitType.GiveUp) return;
             isClear = true;
         }
     }

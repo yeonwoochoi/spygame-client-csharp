@@ -16,7 +16,6 @@ namespace UI.Stage
         [SerializeField] private Button effectButton;
         [SerializeField] private Button retryButton;
         [SerializeField] private Button exitButton;
-
         public static event EventHandler<ExitStageEventArgs> ExitStageEvent;
 
         protected override void Start()
@@ -61,7 +60,7 @@ namespace UI.Stage
 
         private void ExitGame()
         {
-            EmitExitStageEvent(new ExitStageEventArgs(StageExitType.Pause));
+            EmitExitStageEvent(new ExitStageEventArgs(StageExitType.GiveUp));
         }
 
         private void OpenPausePopup(object _, OpenStagePauseEventArgs e)

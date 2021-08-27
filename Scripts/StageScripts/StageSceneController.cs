@@ -56,15 +56,15 @@ namespace StageScripts
 
         protected override void Start()
         {
-            StagePauseController.ExitStageEvent += ExitStage;
-            StageDonePopupController.ExitStageEvent += ExitStage;
+            StagePauseController.ExitStageEvent += ExitStageSceneScene;
+            StageDonePopupController.ExitStageSceneEvent += ExitStageSceneScene;
             StartCoroutine(ShowMissionPopup());
         }
 
         private void OnDestroy()
         {
-            StagePauseController.ExitStageEvent -= ExitStage;
-            StageDonePopupController.ExitStageEvent -= ExitStage;
+            StagePauseController.ExitStageEvent -= ExitStageSceneScene;
+            StageDonePopupController.ExitStageSceneEvent -= ExitStageSceneScene;
         }
 
         public void SetStageObjParent(Transform playerParent, Transform spyParent, Transform boxParent)
@@ -260,7 +260,7 @@ namespace StageScripts
             }
         }
         
-        private void ExitStage(object _, ExitStageEventArgs e)
+        private void ExitStageSceneScene(object _, ExitStageEventArgs e)
         {
             OnClickExitBtn(currentStage.chapterType);
         }

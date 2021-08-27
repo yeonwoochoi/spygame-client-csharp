@@ -25,7 +25,7 @@ namespace UI.Stage
         private readonly string gameOverComment = "Game Over";
         private bool isDone;
         
-        public static event EventHandler<ExitStageEventArgs> ExitStageEvent;
+        public static event EventHandler<ExitStageEventArgs> ExitStageSceneEvent;
 
         protected override void Start()
         {
@@ -33,27 +33,21 @@ namespace UI.Stage
             isDone = false;
             retryButton.GetComponent<Button>().onClick.AddListener(RestartGame);
             exitButton.GetComponent<Button>().onClick.AddListener(ExitGame);
+            
             StageStateController.UpdateStageStateEvent += UpdateStageState;
-            
-            // AdmobManager.CloseStageAdEvent += OpenStageClear;
-            // AdmobManager.CloseGameOverAdEvent += OpenGameOver;
-            
             TimerController.TimeOverEvent += OpenGameOver;
-            StageStateController.GameOverEvent += OpenGameOver;
-            StageStateController.StageClearEvent += OpenStageClear;
+            StageStateController.StageDoneEvent += OpenGameOver;
+            StageStateController.StageDoneEvent += OpenStageDone;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
-            
-            //AdmobManager.CloseStageAdEvent -= OpenStageClear;
-            //AdmobManager.CloseGameOverAdEvent -= OpenGameOver;
-            
             TimerController.TimeOverEvent -= OpenGameOver;
-            StageStateController.GameOverEvent -= OpenGameOver;
-            StageStateController.StageClearEvent -= OpenStageClear;
+            StageStateController.StageDoneEvent -= OpenGameOver;
+            StageStateController.StageDoneEvent -= OpenStageDone;
         }
 
         private void UpdateStageState(object _, UpdateStageStateEventArgs e)
@@ -62,8 +56,9 @@ namespace UI.Stage
             currentHp = e.hp;
         }
 
-        private void OpenGameOver(object _, GameOverEventArgs e)
+        private void OpenGameOver(object _, ExitStageEventArgs e)
         {
+            if (e.exitType != StageExitType.GameOver) return;
             if (isDone) return;
             isDone = true;
             titleText.text = $"{gameOverComment}";
@@ -74,8 +69,9 @@ namespace UI.Stage
             AudioManager.instance.Play(SoundType.GameOver);
         }
         
-        private void OpenStageClear(object _, StageClearEventArgs e)
+        private void OpenStageDone(object _, ExitStageEventArgs e)
         {
+            if (e.exitType != StageExitType.StageClear) return;
             if (isDone) return;
             isDone = true;
             titleText.text = $"{stageClearComment}";
@@ -104,7 +100,7 @@ namespace UI.Stage
 
         private void ExitGame()
         {
-            EmitExitStageEvent(new ExitStageEventArgs(StageExitType.Clear));
+            EmitExitStageEvent(new ExitStageEventArgs(StageExitType.StageClear));
             OnClosePopup();
         }
 
@@ -140,8 +136,8 @@ namespace UI.Stage
         
         private void EmitExitStageEvent(ExitStageEventArgs e)
         {
-            if (ExitStageEvent == null) return;
-            foreach (var invocation in ExitStageEvent.GetInvocationList())
+            if (ExitStageSceneEvent == null) return;
+            foreach (var invocation in ExitStageSceneEvent.GetInvocationList())
             {
                 invocation.DynamicInvoke(this, e);
             }

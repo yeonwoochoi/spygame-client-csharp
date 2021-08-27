@@ -9,7 +9,7 @@ namespace Event
 {
     public enum StageExitType
     {
-        Pause, Clear
+        GiveUp, GameOver, StageClear
     }
     
     public class UpdateStageStateEventArgs : EventArgs
@@ -33,16 +33,6 @@ namespace Event
         }
     }
 
-    public class ExitStageEventArgs : EventArgs
-    {
-        public StageExitType stageExitType;
-
-        public ExitStageEventArgs(StageExitType stageExitType)
-        {
-            this.stageExitType = stageExitType;
-        }
-    }
-
     public class OpenStageMissionPopupEventArgs : EventArgs
     {
         public Stage stage;
@@ -52,8 +42,14 @@ namespace Event
             this.stage = stage;
         }
     }
-    
-    public class GameOverEventArgs: EventArgs { }
 
-    public class StageClearEventArgs : EventArgs { }
+    public class ExitStageEventArgs : EventArgs
+    {
+        public StageExitType exitType;
+
+        public ExitStageEventArgs(StageExitType exitType)
+        {
+            this.exitType = exitType;
+        }
+    }
 }
