@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using System;
+using Domain;
 using Manager;
 using Manager.Data;
 using UnityEngine;
@@ -9,12 +10,18 @@ namespace Control.Collision
     {
         protected EControlType eControlType;
         protected bool isSet = false;
-        
-        protected virtual T InitDetector<T>()
+
+        private void Start()
+        {
+            InitDetector();
+        }
+
+        protected virtual T GetParentController<T>()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
-            isSet = true;
             return GetComponentInParent<T>();
         }
+        
+        protected virtual void InitDetector() {}
     }
 }
