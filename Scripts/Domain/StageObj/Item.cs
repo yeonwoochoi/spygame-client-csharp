@@ -13,7 +13,6 @@ namespace Domain.StageObj
     {
         public int index;
         public ItemType type;
-        public Vector3 position;
         private Qna qna;
         public string question => qna.question;
         public string answer => GetAnswer();

@@ -83,14 +83,15 @@ namespace UI.Stage
             OnOpenPopup();
             var score = CalculateStarScore();
             starHandler.ShowStars(score);
-            if (currentStage.score < score) currentStage.score = score;
-            
-            var chapterManager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
-            
-            var chapterIndex = (int) currentStage.chapterType;
-            var stageIndex = (int) currentStage.stageType;
-            chapterManager.chapterInfos[chapterIndex - 1].stageInfos[stageIndex].score = score;
-            GlobalDataManager.Instance.Set(GlobalDataKey.CHAPTER, chapterManager);
+            if (currentStage.score < score)
+            {
+                currentStage.score = score;
+                var chapterManager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
+                var chapterIndex = (int) currentStage.chapterType;
+                var stageIndex = (int) currentStage.stageType;
+                chapterManager.chapterInfos[chapterIndex - 1].stageInfos[stageIndex].score = score;
+                GlobalDataManager.Instance.Set(GlobalDataKey.CHAPTER, chapterManager);
+            }
 
             AudioManager.instance.Stop(SoundType.Background);
             AudioManager.instance.Play(SoundType.StageClear);
