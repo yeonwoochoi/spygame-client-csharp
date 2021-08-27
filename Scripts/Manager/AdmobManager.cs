@@ -20,6 +20,8 @@ namespace Manager
 
         private bool isSoundMute;
         private bool isEffectMute;
+
+        private bool isLoaded = false;
         
         private void Start()
         {
@@ -68,6 +70,8 @@ namespace Manager
             frontAd.OnAdClosed += HandleOnAdClosed;
 
             frontAd.LoadAd(GetAdRequest());
+
+            if (!isLoaded) isLoaded = true;
         }
         
         private AdRequest GetAdRequest()
@@ -88,48 +92,22 @@ namespace Manager
 
         private void HandleOnAdLoaded(object sender, EventArgs e)
         {
-            var soundManager = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND);
-            isSoundMute = soundManager.isSoundMute;
-            isEffectMute = soundManager.isEffectMute;
-
-            AudioManager.instance.IsSoundMute = false;
-            AudioManager.instance.IsEffectMute = false;
-        }
-
-        private void HandleOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e)
-        {
+            if (!isLoaded) return;
             
+            isSoundMute = AudioManager.instance.IsSoundMute;
+            isEffectMute = AudioManager.instance.IsEffectMute;
+
+            AudioManager.instance.IsSoundMute = true;
+            AudioManager.instance.IsEffectMute = true;
         }
+
+        private void HandleOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e) { }
 
 
         private void HandleOnAdClosed(object sender, EventArgs e)
         {
             AudioManager.instance.IsSoundMute = isSoundMute;
             AudioManager.instance.IsEffectMute = isEffectMute;
-            /*
-            if (isStageClear) EmitCloseStageAdEvent(new StageClearEventArgs());
-            else EmitCloseStageAdEvent(new GameOverEventArgs());
-            */
         }
-
-        /*
-        private void EmitCloseStageAdEvent(StageClearEventArgs e)
-        {
-            if (CloseStageAdEvent == null) return;
-            foreach (var invocation in CloseStageAdEvent.GetInvocationList())
-            {
-                invocation.DynamicInvoke(this, e);
-            }
-        }
-        
-        private void EmitCloseStageAdEvent(GameOverEventArgs e)
-        {
-            if (CloseGameOverAdEvent == null) return;
-            foreach (var invocation in CloseGameOverAdEvent.GetInvocationList())
-            {
-                invocation.DynamicInvoke(this, e);
-            }
-        }
-        */
     }
 }

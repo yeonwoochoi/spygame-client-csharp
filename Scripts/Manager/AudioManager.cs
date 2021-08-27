@@ -71,12 +71,12 @@ namespace Manager
             soundManager = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND);
             if (soundManager == null)
             {
-                var initSoundInfo = SoundManager.Create();
-                GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, initSoundInfo);
+                soundManager = SoundManager.Create();
+                GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
             }
             
-            IsSoundMute = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND).isSoundMute;
-            IsEffectMute = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND).isEffectMute;
+            IsSoundMute = soundManager.isSoundMute;
+            IsEffectMute = soundManager.isEffectMute;
         }
 
         private void Start()
