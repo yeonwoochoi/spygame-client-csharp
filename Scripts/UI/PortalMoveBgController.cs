@@ -7,7 +7,7 @@ using Util;
 
 namespace UI
 {
-    public class BackgroundController: MonoBehaviour
+    public class PortalMoveBgController: MonoBehaviour
     {
         [SerializeField] private CanvasGroup cGroup;
 
