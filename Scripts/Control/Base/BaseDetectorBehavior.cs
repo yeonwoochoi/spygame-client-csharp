@@ -7,13 +7,23 @@ namespace Control.Base
 {
     public abstract class BaseDetectorBehavior: MonoBehaviour
     {
-        protected EControlType eControlType;
+        #region Protected Variables
+
         protected bool isSet = false;
+        protected EControlType eControlType;
+
+        #endregion
+
+        #region Event Method
 
         private void Start()
         {
             InitDetector();
         }
+
+        #endregion
+
+        #region Protected Methods
 
         protected T GetParentController<T>()
         {
@@ -22,5 +32,7 @@ namespace Control.Base
         }
         
         protected virtual void InitDetector() {}
+
+        #endregion
     }
 }

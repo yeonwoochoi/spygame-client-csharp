@@ -7,9 +7,20 @@ namespace Control.Base
 {
     public abstract class BaseSpeechBalloonController: MonoBehaviour
     {
+        #region Public Variable
+
         [HideInInspector] public bool clicked;
+
+        #endregion
+
+        #region Private Variable
+
         private EControlType eControlType;
-        
+
+        #endregion
+
+        #region Event Methods
+
         protected virtual void Start()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
@@ -22,7 +33,11 @@ namespace Control.Base
             if (eControlType == EControlType.KeyBoard) return;
             OnClickSpeechBalloon();
         }
-        
+
+        #endregion
+
+        #region Private Method
+
         private void OnClickSpeechBalloon()
         {
             if (!Input.GetMouseButtonDown(0)) return;
@@ -43,9 +58,15 @@ namespace Control.Base
                 }
             }
         }
-        
+
+        #endregion
+
+        #region Protected Methods
+
         protected virtual void EmitEvent(GameObject target) {}
         
         protected virtual void CheckValidHit(GameObject collider) {}
+
+        #endregion
     }
 }

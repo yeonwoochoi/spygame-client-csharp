@@ -8,12 +8,16 @@ namespace Manager
 {
     public class AudioManager: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Sound[] sounds;
 
         private SoundManager soundManager;
-
         private bool isSoundMute;
         private bool isEffectMute;
+
+        #endregion
+        
 
         public bool IsSoundMute
         {
@@ -47,7 +51,14 @@ namespace Manager
             }
         }
 
+        #region Static Variable
+
         public static AudioManager instance = null;
+
+        #endregion
+
+        #region Event Methods
+
         private void Awake()
         {
             if (instance == null) instance = this;
@@ -84,6 +95,11 @@ namespace Manager
             Play(SoundType.Background);
         }
 
+        #endregion
+
+
+        #region Public Methods
+
         public void Play(SoundType soundType)
         {
             var sound = Array.Find(sounds, s => s.type == soundType);
@@ -95,5 +111,7 @@ namespace Manager
             var sound = Array.Find(sounds, s => s.type == soundType);
             sound?.source.Stop();
         }
+
+        #endregion
     }
 }

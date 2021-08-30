@@ -13,12 +13,17 @@ namespace MainScripts
 {
     public class MainSceneController: BaseSceneController
     {
-        [SerializeField] private Chapter[] chapters;
+        #region Private Variables
 
+        [SerializeField] private Chapter[] chapters;
         [SerializeField] private Button[] chapterButtons;
 
         private ChapterManager chapterManager;
-        
+
+        #endregion
+
+        #region Event Methods
+
         private void Awake()
         {
             chapterManager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
@@ -56,6 +61,10 @@ namespace MainScripts
                 Quit();   
             }
         }
+
+        #endregion
+
+        #region Private Methods
 
         // TODO()
         private void InitScores()
@@ -139,5 +148,7 @@ namespace MainScripts
         Application.Quit();
 #endif
         }
+
+        #endregion
     }
 }

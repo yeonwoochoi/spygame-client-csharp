@@ -9,6 +9,8 @@ namespace UI.Setting
 {
     public class SettingUIController: BasePopupBehavior
     {
+        #region Private Variables
+
         [SerializeField] private Button soundButton;
         [SerializeField] private Button effectButton;
         [SerializeField] private Button exitButton;
@@ -20,6 +22,10 @@ namespace UI.Setting
         private SoundManager soundManager;
         private EControlManager eControlManager;
 
+        #endregion
+
+        #region Event Method
+
         protected override void Start()
         {
             base.Start();
@@ -27,6 +33,19 @@ namespace UI.Setting
             eControlManager = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL);
             SetButtonEvent();
         }
+
+        #endregion
+
+        #region Public Method
+
+        public void OnClickSettingButton()
+        {
+            OnOpenPopup();    
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private void SetButtonEvent()
         {
@@ -47,7 +66,7 @@ namespace UI.Setting
             soundManager.isSoundMute = !soundManager.isSoundMute;
             GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
         }
-        
+
         private void OnClickEffectButton()
         {
             soundManager.isEffectMute = !soundManager.isEffectMute;
@@ -77,10 +96,7 @@ namespace UI.Setting
             keyboardControlButton.image.color = !isKeyboard ? new Color(0.6f, 0.6f, 0.6f, 1f) : Color.white;
             keyboardControlButtonText.color = !isKeyboard ? new Color(1f, 0.92f, 0.78f, 0.6f) : new Color(1f, 0.92f, 0.78f, 1f);
         }
-        
-        public void OnClickSettingButton()
-        {
-            OnOpenPopup();    
-        }
+
+        #endregion
     }
 }

@@ -6,17 +6,24 @@ namespace Camera
 {
     public class CameraFollowController : MonoBehaviour
     {
+        #region Private Variables
         private Transform target;
         private float lerpSpeed = 2.5f;
         private Vector3 offset;
         private Vector3 targetPos;
+        #endregion
 
+        #region Public Method
         public void SetOffset(Transform targetTransform)
         {
             target = targetTransform;
             offset = targetTransform.position - target.position;
             StartCoroutine(FollowPlayer());
         }
+
+        #endregion
+
+        #region Private Method
 
         private IEnumerator FollowPlayer()
         {
@@ -33,5 +40,7 @@ namespace Camera
                 }
             }
         }
+
+        #endregion
     }
 }

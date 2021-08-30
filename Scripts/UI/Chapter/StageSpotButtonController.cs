@@ -8,11 +8,17 @@ namespace UI.Chapter
 {
     public class StageSpotButtonController: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private CanvasGroup leftStarImage;
         [SerializeField] private CanvasGroup middleStarImage;
         [SerializeField] private CanvasGroup rightStarImage;
 
         private int stageScore;
+
+        #endregion
+        
+
         public int StageScore
         {
             get => stageScore;
@@ -22,6 +28,8 @@ namespace UI.Chapter
                 ShowStars(value);
             }
         }
+
+        #region Public Method
 
         private void ShowStars(int score)
         {
@@ -46,11 +54,17 @@ namespace UI.Chapter
             }
         }
 
+        #endregion
+
+        #region Private Method
+
         private void ResetStar()
         {
             leftStarImage.Visible(false);
             middleStarImage.Visible(false);
             rightStarImage.Visible(false);
         }
+
+        #endregion
     }
 }

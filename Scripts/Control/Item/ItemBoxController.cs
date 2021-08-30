@@ -10,14 +10,27 @@ namespace Control.Item
 {
     public class ItemBoxController: MonoBehaviour
     {
-        private static string ANIMATION_VARIABLE_BOX_OPEN = "IsOpen";
+        #region Public Variables
 
         [SerializeField] public GameObject speechBalloon;
 
         [HideInInspector] public BoxSpeechBalloonController boxSpeechBalloonController;
 
+        #endregion
+
+        #region Private Variables
+
         private Animator animator;
-        
+
+        #endregion
+
+        #region Static Variable
+
+        private static string ANIMATION_VARIABLE_BOX_OPEN = "IsOpen";
+
+        #endregion
+
+        // TODO (Property => Getter Setter)
         public bool IsSet { get; private set; } = false;
         
         private bool isOpen;
@@ -33,6 +46,8 @@ namespace Control.Item
 
         public Domain.StageObj.Item Item { get; private set; }
 
+        #region Event Methods
+
         private void Start()
         {
             ItemQnaPopupBehavior.ItemGetEvent += InactivateSpeechBalloon;
@@ -42,6 +57,10 @@ namespace Control.Item
         {
             ItemQnaPopupBehavior.ItemGetEvent -= InactivateSpeechBalloon;
         }
+
+        #endregion
+
+        #region Public Method
 
         public void Init(Domain.StageObj.Item item)
         {
@@ -54,6 +73,10 @@ namespace Control.Item
             IsSet = true;
         }
 
+        #endregion
+
+        #region Private Method
+
         private void InactivateSpeechBalloon(object _, ItemGetEventArgs e)
         {
             if (!IsSet) return;
@@ -61,5 +84,7 @@ namespace Control.Item
             IsOpen = true;
             speechBalloon.SetActive(false);
         }
+
+        #endregion
     }
 }

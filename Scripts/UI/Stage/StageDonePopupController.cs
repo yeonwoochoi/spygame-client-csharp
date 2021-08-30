@@ -13,19 +13,29 @@ namespace UI.Stage
 {
     public class StageDonePopupController: BasePopupBehavior
     {
+        #region Private Variables
+
         [SerializeField] private Text stageText;
         [SerializeField] private StarHandler starHandler;
         [SerializeField] private GameObject retryButton;
         [SerializeField] private GameObject exitButton;
-        [SerializeField] private TimerController timerController;
+        [SerializeField] private StageTimerController stageTimerController;
 
         private Domain.Stage currentStage;
         private int currentHp;
         private readonly string stageClearComment = "Stage Clear";
         private readonly string gameOverComment = "Game Over";
         private bool isDone;
-        
+
+        #endregion
+
+        #region Event
+
         public static event EventHandler<ExitStageEventArgs> ExitStageSceneEvent;
+
+        #endregion
+
+        #region Event Methods
 
         protected override void Start()
         {
@@ -35,7 +45,7 @@ namespace UI.Stage
             exitButton.GetComponent<Button>().onClick.AddListener(ExitGame);
             
             StageStateController.UpdateStageStateEvent += UpdateStageState;
-            TimerController.TimeOverEvent += OpenGameOver;
+            StageTimerController.TimeOverEvent += OpenGameOver;
             StageStateController.StageDoneEvent += OpenGameOver;
             StageStateController.StageDoneEvent += OpenStageDone;
         }
@@ -45,10 +55,14 @@ namespace UI.Stage
             base.OnDisable();
             
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
-            TimerController.TimeOverEvent -= OpenGameOver;
+            StageTimerController.TimeOverEvent -= OpenGameOver;
             StageStateController.StageDoneEvent -= OpenGameOver;
             StageStateController.StageDoneEvent -= OpenStageDone;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void UpdateStageState(object _, UpdateStageStateEventArgs e)
         {
@@ -100,13 +114,16 @@ namespace UI.Stage
 
         private void ExitGame()
         {
-            EmitExitStageEvent(new ExitStageEventArgs(StageExitType.StageClear));
+            EmitExitStageEvent(new ExitStageEventArgs
+            {
+                exitType = StageExitType.StageClear
+            });
             OnClosePopup();
         }
 
         private int CalculateStarScore()
         {
-            var time = timerController.time;
+            var time = stageTimerController.time;
             var totalTime = currentStage.limitTime;
             
             var totalScore = 0;
@@ -142,5 +159,7 @@ namespace UI.Stage
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

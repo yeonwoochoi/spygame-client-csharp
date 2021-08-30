@@ -13,18 +13,27 @@ using Util;
 namespace UI.Stage
 {
     // TODO()
-    public class ItemTabController: MonoBehaviour
+    public class ItemStorageController: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Button hpItemBtn;
         [SerializeField] private Button timeUpItemBtn;
         [SerializeField] private Text hpItemCountText;
         [SerializeField] private Text timeItemCountText;
 
         private int currentHp;
-
         private Dictionary<ItemType, List<Item>> itemRepository;
-        
+
+        #endregion
+
+        #region Event
+
         public static event EventHandler<ItemUseEventArgs> ItemUseEvent;
+
+        #endregion
+
+        #region Event Methods
 
         private void Start()
         {
@@ -40,6 +49,10 @@ namespace UI.Stage
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
             ItemQnaPopupBehavior.ItemGetEvent -= GetItem;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void InitItemRepository()
         {
@@ -85,7 +98,7 @@ namespace UI.Stage
         {
             if (itemRepository[type].Count <= 0) return;
             if (type == ItemType.Hp && currentHp == StageStateController.playerHp) return;
-            EmitItemUseEvent(new ItemUseEventArgs(itemRepository[type][0]));
+            EmitItemUseEvent(new ItemUseEventArgs { item = itemRepository[type][0] });
             itemRepository[type].RemoveAt(0);
             UpdateItemCountText();
             AudioManager.instance.Play(SoundType.ItemUse);
@@ -110,5 +123,7 @@ namespace UI.Stage
             hpItemCountText.text = $"{itemRepository[ItemType.Hp].Count}";
             timeItemCountText.text = $"{itemRepository[ItemType.Time].Count}";
         }
+
+        #endregion
     }
 }

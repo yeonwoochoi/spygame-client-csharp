@@ -11,8 +11,14 @@ namespace LoadingScripts
 {
     public class NormalLoadingController: BaseLoadingController
     {
+        #region Private Variable
+
         [SerializeField] private Text progressText;
-        
+
+        #endregion
+
+        #region Protected Method
+
         protected override void HandleLoading()
         {
             if (LoadingManager.Instance.CurrentType == MainSceneType.Main)
@@ -41,6 +47,10 @@ namespace LoadingScripts
 
             StartCoroutine(LoadScene(nextScene));
         }
+
+        #endregion
+
+        #region Private Method
 
         // TODO()
         private IEnumerator LoadScene(string nextScene)
@@ -103,5 +113,6 @@ namespace LoadingScripts
             }
         }
 
+        #endregion
     }
 }

@@ -7,20 +7,34 @@ using DG.Tweening;
 
 namespace UI.Base
 {
+    #region Enum
+
     public enum PopupMoveType
     {
         BottomToTop, TopToBottom, RightToLeft, LeftToRight
     }
 
+    #endregion
+
     public abstract class BasePopupBehavior: BaseUIBehavior
     {
+        #region Protected Variables
+
         [SerializeField] protected Text titleText;
         [SerializeField] protected PopupMoveType moveType;
-        private RectTransform popupUITransform;
+
+        #endregion
+
+        #region Private Variables
         
+        private RectTransform popupUITransform;
         private Vector3 initPosition;
         private float moveSpeed = 10f;
         private int initPositionValue = 2000;
+
+        #endregion
+
+        #region Event Method
 
         protected override void Start()
         {
@@ -51,12 +65,32 @@ namespace UI.Base
             isOpen = false;
         }
 
+        #endregion
+
+        #region Protected Method
+
         protected void OnOpenPopup()
         {
             if (isOpen) return;
             isOpen = true;
             StartCoroutine(OpenPopup());
         }
+
+        protected void OnClosePopup()
+        {
+            if (!isOpen) return;
+            isOpen = false;
+            StartCoroutine(ClosePopup());
+            ReactivateSpeechBalloon();
+        }
+
+        protected virtual void ResetAll() {}
+        
+        protected virtual void ReactivateSpeechBalloon() {}
+
+        #endregion
+
+        #region Private Methods
 
         private IEnumerator OpenPopup()
         {
@@ -79,14 +113,6 @@ namespace UI.Base
                     yield break;
                 }
             }
-        } 
-        
-        protected void OnClosePopup()
-        {
-            if (!isOpen) return;
-            isOpen = false;
-            StartCoroutine(ClosePopup());
-            ReactivateSpeechBalloon();
         }
 
         private IEnumerator ClosePopup()
@@ -109,9 +135,7 @@ namespace UI.Base
                 yield break;
             }
         }
-        
-        protected virtual void ResetAll() {}
-        
-        protected virtual void ReactivateSpeechBalloon() {}
+
+        #endregion
     }
 }

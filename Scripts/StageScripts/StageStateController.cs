@@ -12,12 +12,37 @@ namespace StageScripts
 {
     public class StageStateController: MonoBehaviour
     {
+        #region Public Variables
+
         [HideInInspector] public Stage currentStage;
         [HideInInspector] public bool isSet = false;
 
-        public static readonly int playerHp = 3;
+        #endregion
+
+        #region Private Variables
 
         private int currentHp;
+        private int currentNormalSpyCount;
+        private int currentBossSpyCount;
+        private int captureNormalSpyCount;
+        private int captureBossSpyCount;
+        
+        #endregion
+
+        #region Static Variable
+
+        public static readonly int playerHp = 3;
+
+        #endregion
+
+        #region Events
+
+        public static event EventHandler<UpdateStageStateEventArgs> UpdateStageStateEvent;
+        public static event EventHandler<ExitStageEventArgs> StageDoneEvent;
+
+        #endregion
+
+        // TODO (GETTER SETTER)
         public int CurrentHp
         {
             get => currentHp;
@@ -27,12 +52,13 @@ namespace StageScripts
                 UpdateState();
                 if (currentHp <= 0)
                 {
-                    EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.GameOver));
+                    EmitStageDoneEvent(new ExitStageEventArgs
+                    {
+                        exitType = StageExitType.GameOver
+                    });
                 }
             }
         }
-        
-        private int currentNormalSpyCount;
 
         public int CurrentNormalSpyCount
         {
@@ -45,13 +71,15 @@ namespace StageScripts
                 {
                     if (currentStage.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
                     {
-                        EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.GameOver));
+                        EmitStageDoneEvent(new ExitStageEventArgs
+                        {
+                            exitType = StageExitType.GameOver
+                        });
                     }
                 }
             }
         }
 
-        private int currentBossSpyCount;
         public int CurrentBossSpyCount
         {
             get => currentBossSpyCount;
@@ -63,13 +91,15 @@ namespace StageScripts
                 {
                     if (currentStage.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
                     {
-                        EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.GameOver));   
+                        EmitStageDoneEvent(new ExitStageEventArgs
+                        {
+                            exitType = StageExitType.GameOver
+                        });   
                     }
                 }
             }
         }
-        
-        private int captureNormalSpyCount;
+
         public int CaptureNormalSpyCount
         {
             get => captureNormalSpyCount;
@@ -79,12 +109,14 @@ namespace StageScripts
                 UpdateState();
                 if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
                 {
-                    EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.StageClear));
+                    EmitStageDoneEvent(new ExitStageEventArgs
+                    {
+                        exitType = StageExitType.StageClear
+                    });
                 }
             }
         }
-        
-        private int captureBossSpyCount;
+
         public int CaptureBossSpyCount
         {
             get => captureBossSpyCount;
@@ -94,27 +126,33 @@ namespace StageScripts
                 UpdateState();
                 if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
                 {
-                    EmitStageDoneEvent(new ExitStageEventArgs(StageExitType.StageClear));
+                    EmitStageDoneEvent(new ExitStageEventArgs
+                    {
+                        exitType = StageExitType.StageClear
+                    });
                 }
             }
         }
 
-        public static event EventHandler<UpdateStageStateEventArgs> UpdateStageStateEvent;
-        public static event EventHandler<ExitStageEventArgs> StageDoneEvent;
+        #region Event Methods
 
         private void Start()
         {
-            ItemTabController.ItemUseEvent += GetHp;
+            ItemStorageController.ItemUseEvent += GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += ProcessSpyInterviewResult;
         }
 
         private void OnDisable()
         {
-            ItemTabController.ItemUseEvent -= GetHp;
+            ItemStorageController.ItemUseEvent -= GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= ProcessSpyInterviewResult;
         }
+
+        #endregion
+
+        #region Public Method
 
         public void SetStageState()
         {
@@ -126,7 +164,11 @@ namespace StageScripts
             UpdateState();
             isSet = true;
         }
-        
+
+        #endregion
+
+        #region Private Methods
+
         private void ProcessSpyInterviewResult(object _, CaptureSpyEventArgs e)
         {
             if (e.type == CaptureSpyType.Capture && e.spy.isSpy)
@@ -182,5 +224,7 @@ namespace StageScripts
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

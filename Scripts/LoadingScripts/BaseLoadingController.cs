@@ -8,17 +8,27 @@ namespace LoadingScripts
 {
     public abstract class BaseLoadingController: MonoBehaviour
     {
+        #region Protected Variables
+
         [SerializeField] protected Image loadingBar;
         [SerializeField] protected CanvasGroup cGroup;
-        
+
         protected string nextScene = "";
+
+        #endregion
+
+        #region Event Method
 
         protected void Start()
         {
             loadingBar.fillAmount = 0;
             HandleLoading();
         }
-        
+
+        #endregion
+
+        #region Protected Methods
+
         protected abstract void HandleLoading();
 
         protected IEnumerator Fade(bool isFadeIn)
@@ -32,5 +42,7 @@ namespace LoadingScripts
                 cGroup.alpha = Mathf.Lerp(isFadeIn ? 0 : 1, isFadeIn ? 1 : 0, timer);
             }
         }
+
+        #endregion
     }
 }

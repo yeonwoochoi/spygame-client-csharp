@@ -8,11 +8,17 @@ namespace UI.Chapter
 {
     public class StagePlayReadyPopupController: BasePopupBehavior
     {
+        #region Private Variables
+
         [SerializeField] private StarHandler starHandler;
         [SerializeField] private Image stageMapImage;
         [SerializeField] private Text stageExplanationText;
         [SerializeField] private Button playButton;
         [SerializeField] private Button cancelButton;
+
+        #endregion
+
+        #region Public Method
 
         public void OpenStagePlayReadyPopup(Domain.Stage currentStage, Action<StageType> loadStageAction)
         {
@@ -25,9 +31,15 @@ namespace UI.Chapter
             OnOpenPopup();
         }
 
+        #endregion
+
+        #region Private Method
+
         private void OnClickCancelButton()
         {
             OnClosePopup();
         }
+
+        #endregion
     }
 }

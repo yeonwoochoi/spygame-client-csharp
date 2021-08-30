@@ -10,13 +10,22 @@ using UnityEngine.UI;
 namespace UI.Stage
 {
     // TODO()
-    public class TimerController: MonoBehaviour
+    public class StageTimerController: MonoBehaviour
     {
-        [SerializeField] private Text timerText;
+        #region Public Variable
 
         public int time;
 
+        #endregion
+
+        #region Private Variables
+
+        [SerializeField] private Text timerText;
         private bool isSet = false;
+        private bool isClear = false;
+
+        #endregion
+
         private bool IsSet
         {
             get => isSet;
@@ -26,24 +35,31 @@ namespace UI.Stage
                 if (isSet) StartCoroutine(StartTimer());
             }
         }
-        
-        private bool isClear = false;
 
-        public static event EventHandler<ExitStageEventArgs> TimeOverEvent; 
+        #region Event
+        public static event EventHandler<ExitStageEventArgs> TimeOverEvent;
+
+        #endregion
+
+        #region Event Methods
 
         private void Start()
         {
-            ItemTabController.ItemUseEvent += EatTimeUpItem;
+            ItemStorageController.ItemUseEvent += EatTimeUpItem;
             StageStateController.UpdateStageStateEvent += SetTimer;
             StageStateController.StageDoneEvent += StopTimerByStageDone;
         }
 
         private void OnDisable()
         {
-            ItemTabController.ItemUseEvent -= EatTimeUpItem;
+            ItemStorageController.ItemUseEvent -= EatTimeUpItem;
             StageStateController.UpdateStageStateEvent -= SetTimer;
             StageStateController.StageDoneEvent -= StopTimerByStageDone;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void SetTimer(object _, UpdateStageStateEventArgs e)
         {
@@ -63,7 +79,10 @@ namespace UI.Stage
 
             if (!isClear)
             {
-                EmitGameOverEvent(new ExitStageEventArgs(StageExitType.GameOver));   
+                EmitGameOverEvent(new ExitStageEventArgs
+                {
+                    exitType = StageExitType.GameOver
+                });   
             }
             yield return null;
         }
@@ -88,5 +107,7 @@ namespace UI.Stage
             if (e.exitType == StageExitType.GiveUp) return;
             isClear = true;
         }
+
+        #endregion
     }
 }

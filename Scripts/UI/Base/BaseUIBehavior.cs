@@ -9,12 +9,21 @@ namespace UI.Base
 {
     public abstract class BaseUIBehavior: MonoBehaviour
     {
+        #region Protected Variables
+
         [SerializeField] protected CanvasGroup cGroup;
         [SerializeField] protected CanvasGroup bgCanvasGroup;
+        protected bool isOpen;
+
+        #endregion
+
+        #region Private Variable
 
         private bool isClickSpeechBalloon;
-        
-        protected bool isOpen;
+
+        #endregion
+
+        #region Event Methods
 
         protected virtual void Start()
         {
@@ -23,7 +32,19 @@ namespace UI.Base
         }
 
         protected virtual void OnDisable() {}
-        
+
+        #endregion
+
+        #region Public Method
+        public void SkipTyping()
+        {
+            if (!isClickSpeechBalloon) isClickSpeechBalloon = true;
+        }
+
+        #endregion
+
+        #region Protected Methods
+
         protected void ActivateUI(bool flag = true)
         {
             cGroup.Visible(flag);
@@ -83,9 +104,6 @@ namespace UI.Base
             }
         }
 
-        public void SkipTyping()
-        {
-            if (!isClickSpeechBalloon) isClickSpeechBalloon = true;
-        }
+        #endregion
     }
 }

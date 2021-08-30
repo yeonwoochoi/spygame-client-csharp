@@ -3,21 +3,30 @@ using System.Collections;
 using Manager;
 using UnityEngine;
 
-// TODO()
+// TODO(base namespace)
 namespace MainScripts
 {
     public static class SceneNameManager {
+        #region Static Variables
+
         public static readonly string SCENE_MAIN = "Main Scene";
         public static readonly string SCENE_CHAPTER = "Chapter Scene";
         public static readonly string SCENE_STAGE = "Stage Scene";
         public static readonly string SCENE_INIT_LOADING = "Init Loading Scene";
         public static readonly string SCENE_NORMAL_LOADING = "Normal Loading Scene";
+
+        #endregion
     }
     
-    // TODO()
-    public class BaseSceneController: MonoBehaviour
+    public abstract class BaseSceneController: MonoBehaviour
     {
+        #region Protected Variable
+
         protected static string nextScene = "";
+
+        #endregion
+
+        #region Protected Methods
 
         protected virtual void Start() {}
 
@@ -27,5 +36,7 @@ namespace MainScripts
             yield return null;
             afterLoading?.Invoke();
         }
+
+        #endregion
     }
 }

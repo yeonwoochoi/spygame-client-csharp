@@ -11,10 +11,19 @@ namespace Control.Portal
 {
     public class PortalController: MonoBehaviour
     {
+        #region Private Variable
+
         [SerializeField] private Transform afterPortal;
 
-        public static event EventHandler<PortalMoveEventArgs> PortalMoveEvent; 
-        
+        #endregion
+
+        #region Event
+        public static event EventHandler<PortalMoveEventArgs> PortalMoveEvent;
+
+        #endregion
+
+        #region Event Method
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.tag != "Player") return;
@@ -22,6 +31,10 @@ namespace Control.Portal
             EmitPortalMoveEvent(new PortalMoveEventArgs(other.gameObject.transform, afterPortal.position));
             other.gameObject.GetComponent<PlayerMoveController>().StopMove();
         }
+
+        #endregion
+
+        #region Private Method
 
         // TODO()
         private void EmitPortalMoveEvent(PortalMoveEventArgs e)
@@ -32,5 +45,7 @@ namespace Control.Portal
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

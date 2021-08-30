@@ -10,9 +10,15 @@ namespace UI.Stage
 {
     public class StageMissionController: BasePopupBehavior
     {
+        #region Private Variables
+
         [SerializeField] private CanvasGroup fakeLoadingCanvasGroup;
         [SerializeField] private Text missionText;
         [SerializeField] private Button okButton;
+
+        #endregion
+
+        #region Event Methods
 
         protected override void Start()
         {
@@ -26,6 +32,10 @@ namespace UI.Stage
             base.OnDisable();
             StageSceneController.OpenStageMissionPopupEvent -= OpenStageMissionPopup;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void OpenStageMissionPopup(object _, OpenStageMissionPopupEventArgs e)
         {
@@ -43,5 +53,7 @@ namespace UI.Stage
         {
             OnClosePopup();
         }
+
+        #endregion
     }
 }

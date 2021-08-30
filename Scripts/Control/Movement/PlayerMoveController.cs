@@ -11,7 +11,13 @@ namespace Control.Movement
 {
     public class PlayerMoveController: BaseMoveController
     {
+        #region Public Variable
+
         public Action onClickActionBtn;
+
+        #endregion
+
+        #region Public Methods
 
         public void Init()
         {
@@ -62,7 +68,16 @@ namespace Control.Movement
             StopCoroutine(moveCoroutine);
             SetCurrentState(MoveStateType.Idle);
         }
-        
+
+        public void OnClickActionBtn()
+        {
+            onClickActionBtn?.Invoke();
+        }
+
+        #endregion
+
+        #region Private Method
+
         private IEnumerator CheckIdle()
         {
             while (true)
@@ -82,10 +97,7 @@ namespace Control.Movement
                 }
             }
         }
-        
-        public void OnClickActionBtn()
-        {
-            onClickActionBtn?.Invoke();
-        }
+
+        #endregion
     }
 }

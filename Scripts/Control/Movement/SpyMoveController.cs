@@ -14,23 +14,35 @@ using Random = UnityEngine.Random;
 
 namespace Control.Movement
 {
+    #region Enum
+
     public enum SpyStateType
     {
         Free, Examined, Capture, Release
     }
 
+    #endregion
+
     public class SpyMoveController: BaseMoveController
     {
-        [SerializeField] public GameObject speechBalloon;
+        #region Public Variables
 
+        [SerializeField] public GameObject speechBalloon;
         public SpySpeechBalloonController speechBalloonController;
-        
+
+        #endregion
+
+        #region Private Variables
+
         private readonly int wanderRange = 3;
         private readonly float wanderDelay = 3f;
         private Coroutine wanderCoroutine;
         private SpriteRenderer spriteRenderer;
 
         private Spy spy;
+
+        #endregion
+
         public Spy Spy => spy;
         
         private SpyStateType spyStateType;
@@ -50,6 +62,8 @@ namespace Control.Movement
 
         public bool IsSet => isSet;
 
+        #region Event Methods
+
         protected override void Start()
         {
             base.Start();
@@ -61,7 +75,7 @@ namespace Control.Movement
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent += InactivateMoving;
         }
 
-        protected void OnDestroy()
+        protected void OnDisable()
         {
             SpyQnaPopupBehavior.CaptureSpyEvent -= InactivateSpy;
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent -= InactivateMoving;
@@ -75,6 +89,27 @@ namespace Control.Movement
             }
         }
 
+        protected void OnCollisionEnter2D(Collision2D other)
+        {
+            if (!IsSet) return;
+            if (SpyStateType != SpyStateType.Free) return;
+            if (other.collider.transform.IsChildOf(transform)) return;
+            StopWandering();
+        }
+
+
+        protected void OnCollisionExit2D(Collision2D other)
+        {
+            if (!IsSet) return;
+            if (SpyStateType != SpyStateType.Free) return;
+            if (other.collider.transform.IsChildOf(transform)) return;
+            StartWandering();
+        }
+
+        #endregion
+
+        #region Public Methods
+
         public void Init(Spy spy)
         {
             this.spy = spy;
@@ -86,6 +121,18 @@ namespace Control.Movement
             StartCoroutine(CheckIdle());
             isSet = true;
         }
+
+        public void StartWandering()
+        {
+            if (wanderCoroutine != null) StopCoroutine(wanderCoroutine);
+            if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+            wanderCoroutine = StartCoroutine(Wander());
+            SetCurrentState(MoveStateType.Move);
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private IEnumerator Wander()
         {
@@ -199,15 +246,7 @@ namespace Control.Movement
             if (moveCoroutine != null) StopCoroutine(moveCoroutine);
             SetCurrentState(MoveStateType.Idle);
         }
-        
-        public void StartWandering()
-        {
-            if (wanderCoroutine != null) StopCoroutine(wanderCoroutine);
-            if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-            wanderCoroutine = StartCoroutine(Wander());
-            SetCurrentState(MoveStateType.Move);
-        }
-        
+
         private IEnumerator FadeOut()
         {
             for (float i = 1; i >= 0; i -= Time.deltaTime * 1.5f)
@@ -217,24 +256,6 @@ namespace Control.Movement
             }
             Destroy(gameObject);
         }
-
-        
-        protected void OnCollisionEnter2D(Collision2D other)
-        {
-            if (!IsSet) return;
-            if (SpyStateType != SpyStateType.Free) return;
-            if (other.collider.transform.IsChildOf(transform)) return;
-            StopWandering();
-        }
-
-        protected void OnCollisionExit2D(Collision2D other)
-        {
-            if (!IsSet) return;
-            if (SpyStateType != SpyStateType.Free) return;
-            if (other.collider.transform.IsChildOf(transform)) return;
-            StartWandering();
-        }
-        
 
         private void InactivateSpy(object _, CaptureSpyEventArgs e)
         {
@@ -254,5 +275,7 @@ namespace Control.Movement
             if (e.spy.index != spy.index) return;
             SpyStateType = SpyStateType.Examined;
         }
+
+        #endregion
     }
 }

@@ -11,12 +11,23 @@ namespace UI.Stage
 {
     public class StagePauseController: BasePopupBehavior
     {
+        #region Private Variables
+
         [SerializeField] private Button cancelButton;
         [SerializeField] private Button soundButton;
         [SerializeField] private Button effectButton;
         [SerializeField] private Button retryButton;
         [SerializeField] private Button exitButton;
+
+        #endregion
+
+        #region Event
+
         public static event EventHandler<ExitStageEventArgs> ExitStageEvent;
+
+        #endregion
+
+        #region Event Method
 
         protected override void Start()
         {
@@ -37,6 +48,10 @@ namespace UI.Stage
             base.OnDisable();
             StageHudController.OpenStagePauseEvent -= OpenPausePopup;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void MuteSound()
         {
@@ -60,7 +75,10 @@ namespace UI.Stage
 
         private void ExitGame()
         {
-            EmitExitStageEvent(new ExitStageEventArgs(StageExitType.GiveUp));
+            EmitExitStageEvent(new ExitStageEventArgs
+            {
+                exitType = StageExitType.GiveUp
+            });
         }
 
         private void OpenPausePopup(object _, OpenStagePauseEventArgs e)
@@ -76,5 +94,7 @@ namespace UI.Stage
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

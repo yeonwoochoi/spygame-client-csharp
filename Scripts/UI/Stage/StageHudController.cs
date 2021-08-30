@@ -11,6 +11,8 @@ namespace UI.Stage
 {
     public class StageHudController: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Text normalSpyCountText;
         [SerializeField] private Text bossSpyCountText;
         [SerializeField] private Text hpText;
@@ -21,7 +23,15 @@ namespace UI.Stage
         private int captureNormalSpyCount;
         private int captureBossSpyCount;
 
+        #endregion
+
+        #region Event
+
         public static event EventHandler<OpenStagePauseEventArgs> OpenStagePauseEvent;
+
+        #endregion
+
+        #region Event Methods
 
         private void Start()
         {
@@ -33,6 +43,10 @@ namespace UI.Stage
         {
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void UpdateStageState(object _, UpdateStageStateEventArgs e)
         {
@@ -54,5 +68,7 @@ namespace UI.Stage
                 invocation.DynamicInvoke(this, new OpenStagePauseEventArgs());
             }
         }
+
+        #endregion
     }
 }

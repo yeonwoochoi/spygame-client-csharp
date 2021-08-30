@@ -8,8 +8,11 @@ namespace ChapterScripts
 {
     public class ChapterButtonController: MonoBehaviour
     {
+        #region Private Variable
         [SerializeField] private Button[] stageButtons;
+        #endregion
         
+        #region Public Methods
         public void SetButtonScore(Func<StageType, int> getScore)
         {
             for (var i = 0; i < stageButtons.Length; i++)
@@ -28,5 +31,6 @@ namespace ChapterScripts
                 });
             }
         }   
+        #endregion
     }
 }

@@ -7,6 +7,8 @@ namespace UI
 {
     public class StarHandler: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Image left;
         [SerializeField] private Image middle;
         [SerializeField] private Image right;
@@ -19,10 +21,18 @@ namespace UI
         [SerializeField] private Sprite middleStarEmptyImage;
         [SerializeField] private Sprite rightStarEmptyImage;
 
+        #endregion
+
+        #region Event Method
+
         private void Start()
         {
             ResetStar();
         }
+
+        #endregion
+
+        #region Public Method
 
         public void ShowStars(int score)
         {
@@ -47,11 +57,17 @@ namespace UI
             }
         }
 
+        #endregion
+
+        #region Private Method
+
         private void ResetStar()
         {
             left.sprite = leftStarEmptyImage;
             middle.sprite = middleStarEmptyImage;
             right.sprite = rightStarEmptyImage;
         }
+
+        #endregion
     }
 }

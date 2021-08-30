@@ -8,7 +8,13 @@ namespace UI.Stage
 {
     public class PortalMoveBgController: MonoBehaviour
     {
+        #region Private Variable
+
         [SerializeField] private CanvasGroup cGroup;
+
+        #endregion
+
+        #region Event Methods
 
         private void Start()
         {
@@ -19,6 +25,10 @@ namespace UI.Stage
         {
             PortalController.PortalMoveEvent -= PortalMovePlayer;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void PortalMovePlayer(object _, PortalMoveEventArgs e)
         {
@@ -45,5 +55,7 @@ namespace UI.Stage
             
             cGroup.Visible(false);
         }
+
+        #endregion
     }
 }

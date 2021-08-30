@@ -17,28 +17,42 @@ namespace Manager
     public class AdmobManager: MonoBehaviour
     {
         // TODO("Const, Static 이름 규칙 찾아보기")
-        private const string frontID = "ca-app-pub-3940256099942544/8691691433";
-        private InterstitialAd frontAd;
 
+        #region Private Variables
+
+        private InterstitialAd frontAd;
         private bool isSoundMute;
         private bool isEffectMute;
-
         private bool isLoaded = false;
-        
+
+        #endregion
+
+        #region Const Variable
+
+        private const string frontID = "ca-app-pub-3940256099942544/8691691433";
+
+        #endregion
+
+        #region Event Methods
+
         private void Start()
         {
             LoadFrontAd();
             SetTestAd();
             StageStateController.StageDoneEvent += ShowFrontAd;
-            TimerController.TimeOverEvent += ShowFrontAd;
+            StageTimerController.TimeOverEvent += ShowFrontAd;
         }
 
         private void OnDisable()
         {
             frontAd.Destroy();
             StageStateController.StageDoneEvent -= ShowFrontAd;
-            TimerController.TimeOverEvent -= ShowFrontAd;
+            StageTimerController.TimeOverEvent -= ShowFrontAd;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void ShowFrontAd(object _, ExitStageEventArgs e)
         {
@@ -55,8 +69,8 @@ namespace Manager
             
             var requestConfiguration = new RequestConfiguration
                     .Builder()
-                    .SetTestDeviceIds(deviceIds)
-                    .build();
+                .SetTestDeviceIds(deviceIds)
+                .build();
             
             MobileAds.SetRequestConfiguration(requestConfiguration);
         }
@@ -111,5 +125,7 @@ namespace Manager
             AudioManager.instance.IsSoundMute = isSoundMute;
             AudioManager.instance.IsEffectMute = isEffectMute;
         }
+
+        #endregion
     }
 }

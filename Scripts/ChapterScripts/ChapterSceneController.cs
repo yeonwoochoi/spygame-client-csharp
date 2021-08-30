@@ -11,6 +11,8 @@ namespace ChapterScripts
 {
     public class ChapterSceneController: BaseSceneController
     {
+        #region Private Variables
+        
         [SerializeField] private CanvasGroup loadingCanvasGroup;
         [SerializeField] private StagePlayReadyPopupController stagePlayReadyPopupController;
         [SerializeField] private Button backButton;
@@ -19,6 +21,10 @@ namespace ChapterScripts
 
         private Chapter currentChapter;
         private ChapterButtonController chapterButtonController;
+        
+        #endregion
+
+        #region Event Method
 
         protected override void Start()
         {
@@ -26,6 +32,10 @@ namespace ChapterScripts
             backButton.onClick.AddListener(OnClickBackBtn);
             SetChapterMap();
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void SetChapterMap()
         {
@@ -94,5 +104,7 @@ namespace ChapterScripts
             }
             return result;
         }
+
+        #endregion
     }
 }

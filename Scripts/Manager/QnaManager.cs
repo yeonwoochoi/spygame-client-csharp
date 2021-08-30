@@ -10,15 +10,30 @@ namespace Manager
 {
     public class QnaManager: MonoBehaviour
     {
-        private static QnaManager instance = null;
-        public static QnaManager Instance => instance;
-        
-        private const string baseURL =
-            "https://script.google.com/macros/s/AKfycbxfW0c3rzK1PEu5cHGIkUuIk0R1YjTsRIjmLuip1jO5-0MP77WJFNmMmuIQ1MR2h9qNlA/exec";
+        #region Public Variables
 
         public Response response;
         [HideInInspector] public bool isLoaded = false;
-        
+
+        #endregion
+
+        #region Const Variable
+
+        private const string baseURL =
+            "https://script.google.com/macros/s/AKfycbxfW0c3rzK1PEu5cHGIkUuIk0R1YjTsRIjmLuip1jO5-0MP77WJFNmMmuIQ1MR2h9qNlA/exec";
+
+        #endregion
+
+        #region Static Variables
+
+        private static QnaManager instance = null;
+
+        public static QnaManager Instance => instance;
+
+        #endregion
+
+        #region Event Method
+
         private void Awake()
         {
             if (instance == null)
@@ -33,7 +48,10 @@ namespace Manager
             DontDestroyOnLoad(gameObject);
         }
 
-        
+        #endregion
+
+        #region Public Method
+
         public void GetQnaData(ChapterType chapterType, StageType stageType)
         {
             WWWForm form = new WWWForm();
@@ -41,6 +59,10 @@ namespace Manager
             
             StartCoroutine(Post(form, baseURL));
         }
+
+        #endregion
+
+        #region Private Methods
 
         private IEnumerator Post(WWWForm form, string url)
         {
@@ -64,5 +86,7 @@ namespace Manager
             response = JsonConvert.DeserializeObject<Response>(json);
             isLoaded = true;
         }
+
+        #endregion
     }
 }

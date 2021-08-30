@@ -28,6 +28,14 @@ namespace StageScripts
     
     public class StageSceneController: BaseSceneController
     {
+        #region Public Variable
+
+        public Qna[] qna;
+
+        #endregion
+        
+        #region Private Variables
+
         [SerializeField] private Tilemap tilemap;
         [SerializeField] private Transform initPlayerTransform;
         [SerializeField] private LineRenderer line;
@@ -47,12 +55,17 @@ namespace StageScripts
         private List<Vector3> bossSpyPositions;
         private List<Vector3> itemPositions;
         private Vector3 nodeSize;
-
-        public Qna[] qna;
-
         private EControlType eControlType;
-        
+
+        #endregion
+
+        #region Event
+
         public static event EventHandler<OpenStageMissionPopupEventArgs> OpenStageMissionPopupEvent;
+
+        #endregion
+
+        #region Event Methods
 
         protected override void Start()
         {
@@ -66,6 +79,10 @@ namespace StageScripts
             StagePauseController.ExitStageEvent -= ExitStageSceneScene;
             StageDonePopupController.ExitStageSceneEvent -= ExitStageSceneScene;
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void SetStageObjParent(Transform playerParent, Transform spyParent, Transform boxParent)
         {
@@ -101,6 +118,7 @@ namespace StageScripts
             }
 
             // Set Camera offset
+            // TODO (Camera main => SerializeField로 받기) 
             UnityEngine.Camera.main.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
             // Init stage game object positions
@@ -112,7 +130,10 @@ namespace StageScripts
             SetSpy(stage.goalNormalSpyCount, stage.goalBossSpyCount);
             SetItem();
         }
-        
+
+        #endregion
+
+        #region Private Methods
 
         private void SetSpy(int goalNormalSpyCount, int goalBossSpyCount)
         {
@@ -248,7 +269,10 @@ namespace StageScripts
         private IEnumerator ShowMissionPopup()
         {
             yield return new WaitForSeconds(0.01f);
-            EmitOpenStageMissionPopupEvent(new OpenStageMissionPopupEventArgs(currentStage));
+            EmitOpenStageMissionPopupEvent(new OpenStageMissionPopupEventArgs
+            {
+                stage = currentStage
+            });
         }
         
         private void EmitOpenStageMissionPopupEvent(OpenStageMissionPopupEventArgs e)
@@ -292,5 +316,7 @@ namespace StageScripts
                 return result[Random.Range(0, result.Count)];
             }
         }
+
+        #endregion
     }
 }

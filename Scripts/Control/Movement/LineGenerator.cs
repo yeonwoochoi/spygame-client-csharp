@@ -12,15 +12,20 @@ namespace Control.Movement
 {
     public class LineGenerator: MonoBehaviour
     {
+        #region Private Variables
+
         private EControlType eControlType;
-        
         private Tilemap tilemap;
         private LineRenderer line;
         private PlayerMoveController playerMoveController;
         public List<Vector3> points;
         private bool isSet = false;
         private GameObject player;
-        
+
+        #endregion
+
+        #region Event Methods
+
         private void Start()
         {
             points = new List<Vector3>();
@@ -36,6 +41,10 @@ namespace Control.Movement
             ResetLine();
         }
 
+        #endregion
+
+        #region Public Method
+
         public void Init(Tilemap tilemap, LineRenderer line, GameObject player, EControlType eControlType)
         {
             this.tilemap = tilemap;
@@ -45,7 +54,11 @@ namespace Control.Movement
             playerMoveController = player.GetComponent<PlayerMoveController>();
             isSet = true;
         }
-        
+
+        #endregion
+
+        #region Private Method
+
         private void DrawLine()
         {
             if (!Input.GetMouseButton(0)) return;
@@ -121,5 +134,7 @@ namespace Control.Movement
             
             playerMoveController.MovePlayer(path);
         }
+
+        #endregion
     }
 }

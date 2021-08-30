@@ -14,9 +14,15 @@ namespace Control.Collision
 {
     public class PlayerDetectorBehavior: BaseDetectorBehavior
     {
+        #region Private Variables
+
         private List<GameObject> spies;
         private List<GameObject> boxes;
         private bool isClicked = false;
+
+        #endregion
+
+        #region Event Methods
 
         private void Start()
         {
@@ -37,17 +43,7 @@ namespace Control.Collision
             SpyQnaPopupBehavior.CaptureSpyEvent -= RemoveCapturedSpy;
             ItemQnaPopupBehavior.ItemGetEvent -= RemoveOpenedItemBox;
         }
-
-        protected override void InitDetector()
-        {
-            base.InitDetector();
-            spies ??= new List<GameObject>();
-            boxes ??= new List<GameObject>();
-            var playerMoveController = GetParentController<PlayerMoveController>();
-            playerMoveController.onClickActionBtn = OnClickActionBtn;
-            isSet = true;
-        }
-
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!IsValidTrigger()) return;
@@ -89,6 +85,24 @@ namespace Control.Collision
                 }
             }
         }
+
+        #endregion
+
+        #region Protected Method
+
+        protected override void InitDetector()
+        {
+            base.InitDetector();
+            spies ??= new List<GameObject>();
+            boxes ??= new List<GameObject>();
+            var playerMoveController = GetParentController<PlayerMoveController>();
+            playerMoveController.onClickActionBtn = OnClickActionBtn;
+            isSet = true;
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private void OnClickActionBtn()
         {
@@ -146,13 +160,13 @@ namespace Control.Collision
             isClicked = true;
             if (target.TryGetComponent(out ItemBoxController itemBoxController))
             {
-                itemBoxController.boxSpeechBalloonController.EmitOpenItemQnaEvent(new OpenItemQnaEventArgs(itemBoxController.Item));
+                itemBoxController.boxSpeechBalloonController.EmitOpenItemQnaEvent(new OpenItemQnaEventArgs { item = itemBoxController.Item });
                 return;
             }
 
             if (target.TryGetComponent(out SpyMoveController spyMoveController))
             {
-                spyMoveController.speechBalloonController.EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs(spyMoveController.Spy));
+                spyMoveController.speechBalloonController.EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs{ spy = spyMoveController.Spy });
             }
         }
 
@@ -161,5 +175,7 @@ namespace Control.Collision
             if (!isSet) return false;
             return eControlType == EControlType.KeyBoard;
         }
+
+        #endregion
     }
 }

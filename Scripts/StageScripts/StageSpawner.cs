@@ -8,6 +8,8 @@ namespace StageScripts
 {
     public class StageSpawner: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Transform stageParent;
         [SerializeField] private Transform spyParent;
         [SerializeField] private Transform boxParent;
@@ -16,13 +18,21 @@ namespace StageScripts
         private StageStateController stageStateController;
         
         private EControlType eControlType;
-        
+
+        #endregion
+
+        #region Event Method
+
         private void Start()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
             stageStateController = GetComponent<StageStateController>();
             SetStage();
         }
+
+        #endregion
+
+        #region Private Method
 
         private void SetStage()
         {
@@ -36,5 +46,7 @@ namespace StageScripts
             stageSceneController.SetStageObjParent(stageParent, spyParent, boxParent);
             stageSceneController.SetCurrentStage(currentStage, joystickMoveController, eControlType);
         }
+
+        #endregion
     }
 }

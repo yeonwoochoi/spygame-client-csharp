@@ -12,20 +12,16 @@ namespace Control.Collision
 {
     public class BoxDetectorBehavior: BaseDetectorBehavior
     {
+        #region Private Variables
+
         private ItemBoxController itemBoxController;
         private GameObject speechBalloon;
         private BoxSpeechBalloonController speechBalloonController;
         private AudioManager audioManager;
 
-        protected override void InitDetector()
-        {
-            base.InitDetector();
-            audioManager = AudioManager.instance;
-            itemBoxController = GetParentController<ItemBoxController>();
-            speechBalloon = itemBoxController.speechBalloon;
-            speechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
-            isSet = true;
-        }
+        #endregion
+        
+        #region Event Methods
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -49,10 +45,30 @@ namespace Control.Collision
             speechBalloonController.clicked = false;
         }
 
+        #endregion
+
+        #region Protected Method
+
+        protected override void InitDetector()
+        {
+            base.InitDetector();
+            audioManager = AudioManager.instance;
+            itemBoxController = GetParentController<ItemBoxController>();
+            speechBalloon = itemBoxController.speechBalloon;
+            speechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
+            isSet = true;
+        }
+
+        #endregion
+
+        #region Private Method
+
         private bool IsValidTrigger(string tag)
         {
             if (!isSet || itemBoxController == null || !itemBoxController.IsSet || itemBoxController.IsOpen) return false;
             return tag == "Player";
         }
+
+        #endregion
     }
 }

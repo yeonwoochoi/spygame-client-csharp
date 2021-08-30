@@ -12,9 +12,19 @@ namespace Control.SpeechBalloon
 {
     public class SpySpeechBalloonController: BaseSpeechBalloonController
     {
-        public static event EventHandler<OpenSpyQnaEventArgs> OpenSpyQnaEvent;
-        
+        #region Public Variable
+
         public Spy spy;
+
+        #endregion
+
+        #region Event
+
+        public static event EventHandler<OpenSpyQnaEventArgs> OpenSpyQnaEvent;
+
+        #endregion
+
+        #region Event Methods
 
         protected override void Start()
         {
@@ -29,6 +39,10 @@ namespace Control.SpeechBalloon
             SpyTalkingUIBehavior.SkipSpyQnaEvent -= SkipSpyQna;
         }
 
+        #endregion
+
+        #region Public Method
+
         public void EmitOpenSpyQnaEvent(OpenSpyQnaEventArgs e)
         {
             if (OpenSpyQnaEvent == null) return;
@@ -38,12 +52,10 @@ namespace Control.SpeechBalloon
             }
         }
 
-        private void SkipSpyQna(object _, SkipSpyQnaEventArgs e)
-        {
-            if (spy != e.spy) return;
-            clicked = false;
-        }
-        
+        #endregion
+
+        #region Protected Method
+
         // TODO()
         protected override void CheckValidHit(GameObject collider)
         {
@@ -53,10 +65,21 @@ namespace Control.SpeechBalloon
                 if (controller.spy == spy)
                 {
                     clicked = true;
-
-                    EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs(spy));
+                    EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs { spy = spy });
                 }
             }
         }
+
+        #endregion
+
+        #region Private Method
+
+        private void SkipSpyQna(object _, SkipSpyQnaEventArgs e)
+        {
+            if (spy != e.spy) return;
+            clicked = false;
+        }
+
+        #endregion
     }
 }

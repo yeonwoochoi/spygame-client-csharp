@@ -3,16 +3,26 @@ using Manager.Data;
 
 namespace Domain
 {
+    #region Enum
+
     public enum EControlType
     {
         Mouse,
         KeyBoard
     }
-    
+
+    #endregion
+
     [Serializable]
     public class EControlManager
     {
+        #region Public Variable
+
         public EControlType eControlType;
+
+        #endregion
+
+        #region Static Method
 
         public static EControlManager Create()
         {
@@ -22,5 +32,7 @@ namespace Domain
             };
             return controlInfo;
         }
+
+        #endregion
     }
 }

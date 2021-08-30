@@ -8,7 +8,13 @@ namespace UI.Main
 {
     public class ChapterSelectPopupController: BasePopupBehavior
     {
+        #region Private Variable
+
         [SerializeField] private Button exitButton;
+
+        #endregion
+
+        #region Event Method
 
         protected override void Start()
         {
@@ -16,9 +22,15 @@ namespace UI.Main
             exitButton.onClick.AddListener(OnClosePopup);
         }
 
+        #endregion
+
+        #region Public Method
+
         public void OnClickChapterSelectButton()
         {
             OnOpenPopup();    
         }
+
+        #endregion
     }
 }

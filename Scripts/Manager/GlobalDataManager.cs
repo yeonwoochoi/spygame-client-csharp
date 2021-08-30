@@ -8,8 +8,14 @@ namespace Manager
 {
     public class GlobalDataManager : MonoBehaviour
     {
+        #region Static Variables
+
         private static GlobalDataManager instance = null;
         public static GlobalDataManager Instance => instance;
+
+        #endregion
+
+        #region Event Method
 
         private void Awake()
         {
@@ -24,6 +30,10 @@ namespace Manager
             
             DontDestroyOnLoad(gameObject);
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void Set(GlobalDataKey key, object value)
         {
@@ -41,5 +51,7 @@ namespace Manager
         {
             return PlayerPrefs.HasKey(key.key);
         }
+
+        #endregion
     }
 }

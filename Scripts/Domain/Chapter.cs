@@ -8,10 +8,20 @@ namespace Domain
     [ CreateAssetMenu( fileName = "Chapter", menuName = "Scriptable Object Asset/Chapter" )]
     public class Chapter: ScriptableObject
     {
+        #region Public Variables
+
         public Stage[] stages;
         public GameObject mapPrefab;
         public ChapterType chapterType;
+        [HideInInspector] public bool isLocked;
+
+        #endregion
+
+        #region Private Variables
+
         private bool isClear;
+
+        #endregion
 
         public bool IsClear
         {
@@ -25,14 +35,18 @@ namespace Domain
                 return isClear;
             }
         }
-
-        [HideInInspector] public bool isLocked;
     }
 
     [Serializable]
     public class ChapterInfo
     {
+        #region Public Variable
+
         public StageInfo[] stageInfos;
+
+        #endregion
+
+        #region Static Method
 
         public static ChapterInfo Create()
         {
@@ -50,12 +64,20 @@ namespace Domain
                 stageInfos = stageInfos
             };
         }
+
+        #endregion
     }
 
     [Serializable]
     public class ChapterManager
     {
+        #region Public Variable
+
         public ChapterInfo[] chapterInfos;
+
+        #endregion
+
+        #region Static Method
 
         public static ChapterManager Create()
         {
@@ -70,5 +92,7 @@ namespace Domain
                 chapterInfos = chapterInfos
             };
         }
+
+        #endregion
     }
 }

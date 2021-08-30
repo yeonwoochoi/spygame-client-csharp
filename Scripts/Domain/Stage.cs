@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Domain
 {
+    #region Enums
+
     public enum StageType
     {
         Stage1, Stage2, Stage3, Stage4, Stage5, Stage6
@@ -19,12 +21,15 @@ namespace Domain
         Chapter5 = 5, 
         Chapter6 = 6
     }
-    
+
+    #endregion
     
     [Serializable]
     [ CreateAssetMenu( fileName = "Stage", menuName = "Scriptable Object Asset/Stage" )]
     public class Stage: ScriptableObject
     {
+        #region Public Variables
+
         public GameObject stagePrefab;
         public Sprite stageCaptureSprite;
         public StageMissionType stageMissionType;
@@ -38,6 +43,10 @@ namespace Domain
         public int goalBossSpyCount;
         public int score;
 
+        #endregion
+
+        #region Public Methods
+
         public string GetMissionText()
         {
             var result = $"일반 스파이 {goalNormalSpyCount}명과 보스 스파이 {goalBossSpyCount}명을 포획하시오.";
@@ -49,6 +58,8 @@ namespace Domain
             var result = "일반 병사와 스파이를 구분해내세요.";
             return result;
         }
+
+        #endregion
     }
 
     [Serializable]

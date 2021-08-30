@@ -20,6 +20,8 @@ namespace UI.Qna
     
     public class ItemQnaPopupBehavior: BasePopupBehavior
     {
+        #region Private Variables
+
         [SerializeField] private Text questionText;
         [SerializeField] private Text answerText;
         [SerializeField] private Text correctOrNotText;
@@ -34,15 +36,22 @@ namespace UI.Qna
         private readonly string correctOrNotComment = "Is it Correct?";
         private readonly string popupTitle = "Quiz";
         private readonly int timer = 3;
-        
+
         private Animator bombTimerAnimator;
         private Animator explosionAnimator;
         private CanvasGroup explosionCanvasGroup;
-        
+
+        private bool isSolved;
+
+        #endregion
+
+        #region Events
+
         public static event EventHandler<ItemGetEventArgs> ItemGetEvent;
         public static event EventHandler<SkipItemQnaEventArgs> SkipItemQnaEvent;
 
-        private bool isSolved;
+        #endregion
+
         private bool IsSolved
         {
             get => isSolved;
@@ -53,7 +62,8 @@ namespace UI.Qna
             }
         }
 
-        
+        #region Event Methods
+
         protected override void Start()
         {
             base.Start();
@@ -75,6 +85,31 @@ namespace UI.Qna
             ItemTalkingUIBehavior.OpenItemQnaPopupEvent -= OpenItemQnaPopup;
         }
 
+        #endregion
+
+        #region Protected Methods
+
+        protected override void ResetAll()
+        {
+            base.ResetAll();
+            timerText.text = "";
+            questionText.text = "";
+            answerText.text = "";
+            correctOrNotText.text = "";
+            yesButton.SetActive(false);
+            noButton.SetActive(false);
+        }
+        
+        protected override void ReactivateSpeechBalloon()
+        {
+            base.ReactivateSpeechBalloon();
+            EmitReactivateItemSpeechBalloonEvent(new SkipItemQnaEventArgs { item = item });
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private void OpenItemQnaPopup(object _, OpenItemQnaEventArgs e)
         {
             item = e.item;
@@ -83,7 +118,7 @@ namespace UI.Qna
             OnOpenPopup();
             StartCoroutine(TypingReportContent());
         }
-        
+
         private IEnumerator TypingReportContent()
         {
             yield return new WaitForSeconds(0.5f);
@@ -96,7 +131,7 @@ namespace UI.Qna
             
             yield return StartTimer();
         }
-        
+
         private void OnClickYesBtn()
         {
             OnClosePopup();
@@ -105,7 +140,7 @@ namespace UI.Qna
                 ? new ItemGetEventArgs(item, ItemGetType.Get)
                 : new ItemGetEventArgs(item, ItemGetType.Miss));
         }
-        
+
         private void OnClickNoBtn()
         {
             OnClosePopup();
@@ -114,7 +149,7 @@ namespace UI.Qna
                 ? new ItemGetEventArgs(item, ItemGetType.Miss)
                 : new ItemGetEventArgs(item, ItemGetType.Get));
         }
-        
+
         private IEnumerator StartTimer()
         {
             var remainingTime = timer;
@@ -153,24 +188,7 @@ namespace UI.Qna
                 invocation.DynamicInvoke(this, e);
             }
         }
-        
-        protected override void ResetAll()
-        {
-            base.ResetAll();
-            timerText.text = "";
-            questionText.text = "";
-            answerText.text = "";
-            correctOrNotText.text = "";
-            yesButton.SetActive(false);
-            noButton.SetActive(false);
-        }
-        
-        protected override void ReactivateSpeechBalloon()
-        {
-            base.ReactivateSpeechBalloon();
-            EmitReactivateItemSpeechBalloonEvent(new SkipItemQnaEventArgs(item));
-        }
-        
+
         private void EmitReactivateItemSpeechBalloonEvent(SkipItemQnaEventArgs e)
         {
             if (SkipItemQnaEvent == null) return;
@@ -179,5 +197,7 @@ namespace UI.Qna
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

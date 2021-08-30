@@ -6,11 +6,15 @@ namespace UI
 {
     public class ImageChangeButtonController: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Image image;
         [SerializeField] private Sprite defaultSprite;
         [SerializeField] private Sprite changedSprite;
 
         private bool isDefault;
+
+        #endregion
 
         private bool IsDefault
         {
@@ -22,6 +26,8 @@ namespace UI
             }
         }
 
+        #region Public Method
+
         public void Init(bool isDefaultImg, bool isAuto = true)
         {
             IsDefault = isDefaultImg;
@@ -31,9 +37,15 @@ namespace UI
             }
         }
 
+        #endregion
+
+        #region Private Method
+
         private void ChangeImage()
         {
             IsDefault = !IsDefault;
         }
+
+        #endregion
     }
 }

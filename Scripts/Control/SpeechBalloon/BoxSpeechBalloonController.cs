@@ -12,9 +12,18 @@ namespace Control.SpeechBalloon
 {
     public class BoxSpeechBalloonController : BaseSpeechBalloonController
     {
-        public static event EventHandler<OpenItemQnaEventArgs> OpenItemQnaEvent;
+        #region Public Variable
 
         public Domain.StageObj.Item item;
+
+        #endregion
+
+        #region Event
+        public static event EventHandler<OpenItemQnaEventArgs> OpenItemQnaEvent;
+
+        #endregion
+
+        #region Event Methods
 
         protected override void Start()
         {
@@ -29,8 +38,11 @@ namespace Control.SpeechBalloon
             ItemQnaPopupBehavior.SkipItemQnaEvent -= SkipQna;
             ItemTalkingUIBehavior.SkipItemQnaEvent -= SkipQna;
         }
-        
-        
+
+        #endregion
+
+        #region Public Method
+
         public void EmitOpenItemQnaEvent(OpenItemQnaEventArgs e)
         {
             if (OpenItemQnaEvent == null) return;
@@ -39,13 +51,11 @@ namespace Control.SpeechBalloon
                 invocation.DynamicInvoke(this, e);
             }
         }
-        
-        private void SkipQna(object _, SkipItemQnaEventArgs e)
-        {
-            if (item != e.item) return;
-            clicked = false;
-        }
-        
+
+        #endregion
+
+        #region Protected Method
+
         protected override void CheckValidHit(GameObject collider)
         {
             base.CheckValidHit(collider);
@@ -54,9 +64,21 @@ namespace Control.SpeechBalloon
                 if (controller.item == item)
                 {
                     clicked = true;
-                    EmitOpenItemQnaEvent(new OpenItemQnaEventArgs(item));
+                    EmitOpenItemQnaEvent(new OpenItemQnaEventArgs { item = item });
                 }
             }
         }
+
+        #endregion
+
+        #region Private Method
+
+        private void SkipQna(object _, SkipItemQnaEventArgs e)
+        {
+            if (item != e.item) return;
+            clicked = false;
+        }
+
+        #endregion
     }
 }

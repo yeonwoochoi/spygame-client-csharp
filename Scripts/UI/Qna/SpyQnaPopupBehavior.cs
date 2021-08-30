@@ -20,8 +20,7 @@ namespace UI.Qna
     
     public class SpyQnaPopupBehavior: BasePopupBehavior
     {
-        public static string ANIMATION_VARIABLE_BOMB = "BombTrigger";
-        public static string ANIMATION_VARIABLE_EXPLOSION = "ExplosionTrigger";
+        #region Private Variables
 
         [SerializeField] private Text playerQuestionText;
         [SerializeField] private Text spyAnswerText;
@@ -32,20 +31,38 @@ namespace UI.Qna
         [SerializeField] private GameObject explosion;
         [SerializeField] private Text timerText;
         
-        public static event EventHandler<CaptureSpyEventArgs> CaptureSpyEvent;
-        public static event EventHandler<SkipSpyQnaEventArgs> SkipSpyQnaEvent;
-
         private Spy spy;
+        private Animator bombTimerAnimator;
+        private Animator explosionAnimator;
+        private CanvasGroup explosionCanvasGroup;
+        private bool isSolved;
+
+        #endregion
+
+        #region Static Variables
+
+        public static string ANIMATION_VARIABLE_BOMB = "BombTrigger";
+        public static string ANIMATION_VARIABLE_EXPLOSION = "ExplosionTrigger";
+
+        #endregion
         
+        #region Readonly Variables
+
         private readonly string popupTitle = "심문 보고서";
         private readonly string spyOrNotQuestionComment = "이 병사를 포획하시겠습니까?";
         private readonly int timer = 3;
-        
-        private Animator bombTimerAnimator;
-        private Animator explosionAnimator;
-        private CanvasGroup explsionCanvasGroup;
 
-        private bool isSolved;
+        #endregion
+
+
+        #region Events
+
+        public static event EventHandler<CaptureSpyEventArgs> CaptureSpyEvent;
+        public static event EventHandler<SkipSpyQnaEventArgs> SkipSpyQnaEvent;
+
+        #endregion
+
+
         private bool IsSolved
         {
             get => isSolved;
@@ -56,6 +73,8 @@ namespace UI.Qna
             }
         }
 
+        #region Event Methods
+
         protected override void Start()
         {
             base.Start();
@@ -63,8 +82,8 @@ namespace UI.Qna
 
             bombTimerAnimator = bombTimer.GetComponent<Animator>();
             explosionAnimator = explosion.GetComponent<Animator>();
-            explsionCanvasGroup = explosion.GetComponent<CanvasGroup>();
-            explsionCanvasGroup.Visible(false);
+            explosionCanvasGroup = explosion.GetComponent<CanvasGroup>();
+            explosionCanvasGroup.Visible(false);
 
             captureBtn.GetComponent<Button>().onClick.AddListener(OnClickCaptureBtn);
             releaseBtn.GetComponent<Button>().onClick.AddListener(OnClickReleaseBtn);
@@ -79,6 +98,31 @@ namespace UI.Qna
             base.OnDisable();
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent -= OpenSpyQnaPopup;
         }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected override void ResetAll()
+        {
+            base.ResetAll();
+            timerText.text = "";
+            playerQuestionText.text = "";
+            spyAnswerText.text = "";
+            spyOrNotText.text = "";
+            captureBtn.SetActive(false);
+            releaseBtn.SetActive(false);
+        }
+
+        protected override void ReactivateSpeechBalloon()
+        {
+            base.ReactivateSpeechBalloon();
+            EmitReactivateSpySpeechBalloonEvent(new SkipSpyQnaEventArgs { spy = spy });
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private void OpenSpyQnaPopup(object _, OpenSpyQnaEventArgs e)
         {
@@ -101,13 +145,14 @@ namespace UI.Qna
             
             yield return StartTimer();
         }
-        
+
         private void OnClickCaptureBtn()
         {
             OnClosePopup();
             IsSolved = true;
             EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Capture));
         }
+
         private void OnClickReleaseBtn()
         {
             OnClosePopup();
@@ -143,34 +188,17 @@ namespace UI.Qna
                 yield return new WaitForSeconds(1f);
                 remainingTime--;
             }
-            explsionCanvasGroup.Visible();
+            explosionCanvasGroup.Visible();
             AudioManager.instance.Stop(SoundType.Timer);
             explosionAnimator.SetBool(ANIMATION_VARIABLE_EXPLOSION, true);
             AudioManager.instance.Play(SoundType.Explosion);
             yield return new WaitForSeconds(0.8f);
-            explsionCanvasGroup.Visible(false);
+            explosionCanvasGroup.Visible(false);
             OnClosePopup();
             bombTimerAnimator.SetBool(ANIMATION_VARIABLE_BOMB, false);
             explosionAnimator.SetBool(ANIMATION_VARIABLE_EXPLOSION, false);
         }
-        
-        protected override void ResetAll()
-        {
-            base.ResetAll();
-            timerText.text = "";
-            playerQuestionText.text = "";
-            spyAnswerText.text = "";
-            spyOrNotText.text = "";
-            captureBtn.SetActive(false);
-            releaseBtn.SetActive(false);
-        }
 
-        protected override void ReactivateSpeechBalloon()
-        {
-            base.ReactivateSpeechBalloon();
-            EmitReactivateSpySpeechBalloonEvent(new SkipSpyQnaEventArgs(spy));
-        }
-        
         private void EmitReactivateSpySpeechBalloonEvent(SkipSpyQnaEventArgs e)
         {
             if (SkipSpyQnaEvent == null) return;
@@ -179,5 +207,7 @@ namespace UI.Qna
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

@@ -8,6 +8,8 @@ using UnityEngine.Tilemaps;
 
 namespace Control.Base
 {
+    #region Enums
+
     public enum MoveObjectType
     {
         Player, Spy
@@ -17,14 +19,17 @@ namespace Control.Base
     {
         Idle, Move
     }
-    
+
+    #endregion
+
     public abstract class BaseMoveController: MonoBehaviour
     {
-        #region public variables
+        #region Public Variable
         [HideInInspector] public MoveObjectType objectType;
         #endregion
 
-        #region protected variables
+        #region Protected Variables
+        
         protected float speed;
         protected EControlType eControlType;
         protected Rigidbody2D rb2D;
@@ -32,20 +37,21 @@ namespace Control.Base
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
         protected bool isSet = false;
+        
         #endregion
 
-        #region private variables
+        #region Private Variables
         private Tilemap tilemap;
         private MoveStateType currentState;
         #endregion
 
-        #region static variables
+        #region Static Variables
         protected static string ANIMATION_VARIABLE_PLAYER_HORIZONTAL = "Horizontal";
         protected static string ANIMATION_VARIABLE_PLAYER_VERTICAL = "Vertical";
         private static string ANIMATION_VARIABLE_PLAYER_SPEED = "Speed";
         #endregion
         
-        #region event methods
+        #region Event Methods
         private void Awake()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
@@ -55,7 +61,7 @@ namespace Control.Base
         protected virtual void Start() { }
         #endregion
 
-        #region public methods
+        #region Public Methods
         public MoveStateType GetCurrentState()
         {
             return currentState;
@@ -75,7 +81,7 @@ namespace Control.Base
         }
         #endregion
 
-        #region protected methods
+        #region Protected Methods
         protected void SetCurrentState(MoveStateType moveStateType)
         {
             currentState = moveStateType;

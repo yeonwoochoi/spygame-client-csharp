@@ -8,11 +8,15 @@ namespace UI.Main
 {
     public class ChapterSelectPopupButtonController: MonoBehaviour
     {
+        #region Private Variables
+
         [SerializeField] private Text titleText;
         [SerializeField] private CanvasGroup lockCanvasGroup;
         
         private bool isLocked;
-        
+
+        #endregion
+
         public bool IsLocked
         {
             get => isLocked;
@@ -22,41 +26,15 @@ namespace UI.Main
                 lockCanvasGroup.Visible(isLocked);
             }
         }
-        
+
+        #region Public Method
+
         public void SetChapterSelectButtons(Domain.Chapter chapter)
         {
             IsLocked = chapter.isLocked;
-            SetTitleText(chapter.chapterType);
+            titleText.text = $"Chapter {(int) chapter.chapterType}";
         }
 
-        private void SetTitleText(ChapterType type)
-        {
-            var title = "";
-            switch (type)
-            {
-                case ChapterType.Chapter1:
-                    title = "Chapter 1";
-                    break;
-                case ChapterType.Chapter2:
-                    title = "Chapter 2";
-                    break;
-                case ChapterType.Chapter3:
-                    title = "Chapter 3";
-                    break;
-                case ChapterType.Chapter4:
-                    title = "Chapter 4";
-                    break;
-                case ChapterType.Chapter5:
-                    title = "Chapter 5";
-                    break;
-                case ChapterType.Chapter6:
-                    title = "Chapter 6";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-
-            titleText.text = title;
-        }
+        #endregion
     }
 }

@@ -9,8 +9,14 @@ namespace UI.Base
 {
     public abstract class BaseTalkingUIBehavior: BaseUIBehavior
     {
+        #region Protected Variables
+
         [SerializeField] protected GameObject okButton;
         [SerializeField] protected GameObject cancelButton;
+
+        #endregion
+
+        #region Event Method
 
         protected override void Start()
         {
@@ -20,6 +26,10 @@ namespace UI.Base
             okButton.SetActive(false);
             cancelButton.SetActive(false);
         }
+
+        #endregion
+
+        #region Protected Methods
 
         protected virtual void OnClickOkBtn()
         {
@@ -36,5 +46,7 @@ namespace UI.Base
         
         protected virtual void ResetAll() {}
         protected virtual void ReactivateSpeechBalloon() {}
+
+        #endregion
     }
 }

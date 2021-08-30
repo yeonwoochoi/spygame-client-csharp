@@ -14,17 +14,30 @@ namespace UI.Talking
 {
     public class ItemTalkingUIBehavior: BaseTalkingUIBehavior
     {
+        #region Private Variables
+
         [SerializeField] private CanvasGroup npcCanvasGroup;
         [SerializeField] private Text npcCommentText;
 
-        public static event EventHandler<OpenItemQnaEventArgs> OpenItemQnaPopupEvent;
-        public static event EventHandler<SkipItemQnaEventArgs> SkipItemQnaEvent; 
+        private Item item;
 
-        
+        #endregion
+
+        #region Readonly Variable
+
         private readonly string npcComment = "아이템 얻기를 시도하시겠습니까?";
 
-        private Item item;
-        
+        #endregion
+
+        #region Events
+
+        public static event EventHandler<OpenItemQnaEventArgs> OpenItemQnaPopupEvent;
+        public static event EventHandler<SkipItemQnaEventArgs> SkipItemQnaEvent;
+
+        #endregion
+
+        #region Event Methods
+
         protected override void Start()
         {
             base.Start();
@@ -38,37 +51,15 @@ namespace UI.Talking
             BoxSpeechBalloonController.OpenItemQnaEvent -= MeetItem;
         }
 
-        private void MeetItem(object _, OpenItemQnaEventArgs e)
-        {
-            item = e.item;
-            ActivateUI();
-            StartCoroutine(BeforeQuiz());
-        }
-        
-        private IEnumerator BeforeQuiz()
-        {
-            yield return FadeIn(npcCanvasGroup);
-            yield return TypingComment(npcCommentText, npcComment);
-            
-            okButton.SetActive(true);
-            cancelButton.SetActive(true);
-        }
+        #endregion
+
+        #region Protected Methods
 
         protected override void OnClickOkBtn()
         {
-            EmitOpenItemQnaPopupEvent(new OpenItemQnaEventArgs(item));
+            EmitOpenItemQnaPopupEvent(new OpenItemQnaEventArgs { item = item });
             base.OnClickOkBtn();
         }
-        
-        private void EmitOpenItemQnaPopupEvent(OpenItemQnaEventArgs e)
-        {
-            if (OpenItemQnaPopupEvent == null) return;
-            foreach (var invocation in OpenItemQnaPopupEvent.GetInvocationList())
-            {
-                invocation.DynamicInvoke(this, e);
-            }
-        }
-
 
         protected override void ResetAll()
         {
@@ -82,7 +73,36 @@ namespace UI.Talking
         protected override void ReactivateSpeechBalloon()
         {
             base.ReactivateSpeechBalloon();
-            EmitSkipItemQnaEvent(new SkipItemQnaEventArgs(item));
+            EmitSkipItemQnaEvent(new SkipItemQnaEventArgs { item = item });
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void MeetItem(object _, OpenItemQnaEventArgs e)
+        {
+            item = e.item;
+            ActivateUI();
+            StartCoroutine(BeforeQuiz());
+        }
+
+        private IEnumerator BeforeQuiz()
+        {
+            yield return FadeIn(npcCanvasGroup);
+            yield return TypingComment(npcCommentText, npcComment);
+            
+            okButton.SetActive(true);
+            cancelButton.SetActive(true);
+        }
+
+        private void EmitOpenItemQnaPopupEvent(OpenItemQnaEventArgs e)
+        {
+            if (OpenItemQnaPopupEvent == null) return;
+            foreach (var invocation in OpenItemQnaPopupEvent.GetInvocationList())
+            {
+                invocation.DynamicInvoke(this, e);
+            }
         }
 
         private void EmitSkipItemQnaEvent(SkipItemQnaEventArgs e)
@@ -93,5 +113,7 @@ namespace UI.Talking
                 invocation.DynamicInvoke(this, e);
             }
         }
+
+        #endregion
     }
 }

@@ -8,15 +8,45 @@ namespace Control.Movement
 {
     public class JoystickMoveController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+        #region Private Variables
+
         [SerializeField] private RectTransform joystickRect;
         [SerializeField] private RectTransform joystickBgRect;
         [SerializeField] private Button actionButton;
-        
+
         private float joystickBgRadius;
-        
         private PlayerMoveController playerMoveController;
         private EControlType eControlType;
         private bool isSet = false;
+
+        #endregion
+        
+        #region Event Methods
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (!isSet) return;
+            MovePlayerByJoystick(eventData.position);
+        }
+
+        // button 클릭시 실행되는 event 함수
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (!isSet) return;
+            MovePlayerByJoystick(eventData.position);
+        }
+
+        // button click 떼는 순간 실행되는 event 함수
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (!isSet) return;
+            playerMoveController.MovePlayer(false, Vector2.zero);
+            joystickRect.localPosition = Vector2.zero;
+        }
+
+        #endregion
+
+        #region Public Method
 
         public void SetJoystick(PlayerMoveController controller, EControlType e)
         {
@@ -29,7 +59,10 @@ namespace Control.Movement
             
             isSet = true;
         }
-        
+
+        #endregion
+
+        #region Private Method
 
         private void MovePlayerByJoystick(Vector2 touchPos)
         {
@@ -53,25 +86,6 @@ namespace Control.Movement
             }
         }
 
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (!isSet) return;
-            MovePlayerByJoystick(eventData.position);
-        }
-
-        // button 클릭시 실행되는 event 함수
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (!isSet) return;
-            MovePlayerByJoystick(eventData.position);
-        }
-
-        // button click 떼는 순간 실행되는 event 함수
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            if (!isSet) return;
-            playerMoveController.MovePlayer(false, Vector2.zero);
-            joystickRect.localPosition = Vector2.zero;
-        }
+        #endregion
     }
 }
