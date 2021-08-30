@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Control.Base;
+using Base;
 using Control.Collision;
 using Domain;
 using Manager.Data;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Control.Base;
+using Base;
 using Domain;
 using Manager;
 using Manager.Data;

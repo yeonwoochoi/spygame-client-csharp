@@ -1,4 +1,4 @@
-﻿using Control.Base;
+﻿using Base;
 using Control.Movement;
 using Control.SpeechBalloon;
 using Domain;

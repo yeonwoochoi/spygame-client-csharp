@@ -3,7 +3,7 @@ using Manager;
 using Manager.Data;
 using UnityEngine;
 
-namespace Control.Base
+namespace Base
 {
     public abstract class BaseSpeechBalloonController: MonoBehaviour
     {

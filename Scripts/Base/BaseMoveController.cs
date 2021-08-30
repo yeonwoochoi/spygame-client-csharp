@@ -6,7 +6,7 @@ using Manager.Data;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Control.Base
+namespace Base
 {
     #region Enums
 

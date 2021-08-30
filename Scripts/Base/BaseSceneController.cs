@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Manager;
 using UnityEngine;
 
-// TODO(base namespace)
-namespace MainScripts
+namespace Base
 {
     public static class SceneNameManager {
         #region Static Variables

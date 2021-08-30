@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Util;
 
-namespace LoadingScripts
+namespace Base
 {
     public abstract class BaseLoadingController: MonoBehaviour
     {
