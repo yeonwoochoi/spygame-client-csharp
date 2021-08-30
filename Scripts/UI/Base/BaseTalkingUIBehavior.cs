@@ -7,7 +7,7 @@ using Util;
 
 namespace UI.Base
 {
-    public class BaseTalkingUIBehavior: BaseUIBehavior
+    public abstract class BaseTalkingUIBehavior: BaseUIBehavior
     {
         [SerializeField] protected GameObject okButton;
         [SerializeField] protected GameObject cancelButton;

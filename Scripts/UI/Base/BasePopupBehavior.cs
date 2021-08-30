@@ -12,7 +12,7 @@ namespace UI.Base
         BottomToTop, TopToBottom, RightToLeft, LeftToRight
     }
 
-    public class BasePopupBehavior: BaseUIBehavior
+    public abstract class BasePopupBehavior: BaseUIBehavior
     {
         [SerializeField] protected Text titleText;
         [SerializeField] protected PopupMoveType moveType;
