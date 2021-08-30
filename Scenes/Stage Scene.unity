@@ -1026,7 +1026,7 @@ MonoBehaviour:
   cGroup: {fileID: 147839805}
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 1974789609}
-  tweenType: 1
+  moveType: 0
   questionText: {fileID: 145283328}
   answerText: {fileID: 316924016}
   correctOrNotText: {fileID: 1705623852}
@@ -1608,7 +1608,7 @@ MonoBehaviour:
   cGroup: {fileID: 230482179}
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 815230651}
-  tweenType: 1
+  moveType: 0
   playerQuestionText: {fileID: 1457632186}
   spyAnswerText: {fileID: 1041476641}
   spyOrNotText: {fileID: 820854442}
@@ -9902,7 +9902,7 @@ MonoBehaviour:
   cGroup: {fileID: 1291776215}
   bgCanvasGroup: {fileID: 0}
   titleText: {fileID: 1875856704}
-  tweenType: 1
+  moveType: 0
   starHandler: {fileID: 1822048293}
   stageMapImage: {fileID: 1260824535}
   stageExplanationText: {fileID: 552028404}
@@ -11568,12 +11568,12 @@ MonoBehaviour:
   cGroup: {fileID: 1617465514}
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 1360075012}
-  tweenType: 1
+  moveType: 0
   stageText: {fileID: 570373693}
   starHandler: {fileID: 1027138167}
   retryButton: {fileID: 610059662}
   exitButton: {fileID: 863340177}
-  timerController: {fileID: 1621862505}
+  stageTimerController: {fileID: 1621862505}
 --- !u!1 &1621762307
 GameObject:
   m_ObjectHideFlags: 0
@@ -11697,8 +11697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c4973904af47cb91ad3f69e53213fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerText: {fileID: 1616133781}
   time: 0
+  timerText: {fileID: 1616133781}
 --- !u!222 &1621862506
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12513,7 +12513,7 @@ MonoBehaviour:
   cGroup: {fileID: 1747378634}
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 0}
-  tweenType: 1
+  moveType: 0
   fakeLoadingCanvasGroup: {fileID: 1181175492}
   missionText: {fileID: 470193234}
   okButton: {fileID: 2080547418}
@@ -14587,7 +14587,6 @@ MonoBehaviour:
   spyParent: {fileID: 1713853727}
   boxParent: {fileID: 1735137408}
   joystickMoveController: {fileID: 718622034}
-  admobManager: {fileID: 1078356675}
 --- !u!114 &2064228118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14921,7 +14920,7 @@ MonoBehaviour:
   cGroup: {fileID: 2110818334}
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 0}
-  tweenType: 1
+  moveType: 0
   cancelButton: {fileID: 1365103154}
   soundButton: {fileID: 1067899518}
   effectButton: {fileID: 1078784757}

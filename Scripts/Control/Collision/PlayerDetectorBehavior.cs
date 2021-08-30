@@ -24,8 +24,9 @@ namespace Control.Collision
 
         #region Event Methods
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyCapture;
             ItemTalkingUIBehavior.SkipItemQnaEvent += SkipItemOpen;
             SpyQnaPopupBehavior.SkipSpyQnaEvent += SkipSpyCapture;

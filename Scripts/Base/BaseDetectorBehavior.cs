@@ -16,7 +16,7 @@ namespace Base
 
         #region Event Method
 
-        private void Start()
+        protected virtual void Start()
         {
             InitDetector();
         }
