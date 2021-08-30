@@ -15,7 +15,7 @@ namespace Control.Base
             InitDetector();
         }
 
-        protected virtual T GetParentController<T>()
+        protected T GetParentController<T>()
         {
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
             return GetComponentInParent<T>();

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Util;
 
+
 namespace Domain.StageObj
 {
     public enum ItemType
@@ -28,7 +29,7 @@ namespace Domain.StageObj
         {
             this.index = index;
             this.qna = qna;
-            type = (ItemType) Utils.GetRandomEnumValue<ItemType>();
+            type = (ItemType) (Random.Range(0, 2));
             effect = type == ItemType.Hp ? 1 : 20;
             isCorrect = Random.Range(0, 2) == 0;
         }

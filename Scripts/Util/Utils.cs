@@ -12,10 +12,5 @@ namespace Util
             c.interactable = flag;
             c.blocksRaycasts = flag;
         }
-
-        public static int GetRandomEnumValue<T>()
-        {
-            return Random.Range(0, Enum.GetValues(typeof(T)).Length);
-        }
     }
 }
