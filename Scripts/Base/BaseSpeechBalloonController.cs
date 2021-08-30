@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using System;
+using System.Collections;
+using Domain;
 using Manager;
 using Manager.Data;
 using UnityEngine;
@@ -9,13 +11,14 @@ namespace Base
     {
         #region Public Variable
 
-        [HideInInspector] public bool clicked;
+        public bool clicked;
 
         #endregion
 
         #region Private Variable
 
         private EControlType eControlType;
+        private Coroutine onClickSpeechBalloon;
 
         #endregion
 
@@ -23,49 +26,76 @@ namespace Base
 
         protected virtual void Start()
         {
-            eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
-            gameObject.SetActive(false);
+            InitSpeechBalloon();
         }
-        
-        // TODO()
-        private void Update()
+
+        protected virtual void OnDisable()
         {
-            if (eControlType == EControlType.KeyBoard) return;
-            OnClickSpeechBalloon();
+            StopDetection();
         }
+
+        #endregion
+
+        #region Public Method
+
+        public void StartDetection()
+        {
+            if (onClickSpeechBalloon != null)
+            {
+                StopCoroutine(onClickSpeechBalloon);
+            }
+            onClickSpeechBalloon = StartCoroutine(OnClickSpeechBalloon());
+        }
+
+        #endregion
+
+        #region Protected Method
+        protected virtual void CheckValidHit(GameObject collider) {}
 
         #endregion
 
         #region Private Method
 
-        private void OnClickSpeechBalloon()
+        private void InitSpeechBalloon()
         {
-            if (!Input.GetMouseButtonDown(0)) return;
-            if (eControlType != EControlType.Mouse) return;
-            if (clicked) return;
-            // TODO()
-            var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
-            var hit2D = Physics2D.GetRayIntersection(ray);
-            if (hit2D.collider != null)
+            eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
+        }
+        
+        private void StopDetection()
+        {
+            if (onClickSpeechBalloon != null)
             {
-                if (hit2D.collider.tag.Contains("Speech Balloon"))
-                {
-                    CheckValidHit(hit2D.collider.gameObject);
-                }
-                else
-                {
-                    clicked = false;
-                }
+                StopCoroutine(onClickSpeechBalloon);
             }
         }
 
-        #endregion
+        private IEnumerator OnClickSpeechBalloon()
+        {
+            if (eControlType != EControlType.Mouse) yield break;
+            while (true)
+            {
+                if (!Input.GetMouseButtonDown(0) || clicked)
+                {
+                    yield return null;
+                    continue;
+                }
+                var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+                var hit2D = Physics2D.GetRayIntersection(ray);
+                if (hit2D.collider != null)
+                {
+                    if (hit2D.collider.tag.Contains("Speech Balloon"))
+                    {
+                        CheckValidHit(hit2D.collider.gameObject);
+                    }
+                    else
+                    {
+                        clicked = false;
+                    }
+                }
 
-        #region Protected Methods
-
-        protected virtual void EmitEvent(GameObject target) {}
-        
-        protected virtual void CheckValidHit(GameObject collider) {}
+                yield return null;
+            }
+        }
 
         #endregion
     }

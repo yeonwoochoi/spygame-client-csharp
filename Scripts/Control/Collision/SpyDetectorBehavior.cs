@@ -26,13 +26,8 @@ namespace Control.Collision
             if (eControlType == EControlType.Mouse) other.gameObject.GetComponent<PlayerMoveController>().StopMove();
             spyMoveController.SpyStateType = SpyStateType.Examined;
             speechBalloon.SetActive(true);
+            speechBalloonController.StartDetection();
             audioManager.Play(SoundType.Meet);
-        }
-
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (!IsValidTrigger(other.gameObject.tag)) return;
-            speechBalloon.SetActive(true);
         }
 
         private void OnTriggerExit2D(Collider2D other)

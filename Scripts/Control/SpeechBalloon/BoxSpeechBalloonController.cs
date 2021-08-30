@@ -33,8 +33,9 @@ namespace Control.SpeechBalloon
         }
 
         // TODO()
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             ItemQnaPopupBehavior.SkipItemQnaEvent -= SkipQna;
             ItemTalkingUIBehavior.SkipItemQnaEvent -= SkipQna;
         }

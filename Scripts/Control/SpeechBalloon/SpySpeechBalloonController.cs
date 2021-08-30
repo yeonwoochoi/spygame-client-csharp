@@ -32,9 +32,10 @@ namespace Control.SpeechBalloon
             SpyQnaPopupBehavior.SkipSpyQnaEvent += SkipSpyQna;
             SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyQna;
         }
-        
-        private void OnDisable()
+
+        protected override void OnDisable()
         {
+            base.OnDisable();
             SpyQnaPopupBehavior.SkipSpyQnaEvent -= SkipSpyQna;
             SpyTalkingUIBehavior.SkipSpyQnaEvent -= SkipSpyQna;
         }

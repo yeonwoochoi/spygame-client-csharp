@@ -26,15 +26,11 @@ namespace Control.Collision
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
+            speechBalloon.SetActive(true);
+            speechBalloonController.StartDetection();
             audioManager.Play(SoundType.Meet);
             if (eControlType == EControlType.KeyBoard) return;
             other.gameObject.GetComponent<PlayerMoveController>().StopMove();
-        }
-
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (!IsValidTrigger(other.gameObject.tag)) return;
-            speechBalloon.SetActive(true);
         }
 
         private void OnTriggerExit2D(Collider2D other)
