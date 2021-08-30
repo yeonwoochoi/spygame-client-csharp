@@ -26,7 +26,7 @@ namespace UI.Chapter
             starHandler.ShowStars(currentStage.score);
             stageMapImage.sprite = currentStage.stageCaptureSprite;
             stageExplanationText.text = $"{currentStage.GetStageInfoText()}";
-            playButton.onClick.AddListener(() => { loadStageAction.Invoke(currentStage.stageType);});
+            playButton.onClick.AddListener(() => { loadStageAction?.Invoke(currentStage.stageType);});
             cancelButton.onClick.AddListener(OnClickCancelButton);
             OnOpenPopup();
         }

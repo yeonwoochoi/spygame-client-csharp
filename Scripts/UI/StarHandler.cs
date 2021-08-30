@@ -36,13 +36,9 @@ namespace UI
 
         public void ShowStars(int score)
         {
+            ResetStar();
             if (score > 3) score = 3;
-            if (score <= 0)
-            {
-                ResetStar();
-                return;
-            }
-
+            if (score <= 0) return;
             if (score >= 1)
             {
                 left.sprite = leftStarImage;

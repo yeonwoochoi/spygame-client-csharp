@@ -25,9 +25,10 @@ namespace ChapterScripts
         {
             for (var i = 0; i < stageButtons.Length; i++)
             {
+                var currentStage = (StageType) i;
                 stageButtons[i].onClick.AddListener(() =>
                 {
-                    openStageReadyPopupAction.Invoke((StageType) i);
+                    openStageReadyPopupAction?.Invoke(currentStage);
                 });
             }
         }   

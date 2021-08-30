@@ -50,7 +50,7 @@ namespace ChapterScripts
             // map controller setting
             chapterButtonController = currentChapterMap.GetComponent<ChapterButtonController>();
             chapterButtonController.SetStageButtonEvent(OnClickStageBtn);
-            chapterButtonController.SetButtonScore(type => GetCurrentStage(type).score);
+            chapterButtonController.SetButtonScore(stageType => GetCurrentStage(stageType).score);
             chapterText.text = $"{currentChapter.chapterType}";
             
             // chapter scene setting is done
