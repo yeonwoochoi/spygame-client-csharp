@@ -38,7 +38,7 @@ namespace UI.Stage
             StageStateController.StageDoneEvent += StopTimerByStageDone;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             ItemTabController.ItemUseEvent -= EatTimeUpItem;
             StageStateController.UpdateStageStateEvent -= SetTimer;

@@ -109,7 +109,7 @@ namespace StageScripts
             SpyQnaPopupBehavior.CaptureSpyEvent += ProcessSpyInterviewResult;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             ItemTabController.ItemUseEvent -= GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= LoseHp;

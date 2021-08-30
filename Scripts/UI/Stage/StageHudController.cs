@@ -29,7 +29,7 @@ namespace UI.Stage
             StageStateController.UpdateStageStateEvent += UpdateStageState;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
         }

@@ -40,9 +40,9 @@ namespace UI.Stage
             StageStateController.StageDoneEvent += OpenStageDone;
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
             TimerController.TimeOverEvent -= OpenGameOver;

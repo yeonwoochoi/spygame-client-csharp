@@ -32,9 +32,9 @@ namespace UI.Stage
             effectButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.IsEffectMute);
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             StageHudController.OpenStagePauseEvent -= OpenPausePopup;
         }
 

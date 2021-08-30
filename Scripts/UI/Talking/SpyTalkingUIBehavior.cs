@@ -34,8 +34,9 @@ namespace UI.Talking
             SpySpeechBalloonController.OpenSpyQnaEvent += MeetSpy;
         }
         
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             SpySpeechBalloonController.OpenSpyQnaEvent -= MeetSpy;
         }
         

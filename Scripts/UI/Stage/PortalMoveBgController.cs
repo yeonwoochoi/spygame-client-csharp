@@ -15,7 +15,7 @@ namespace UI.Stage
             PortalController.PortalMoveEvent += PortalMovePlayer;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             PortalController.PortalMoveEvent -= PortalMovePlayer;
         }

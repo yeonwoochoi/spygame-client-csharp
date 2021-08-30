@@ -28,7 +28,7 @@ namespace Control.Collision
             ItemQnaPopupBehavior.ItemGetEvent += RemoveOpenedItemBox;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             SpyTalkingUIBehavior.SkipSpyQnaEvent -= SkipSpyCapture;
             ItemTalkingUIBehavior.SkipItemQnaEvent -= SkipItemOpen;

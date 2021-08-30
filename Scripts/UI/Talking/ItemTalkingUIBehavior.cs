@@ -32,9 +32,9 @@ namespace UI.Talking
             BoxSpeechBalloonController.OpenItemQnaEvent += MeetItem;
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             BoxSpeechBalloonController.OpenItemQnaEvent -= MeetItem;
         }
 

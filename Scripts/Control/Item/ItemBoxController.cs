@@ -38,7 +38,7 @@ namespace Control.Item
             ItemQnaPopupBehavior.ItemGetEvent += InactivateSpeechBalloon;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             ItemQnaPopupBehavior.ItemGetEvent -= InactivateSpeechBalloon;
         }

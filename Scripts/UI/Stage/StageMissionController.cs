@@ -21,9 +21,9 @@ namespace UI.Stage
             okButton.onClick.AddListener(OnClickOKButton);
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             StageSceneController.OpenStageMissionPopupEvent -= OpenStageMissionPopup;
         }
 

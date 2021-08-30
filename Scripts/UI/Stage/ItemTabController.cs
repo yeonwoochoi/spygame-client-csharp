@@ -35,7 +35,7 @@ namespace UI.Stage
             UpdateItemCountText();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
             ItemQnaPopupBehavior.ItemGetEvent -= GetItem;

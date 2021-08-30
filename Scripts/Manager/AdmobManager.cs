@@ -33,7 +33,7 @@ namespace Manager
             TimerController.TimeOverEvent += ShowFrontAd;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             frontAd.Destroy();
             StageStateController.StageDoneEvent -= ShowFrontAd;

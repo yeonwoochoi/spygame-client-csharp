@@ -23,7 +23,7 @@ namespace Control.SpeechBalloon
             SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyQna;
         }
         
-        private void OnDestroy()
+        private void OnDisable()
         {
             SpyQnaPopupBehavior.SkipSpyQnaEvent -= SkipSpyQna;
             SpyTalkingUIBehavior.SkipSpyQnaEvent -= SkipSpyQna;

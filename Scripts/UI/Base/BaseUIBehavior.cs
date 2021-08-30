@@ -22,7 +22,7 @@ namespace UI.Base
             isOpen = false;
         }
 
-        protected virtual void OnDestroy() {}
+        protected virtual void OnDisable() {}
         
         protected void ActivateUI(bool flag = true)
         {

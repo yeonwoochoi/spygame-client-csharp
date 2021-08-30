@@ -69,9 +69,9 @@ namespace UI.Qna
             noButton.GetComponent<Button>().onClick.AddListener(OnClickNoBtn);
         }
 
-        protected override void OnDestroy()
+        protected override void OnDisable()
         {
-            base.OnDestroy();
+            base.OnDisable();
             ItemTalkingUIBehavior.OpenItemQnaPopupEvent -= OpenItemQnaPopup;
         }
 

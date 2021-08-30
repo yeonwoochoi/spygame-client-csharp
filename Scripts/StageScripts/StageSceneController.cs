@@ -61,7 +61,7 @@ namespace StageScripts
             StartCoroutine(ShowMissionPopup());
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             StagePauseController.ExitStageEvent -= ExitStageSceneScene;
             StageDonePopupController.ExitStageSceneEvent -= ExitStageSceneScene;
