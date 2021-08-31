@@ -138,14 +138,14 @@ namespace StageScripts
 
         private void Start()
         {
-            ItemStorageController.ItemUseEvent += GetHp;
+            ItemInventoryController.ItemUseEvent += GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += ProcessSpyInterviewResult;
         }
 
         private void OnDisable()
         {
-            ItemStorageController.ItemUseEvent -= GetHp;
+            ItemInventoryController.ItemUseEvent -= GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= ProcessSpyInterviewResult;
         }

@@ -45,14 +45,14 @@ namespace UI.Stage
 
         private void Start()
         {
-            ItemStorageController.ItemUseEvent += EatTimeUpItem;
+            ItemInventoryController.ItemUseEvent += EatTimeUpItem;
             StageStateController.UpdateStageStateEvent += SetTimer;
             StageStateController.StageDoneEvent += StopTimerByStageDone;
         }
 
         private void OnDisable()
         {
-            ItemStorageController.ItemUseEvent -= EatTimeUpItem;
+            ItemInventoryController.ItemUseEvent -= EatTimeUpItem;
             StageStateController.UpdateStageStateEvent -= SetTimer;
             StageStateController.StageDoneEvent -= StopTimerByStageDone;
         }
