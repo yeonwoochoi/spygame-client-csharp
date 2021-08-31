@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Base;
 using Domain;
@@ -30,16 +31,7 @@ namespace Control.Movement
         private void Start()
         {
             points = new List<Vector3>();
-        }
-
-        private void Update()
-        {
-            if (!isSet) return;
-            if (eControlType == EControlType.KeyBoard) return;
-            if (playerMoveController.objectType != MoveObjectType.Player) return;
-            
-            DrawLine();
-            ResetLine();
+            StartCoroutine(StartLineGenerator());
         }
 
         #endregion
@@ -60,6 +52,18 @@ namespace Control.Movement
         #endregion
 
         #region Private Method
+
+        private IEnumerator StartLineGenerator()
+        {
+            if (!isSet || eControlType == EControlType.KeyBoard) yield break;
+            if (playerMoveController.objectType != MoveObjectType.Player) yield break;
+            while (true)
+            {
+                yield return null;
+                DrawLine();
+                ResetLine();   
+            }
+        }
 
         private void DrawLine()
         {
