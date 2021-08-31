@@ -35,22 +35,28 @@ namespace StageScripts
 
         #endregion
 
-        #region Events
+        #region Setter
 
-        public static event EventHandler<UpdateStageStateEventArgs> UpdateStageStateEvent;
-        public static event EventHandler<ExitStageEventArgs> StageDoneEvent;
-
-        #endregion
-
-        // TODO (GETTER SETTER)
-        public int CurrentHp
+        private void SetCurrentHp(int hp)
         {
-            get => currentHp;
-            set
+            currentHp = hp;
+            UpdateState();
+            if (currentHp <= 0)
             {
-                currentHp = value;
-                UpdateState();
-                if (currentHp <= 0)
+                EmitStageDoneEvent(new ExitStageEventArgs
+                {
+                    exitType = StageExitType.GameOver
+                });
+            }
+        }
+
+        private void SetCurrentNormalSpyCount(int count)
+        {
+            currentNormalSpyCount = count;
+            UpdateState();
+            if (currentStage.goalNormalSpyCount > captureNormalSpyCount)
+            {
+                if (currentStage.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
                 {
                     EmitStageDoneEvent(new ExitStageEventArgs
                     {
@@ -60,79 +66,56 @@ namespace StageScripts
             }
         }
 
-        public int CurrentNormalSpyCount
+        private void SetCurrentBossSpyCount(int count)
         {
-            get => currentNormalSpyCount;
-            set
+            currentBossSpyCount = count;
+            UpdateState();
+            if (currentStage.goalBossSpyCount > captureBossSpyCount)
             {
-                currentNormalSpyCount = value;
-                UpdateState();
-                if (currentStage.goalNormalSpyCount > captureNormalSpyCount)
-                {
-                    if (currentStage.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
-                    {
-                        EmitStageDoneEvent(new ExitStageEventArgs
-                        {
-                            exitType = StageExitType.GameOver
-                        });
-                    }
-                }
-            }
-        }
-
-        public int CurrentBossSpyCount
-        {
-            get => currentBossSpyCount;
-            set
-            {
-                currentBossSpyCount = value;
-                UpdateState();
-                if (currentStage.goalBossSpyCount > captureBossSpyCount)
-                {
-                    if (currentStage.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
-                    {
-                        EmitStageDoneEvent(new ExitStageEventArgs
-                        {
-                            exitType = StageExitType.GameOver
-                        });   
-                    }
-                }
-            }
-        }
-
-        public int CaptureNormalSpyCount
-        {
-            get => captureNormalSpyCount;
-            set
-            {
-                captureNormalSpyCount = value;
-                UpdateState();
-                if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
+                if (currentStage.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
                 {
                     EmitStageDoneEvent(new ExitStageEventArgs
                     {
-                        exitType = StageExitType.StageClear
-                    });
+                        exitType = StageExitType.GameOver
+                    });   
                 }
             }
         }
 
-        public int CaptureBossSpyCount
+        private void SetCaptureNormalSpyCount(int count)
         {
-            get => captureBossSpyCount;
-            set
+            captureNormalSpyCount = count;
+            UpdateState();
+            if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
             {
-                captureBossSpyCount = value;
-                UpdateState();
-                if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
+                EmitStageDoneEvent(new ExitStageEventArgs
                 {
-                    EmitStageDoneEvent(new ExitStageEventArgs
-                    {
-                        exitType = StageExitType.StageClear
-                    });
-                }
+                    exitType = StageExitType.StageClear
+                });
             }
         }
+
+        private void SetCaptureBossSpyCount(int count)
+        {
+            captureBossSpyCount = count;
+            UpdateState();
+            if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
+            {
+                EmitStageDoneEvent(new ExitStageEventArgs
+                {
+                    exitType = StageExitType.StageClear
+                });
+            }
+        }
+
+        #endregion
+
+        #region Events
+
+        public static event EventHandler<UpdateStageStateEventArgs> UpdateStageStateEvent;
+        public static event EventHandler<ExitStageEventArgs> StageDoneEvent;
+
+        #endregion
 
         #region Event Methods
 
@@ -156,7 +139,7 @@ namespace StageScripts
 
         public void SetStageState()
         {
-            CurrentHp = PlayerHp;
+            SetCurrentHp(PlayerHp);
             currentNormalSpyCount = currentStage.normalSpyCount;
             currentBossSpyCount = currentStage.bossSpyCount;
             captureNormalSpyCount = 0;
@@ -173,12 +156,12 @@ namespace StageScripts
         {
             if (e.type == CaptureSpyType.Capture && e.spy.isSpy)
             {
-                if (e.spy.type == SpyType.Normal) CaptureNormalSpyCount++;
-                else CaptureBossSpyCount++;
+                if (e.spy.type == SpyType.Normal) SetCaptureNormalSpyCount(captureNormalSpyCount + 1);
+                else SetCaptureBossSpyCount(captureBossSpyCount + 1);
             }
 
-            if (e.spy.type == SpyType.Normal) CurrentNormalSpyCount--;
-            else CurrentBossSpyCount--;
+            if (e.spy.type == SpyType.Normal) SetCurrentNormalSpyCount(currentNormalSpyCount - 1);
+            else SetCurrentBossSpyCount(currentBossSpyCount - 1);
         }
 
         private void UpdateState()
@@ -189,7 +172,7 @@ namespace StageScripts
 
         private void GetHp(object _, ItemUseEventArgs e)
         {
-            if (e.item.type == ItemType.Hp && currentHp < PlayerHp) CurrentHp++;
+            if (e.item.type == ItemType.Hp && currentHp < PlayerHp) SetCurrentHp(currentHp + 1);
         }
         
         private void LoseHp(object _, CaptureSpyEventArgs e)
@@ -202,8 +185,8 @@ namespace StageScripts
                 AudioManager.instance.Play(SoundType.Correct);
                 return;
             }
-            if (CurrentHp <= 0) return;
-            CurrentHp--;
+            if (currentHp <= 0) return;
+            SetCurrentHp(currentHp - 1);
             AudioManager.instance.Play(SoundType.Wrong);
         }
         
