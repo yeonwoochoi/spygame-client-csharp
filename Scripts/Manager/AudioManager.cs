@@ -18,7 +18,6 @@ namespace Manager
 
         #endregion
         
-
         public bool IsSoundMute
         {
             get => isSoundMute;
@@ -96,7 +95,6 @@ namespace Manager
         }
 
         #endregion
-
 
         #region Public Methods
 

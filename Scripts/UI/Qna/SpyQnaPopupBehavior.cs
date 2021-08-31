@@ -54,7 +54,6 @@ namespace UI.Qna
 
         #endregion
 
-
         #region Events
 
         public static event EventHandler<CaptureSpyEventArgs> CaptureSpyEvent;

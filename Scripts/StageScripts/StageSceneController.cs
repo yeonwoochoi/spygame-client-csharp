@@ -119,7 +119,6 @@ namespace StageScripts
             }
 
             // Set Camera offset
-            // TODO (Camera main => SerializeField로 받기) 
             camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
             // Init stage game object positions
