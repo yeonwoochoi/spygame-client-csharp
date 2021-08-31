@@ -52,7 +52,7 @@ namespace UI.Base
         }
 
         // TODO()
-        protected IEnumerator FadeIn(CanvasGroup target, bool isFadeIn = true)
+        protected IEnumerator Fade(CanvasGroup target, bool isFadeIn = true)
         {
             if (isFadeIn)
             {

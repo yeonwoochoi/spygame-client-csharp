@@ -62,16 +62,16 @@ namespace UI.Qna
         public static event EventHandler<SkipSpyQnaEventArgs> SkipSpyQnaEvent;
 
         #endregion
-        
-        private bool IsSolved
+
+        #region Setter
+
+        private void SetIsSolved(bool flag)
         {
-            get => isSolved;
-            set
-            {
-                isSolved = value;
-                if (isSolved) AudioManager.instance.Stop(SoundType.Timer);
-            }
+            isSolved = flag;
+            if (isSolved) AudioManager.instance.Stop(SoundType.Timer);
         }
+
+        #endregion
 
         #region Event Methods
 
@@ -127,7 +127,7 @@ namespace UI.Qna
         private void OpenSpyQnaPopup(object _, OpenSpyQnaEventArgs e)
         {
             spy = e.spy;
-            IsSolved = false;
+            SetIsSolved(false);
             ResetAll();
             OnOpenPopup();
             StartCoroutine(TypingReportContent());
@@ -149,14 +149,14 @@ namespace UI.Qna
         private void OnClickCaptureBtn()
         {
             OnClosePopup();
-            IsSolved = true;
+            SetIsSolved(true);
             EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Capture));
         }
 
         private void OnClickReleaseBtn()
         {
             OnClosePopup();
-            IsSolved = true;
+            SetIsSolved(true);
             EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Release));
         }
 
@@ -175,7 +175,7 @@ namespace UI.Qna
             bombTimerAnimator.SetBool(BombTrigger, true);
             while (remainingTime > 0)
             {
-                if (IsSolved)
+                if (isSolved)
                 {
                     OnClosePopup();
                     bombTimerAnimator.SetBool(BombTrigger, false);

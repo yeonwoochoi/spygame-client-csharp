@@ -17,7 +17,7 @@ namespace ChapterScripts
         {
             for (var i = 0; i < stageButtons.Length; i++)
             {
-                stageButtons[i].GetComponent<StageSpotButtonController>().StageScore = getScore((StageType) i);
+                stageButtons[i].GetComponent<StageSpotButtonController>().SetStageScore(getScore((StageType) i));
             }
         }
 

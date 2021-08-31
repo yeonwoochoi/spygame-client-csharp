@@ -17,21 +17,30 @@ namespace UI.Main
 
         #endregion
 
-        public bool IsLocked
+        #region Getter
+
+        public bool GetIsLocked()
         {
-            get => isLocked;
-            private set
-            {
-                isLocked = value;
-                lockCanvasGroup.Visible(isLocked);
-            }
+            return isLocked;
         }
+
+        #endregion
+
+        #region Setter
+
+        private void SetIsLocked(bool flag)
+        {
+            isLocked = flag;
+            lockCanvasGroup.Visible(isLocked);
+        }
+
+        #endregion
 
         #region Public Method
 
         public void SetChapterSelectButtons(Domain.Chapter chapter)
         {
-            IsLocked = chapter.isLocked;
+            SetIsLocked(chapter.isLocked);
             titleText.text = $"Chapter {(int) chapter.chapterType}";
         }
 

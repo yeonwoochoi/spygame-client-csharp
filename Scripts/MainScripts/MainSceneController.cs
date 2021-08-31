@@ -95,7 +95,7 @@ namespace MainScripts
             controller.SetChapterSelectButtons(GetChapter(chapterType));
             button.onClick.AddListener(() =>
             {
-                if (controller.IsLocked) return;
+                if (controller.GetIsLocked()) return;
                 LoadChapterScene(chapterType);
             });
         }

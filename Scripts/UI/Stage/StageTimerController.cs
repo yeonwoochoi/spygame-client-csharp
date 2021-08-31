@@ -25,17 +25,7 @@ namespace UI.Stage
         private bool isClear = false;
 
         #endregion
-
-        private bool IsSet
-        {
-            get => isSet;
-            set
-            {
-                isSet = value;
-                if (isSet) StartCoroutine(StartTimer());
-            }
-        }
-
+        
         #region Event
         public static event EventHandler<ExitStageEventArgs> TimeOverEvent;
 
@@ -65,7 +55,13 @@ namespace UI.Stage
         {
             if (isSet) return;
             time = e.currentStage.limitTime;
-            IsSet = true;
+            Init(true);
+        }
+        
+        private void Init(bool flag)
+        {
+            isSet = flag;
+            if (isSet) StartCoroutine(StartTimer());
         }
 
         private IEnumerator StartTimer()

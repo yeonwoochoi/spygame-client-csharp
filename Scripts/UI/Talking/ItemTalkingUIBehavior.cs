@@ -89,7 +89,7 @@ namespace UI.Talking
 
         private IEnumerator BeforeQuiz()
         {
-            yield return FadeIn(npcCanvasGroup);
+            yield return Fade(npcCanvasGroup);
             yield return TypingComment(npcCommentText, NpcComment);
             
             okButton.SetActive(true);

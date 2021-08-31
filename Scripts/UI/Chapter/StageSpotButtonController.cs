@@ -18,16 +18,15 @@ namespace UI.Chapter
 
         #endregion
         
+        #region Setter
 
-        public int StageScore
+        public void SetStageScore(int score)
         {
-            get => stageScore;
-            set
-            {
-                stageScore = value;
-                ShowStars(value);
-            }
+            stageScore = score;
+            ShowStars(stageScore);
         }
+
+        #endregion
 
         #region Public Method
 

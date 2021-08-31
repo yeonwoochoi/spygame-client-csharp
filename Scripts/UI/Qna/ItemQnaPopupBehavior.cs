@@ -52,15 +52,15 @@ namespace UI.Qna
 
         #endregion
 
-        private bool IsSolved
+        #region Setter
+
+        private void SetIsSolved(bool flag)
         {
-            get => isSolved;
-            set
-            {
-                isSolved = value;
-                if (isSolved) AudioManager.instance.Stop(SoundType.Timer);
-            }
+            isSolved = flag;
+            if (isSolved) AudioManager.instance.Stop(SoundType.Timer);
         }
+
+        #endregion
 
         #region Event Methods
 
@@ -113,7 +113,7 @@ namespace UI.Qna
         private void OpenItemQnaPopup(object _, OpenItemQnaEventArgs e)
         {
             item = e.item;
-            IsSolved = false;
+            SetIsSolved(false);
             ResetAll();
             OnOpenPopup();
             StartCoroutine(TypingReportContent());
@@ -135,7 +135,7 @@ namespace UI.Qna
         private void OnClickYesBtn()
         {
             OnClosePopup();
-            IsSolved = true;
+            SetIsSolved(true);
             EmitItemGetEvent(item.isCorrect
                 ? new ItemGetEventArgs(item, ItemGetType.Get)
                 : new ItemGetEventArgs(item, ItemGetType.Miss));
@@ -144,7 +144,7 @@ namespace UI.Qna
         private void OnClickNoBtn()
         {
             OnClosePopup();
-            IsSolved = true;
+            SetIsSolved(true);
             EmitItemGetEvent(item.isCorrect
                 ? new ItemGetEventArgs(item, ItemGetType.Miss)
                 : new ItemGetEventArgs(item, ItemGetType.Get));
@@ -156,7 +156,7 @@ namespace UI.Qna
             bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, true);
             while (remainingTime > 0)
             {
-                if (IsSolved)
+                if (isSolved)
                 {
                     OnClosePopup();
                     bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, false);

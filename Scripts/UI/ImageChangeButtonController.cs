@@ -16,21 +16,11 @@ namespace UI
 
         #endregion
 
-        private bool IsDefault
-        {
-            get => isDefault;
-            set
-            {
-                isDefault = value;
-                image.sprite = isDefault ? defaultSprite : changedSprite;
-            }
-        }
-
         #region Public Method
 
         public void Init(bool isDefaultImg, bool isAuto = true)
         {
-            IsDefault = isDefaultImg;
+            SetImage(isDefaultImg);
             if (isAuto)
             {
                 GetComponent<Button>().onClick.AddListener(ChangeImage);
@@ -43,7 +33,13 @@ namespace UI
 
         private void ChangeImage()
         {
-            IsDefault = !IsDefault;
+            SetImage(!isDefault);
+        }
+
+        private void SetImage(bool flag)
+        {
+            isDefault = flag;
+            image.sprite = isDefault ? defaultSprite : changedSprite;
         }
 
         #endregion
