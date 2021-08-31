@@ -21,6 +21,7 @@ namespace Control.Movement
         public List<Vector3> points;
         private bool isSet = false;
         private GameObject player;
+        private UnityEngine.Camera camera;
 
         #endregion
 
@@ -45,12 +46,13 @@ namespace Control.Movement
 
         #region Public Method
 
-        public void Init(Tilemap tilemap, LineRenderer line, GameObject player, EControlType eControlType)
+        public void Init(Tilemap tilemap, LineRenderer line, GameObject player, EControlType eControlType, UnityEngine.Camera camera)
         {
             this.tilemap = tilemap;
             this.line = line;
             this.player = player;
             this.eControlType = eControlType;
+            this.camera = camera;
             playerMoveController = player.GetComponent<PlayerMoveController>();
             isSet = true;
         }
@@ -76,9 +78,17 @@ namespace Control.Movement
             }
         }
 
+        private void ResetLine()
+        {
+            if (!Input.GetMouseButtonUp(0)) return;
+            MovePlayer();
+            line.positionCount = 0;
+            points = new List<Vector3>();
+        }
+
         private void SetPoints()
         {
-            var clickPoint = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var clickPoint = camera.ScreenToWorldPoint(Input.mousePosition);
             var nodePos = playerMoveController.GetNodePosition(tilemap.WorldToCell(clickPoint));
             nodePos.z = 0;
 
@@ -94,7 +104,7 @@ namespace Control.Movement
                 points.Add(nodePos);
             }
         }
-        
+
         private bool IsStartNode(Vector3 nodePosition)
         {
             var nodeSizeX = tilemap.transform.localScale.x / 2;
@@ -111,14 +121,6 @@ namespace Control.Movement
                 }
             }
             return false;
-        }
-
-        private void ResetLine()
-        {
-            if (!Input.GetMouseButtonUp(0)) return;
-            MovePlayer();
-            line.positionCount = 0;
-            points = new List<Vector3>();
         }
 
         private void MovePlayer()

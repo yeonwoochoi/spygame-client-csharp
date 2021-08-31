@@ -92,7 +92,7 @@ namespace StageScripts
             boxObjParent = boxParent;
         }
         
-        public void SetCurrentStage(Stage stage, JoystickMoveController joystick, EControlType e)
+        public void SetCurrentStage(Stage stage, JoystickMoveController joystick, EControlType e, UnityEngine.Camera camera)
         {
             currentStage = stage;
             eControlType = e;
@@ -115,12 +115,12 @@ namespace StageScripts
             if (eControlType == EControlType.Mouse)
             {
                 var lineGenerator = gameObject.AddComponent<LineGenerator>();
-                lineGenerator.Init(tilemap, line, playerObj, eControlType);
+                lineGenerator.Init(tilemap, line, playerObj, eControlType, camera);
             }
 
             // Set Camera offset
             // TODO (Camera main => SerializeField로 받기) 
-            UnityEngine.Camera.main.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
+            camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
             // Init stage game object positions
             normalSpyPositions = new List<Vector3>();

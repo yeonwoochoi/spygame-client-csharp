@@ -14583,6 +14583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84df6ab8e5245f88a4b4f778f27f6b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 1637673032}
   stageParent: {fileID: 1932286438}
   spyParent: {fileID: 1713853727}
   boxParent: {fileID: 1735137408}

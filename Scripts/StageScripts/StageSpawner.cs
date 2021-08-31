@@ -10,6 +10,7 @@ namespace StageScripts
     {
         #region Private Variables
 
+        [SerializeField] private UnityEngine.Camera camera;
         [SerializeField] private Transform stageParent;
         [SerializeField] private Transform spyParent;
         [SerializeField] private Transform boxParent;
@@ -44,7 +45,7 @@ namespace StageScripts
             var stageSceneController = stageObj.GetComponent<StageSceneController>();
             stageSceneController.qna = LoadingManager.Instance.qna;
             stageSceneController.SetStageObjParent(stageParent, spyParent, boxParent);
-            stageSceneController.SetCurrentStage(currentStage, joystickMoveController, eControlType);
+            stageSceneController.SetCurrentStage(currentStage, joystickMoveController, eControlType, camera);
         }
 
         #endregion
