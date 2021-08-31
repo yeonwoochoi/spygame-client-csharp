@@ -58,8 +58,8 @@ namespace Control.Movement
 
             SetCurrentState(MoveStateType.Move);
             rb2D.velocity = dir * speed;
-            animator.SetFloat(ANIMATION_VARIABLE_PLAYER_HORIZONTAL, dir.x * 50);
-            animator.SetFloat(ANIMATION_VARIABLE_PLAYER_VERTICAL, dir.y * 50);
+            animator.SetFloat(AnimationPlayerHorizontal, dir.x * 50);
+            animator.SetFloat(AnimationPlayerVertical, dir.y * 50);
         }
 
         public void StopMove()

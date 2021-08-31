@@ -21,12 +21,12 @@ namespace Event
     {
         #region Public Variables
 
-        public Stage currentStage;
-        public int hp;
-        public int captureNormalSpyCount;
-        public int captureBossSpyCount;
-        public int currentNormalSpyCount;
-        public int currentBossSpyCount;
+        public readonly Stage currentStage;
+        public readonly int hp;
+        public readonly int captureNormalSpyCount;
+        public readonly int captureBossSpyCount;
+        public readonly int currentNormalSpyCount;
+        public readonly int currentBossSpyCount;
 
         #endregion
 

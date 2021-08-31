@@ -2,18 +2,18 @@
 {
     public class GlobalDataKey
     {
-        #region Static Variables
-
-        public static GlobalDataKey CHAPTER = new GlobalDataKey("CHAPTER");
-        public static GlobalDataKey SOUND = new GlobalDataKey("SOUND");
-        public static GlobalDataKey ECONTROL = new GlobalDataKey("ECONTROL");
-        public static GlobalDataKey TUTORIAL = new GlobalDataKey("TUTORIAL");
-
-        #endregion
-
         #region Public Variable
 
-        public string key;
+        public readonly string key;
+
+        #endregion
+        
+        #region Static Variables
+
+        public static readonly GlobalDataKey CHAPTER = new GlobalDataKey("CHAPTER");
+        public static readonly GlobalDataKey SOUND = new GlobalDataKey("SOUND");
+        public static readonly GlobalDataKey ECONTROL = new GlobalDataKey("ECONTROL");
+        public static readonly GlobalDataKey TUTORIAL = new GlobalDataKey("TUTORIAL");
 
         #endregion
 

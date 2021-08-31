@@ -97,7 +97,7 @@ namespace UI.Stage
         private void UseItem(ItemType type)
         {
             if (itemRepository[type].Count <= 0) return;
-            if (type == ItemType.Hp && currentHp == StageStateController.playerHp) return;
+            if (type == ItemType.Hp && currentHp == StageStateController.PlayerHp) return;
             EmitItemUseEvent(new ItemUseEventArgs { item = itemRepository[type][0] });
             itemRepository[type].RemoveAt(0);
             UpdateItemCountText();

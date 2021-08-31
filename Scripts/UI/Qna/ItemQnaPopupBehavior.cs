@@ -153,14 +153,14 @@ namespace UI.Qna
         private IEnumerator StartTimer()
         {
             var remainingTime = timer;
-            bombTimerAnimator.SetBool(SpyQnaPopupBehavior.ANIMATION_VARIABLE_BOMB, true);
+            bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, true);
             while (remainingTime > 0)
             {
                 if (IsSolved)
                 {
                     OnClosePopup();
-                    bombTimerAnimator.SetBool(SpyQnaPopupBehavior.ANIMATION_VARIABLE_BOMB, false);
-                    explosionAnimator.SetBool(SpyQnaPopupBehavior.ANIMATION_VARIABLE_EXPLOSION, false);
+                    bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, false);
+                    explosionAnimator.SetBool(SpyQnaPopupBehavior.AnimationExplosion, false);
                     AudioManager.instance.Stop(SoundType.Timer);
                     yield break;
                 }
@@ -171,13 +171,13 @@ namespace UI.Qna
             }
             AudioManager.instance.Stop(SoundType.Timer);
             explosionCanvasGroup.Visible();
-            explosionAnimator.SetBool(SpyQnaPopupBehavior.ANIMATION_VARIABLE_EXPLOSION, true);
+            explosionAnimator.SetBool(SpyQnaPopupBehavior.AnimationExplosion, true);
             AudioManager.instance.Play(SoundType.Explosion);
             yield return new WaitForSeconds(0.8f);
             explosionCanvasGroup.Visible(false);
             OnClosePopup();
-            bombTimerAnimator.SetBool(SpyQnaPopupBehavior.ANIMATION_VARIABLE_BOMB, false);
-            explosionAnimator.SetBool(SpyQnaPopupBehavior.ANIMATION_VARIABLE_EXPLOSION, false);
+            bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, false);
+            explosionAnimator.SetBool(SpyQnaPopupBehavior.AnimationExplosion, false);
         }
 
         private void EmitItemGetEvent(ItemGetEventArgs e)

@@ -13,11 +13,8 @@ using UnityEngine.UI;
 
 namespace Manager
 {
-    // TODO()
     public class AdmobManager: MonoBehaviour
     {
-        // TODO("Const, Static 이름 규칙 찾아보기")
-
         #region Private Variables
 
         private InterstitialAd frontAd;
@@ -29,7 +26,7 @@ namespace Manager
 
         #region Const Variable
 
-        private const string frontID = "ca-app-pub-3940256099942544/8691691433";
+        private const string FrontID = "ca-app-pub-3940256099942544/8691691433";
 
         #endregion
 
@@ -77,7 +74,7 @@ namespace Manager
 
         private void LoadFrontAd()
         {
-            frontAd = new InterstitialAd(frontID);
+            frontAd = new InterstitialAd(FrontID);
 
             frontAd.OnAdLoaded += HandleOnAdLoaded;
 

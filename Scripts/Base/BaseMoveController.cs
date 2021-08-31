@@ -43,12 +43,19 @@ namespace Base
         #region Private Variables
         private Tilemap tilemap;
         private MoveStateType currentState;
+
         #endregion
 
         #region Static Variables
-        protected static string ANIMATION_VARIABLE_PLAYER_HORIZONTAL = "Horizontal";
-        protected static string ANIMATION_VARIABLE_PLAYER_VERTICAL = "Vertical";
-        private static string ANIMATION_VARIABLE_PLAYER_SPEED = "Speed";
+        
+        private static readonly int Horizontal = Animator.StringToHash(AnimationPlayerHorizontal);
+        private static readonly int Vertical = Animator.StringToHash(AnimationPlayerVertical);
+        private static readonly int Speed = Animator.StringToHash(AnimationPlayerSpeed);
+        
+        protected const string AnimationPlayerHorizontal = "Horizontal";
+        protected const string AnimationPlayerVertical = "Vertical";
+        private const string AnimationPlayerSpeed = "Speed";
+
         #endregion
         
         #region Event Methods
@@ -67,9 +74,9 @@ namespace Base
             return currentState;
         }
 
-        public void SetTilemap(Tilemap tilemap)
+        public void SetTilemap(Tilemap map)
         {
-            this.tilemap = tilemap;
+            tilemap = map;
             nodeSize = tilemap.transform.localScale;
         }
 
@@ -85,7 +92,7 @@ namespace Base
         protected void SetCurrentState(MoveStateType moveStateType)
         {
             currentState = moveStateType;
-            animator.SetFloat(ANIMATION_VARIABLE_PLAYER_SPEED, currentState == MoveStateType.Idle ? 0 : 1);
+            animator.SetFloat(Speed, currentState == MoveStateType.Idle ? 0 : 1);
         }
 
         protected IEnumerator Move(List<Vector3> positions)
@@ -106,8 +113,8 @@ namespace Base
                         var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.deltaTime);
                         rb2D.MovePosition(newPosition);
                         offset = pos - transform.position;
-                        animator.SetFloat(ANIMATION_VARIABLE_PLAYER_HORIZONTAL, offset.x * 50);
-                        animator.SetFloat(ANIMATION_VARIABLE_PLAYER_VERTICAL, offset.y * 50);
+                        animator.SetFloat(Horizontal, offset.x * 50);
+                        animator.SetFloat(Vertical, offset.y * 50);
                         remainingDistance = offset.sqrMagnitude;
                     }
                     yield return new WaitForFixedUpdate();

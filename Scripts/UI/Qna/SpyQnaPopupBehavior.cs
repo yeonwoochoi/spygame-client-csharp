@@ -41,16 +41,18 @@ namespace UI.Qna
 
         #region Static Variables
 
-        public static string ANIMATION_VARIABLE_BOMB = "BombTrigger";
-        public static string ANIMATION_VARIABLE_EXPLOSION = "ExplosionTrigger";
+        private static readonly int BombTrigger = Animator.StringToHash(AnimationBomb);
+        private static readonly int ExplosionTrigger = Animator.StringToHash(AnimationExplosion);
+        public const string AnimationBomb = "BombTrigger";
+        public const string AnimationExplosion = "ExplosionTrigger";
 
         #endregion
         
         #region Readonly Variables
 
-        private readonly string popupTitle = "심문 보고서";
-        private readonly string spyOrNotQuestionComment = "이 병사를 포획하시겠습니까?";
-        private readonly int timer = 3;
+        private const string PopupTitle = "심문 보고서";
+        private const string SpyOrNotQuestionComment = "이 병사를 포획하시겠습니까?";
+        private const int QuizTimer = 3;
 
         #endregion
 
@@ -60,8 +62,7 @@ namespace UI.Qna
         public static event EventHandler<SkipSpyQnaEventArgs> SkipSpyQnaEvent;
 
         #endregion
-
-
+        
         private bool IsSolved
         {
             get => isSolved;
@@ -89,7 +90,7 @@ namespace UI.Qna
             captureBtn.SetActive(false);
             releaseBtn.SetActive(false);
 
-            titleText.text = popupTitle;
+            titleText.text = PopupTitle;
         }
 
         protected override void OnDisable()
@@ -137,7 +138,7 @@ namespace UI.Qna
             yield return new WaitForSeconds(0.5f);
             yield return TypingComment(playerQuestionText, $"Player : {spy.question}");
             yield return TypingComment(spyAnswerText, $"Soldier : {spy.answer}");
-            yield return TypingComment(spyOrNotText, spyOrNotQuestionComment);
+            yield return TypingComment(spyOrNotText, SpyOrNotQuestionComment);
             
             captureBtn.SetActive(true);
             releaseBtn.SetActive(true);
@@ -170,15 +171,15 @@ namespace UI.Qna
 
         private IEnumerator StartTimer()
         {
-            var remainingTime = timer;
-            bombTimerAnimator.SetBool(ANIMATION_VARIABLE_BOMB, true);
+            var remainingTime = QuizTimer;
+            bombTimerAnimator.SetBool(BombTrigger, true);
             while (remainingTime > 0)
             {
                 if (IsSolved)
                 {
                     OnClosePopup();
-                    bombTimerAnimator.SetBool(ANIMATION_VARIABLE_BOMB, false);
-                    explosionAnimator.SetBool(ANIMATION_VARIABLE_EXPLOSION, false);
+                    bombTimerAnimator.SetBool(BombTrigger, false);
+                    explosionAnimator.SetBool(ExplosionTrigger, false);
                     AudioManager.instance.Stop(SoundType.Timer);
                     yield break;
                 }
@@ -189,13 +190,13 @@ namespace UI.Qna
             }
             explosionCanvasGroup.Visible();
             AudioManager.instance.Stop(SoundType.Timer);
-            explosionAnimator.SetBool(ANIMATION_VARIABLE_EXPLOSION, true);
+            explosionAnimator.SetBool(ExplosionTrigger, true);
             AudioManager.instance.Play(SoundType.Explosion);
             yield return new WaitForSeconds(0.8f);
             explosionCanvasGroup.Visible(false);
             OnClosePopup();
-            bombTimerAnimator.SetBool(ANIMATION_VARIABLE_BOMB, false);
-            explosionAnimator.SetBool(ANIMATION_VARIABLE_EXPLOSION, false);
+            bombTimerAnimator.SetBool(BombTrigger, false);
+            explosionAnimator.SetBool(ExplosionTrigger, false);
         }
 
         private void EmitReactivateSpySpeechBalloonEvent(SkipSpyQnaEventArgs e)

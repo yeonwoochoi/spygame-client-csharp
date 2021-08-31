@@ -297,7 +297,7 @@ namespace StageScripts
             LoadingManager.Instance.ChapterType = chapterType;
 
             StartCoroutine(StartLoadingAnimator(
-                () => nextScene = SceneNameManager.SCENE_NORMAL_LOADING, 
+                () => nextScene = SceneNameManager.SceneNormalLoading, 
                 () => SceneManager.LoadScene(nextScene)));
         }
 

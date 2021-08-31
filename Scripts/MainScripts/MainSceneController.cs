@@ -110,7 +110,7 @@ namespace MainScripts
 
             StartCoroutine(StartLoadingAnimator(() =>
                 {
-                    nextScene = SceneNameManager.SCENE_NORMAL_LOADING;
+                    nextScene = SceneNameManager.SceneNormalLoading;
                 }, 
                 () =>
                 {

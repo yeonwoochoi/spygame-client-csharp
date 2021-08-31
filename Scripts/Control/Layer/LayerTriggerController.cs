@@ -17,9 +17,9 @@ namespace Control.Layer
     {
         #region Static Variables
 
-        private static readonly string layer1Name = "Layer1";
-        private static readonly string layer2Name = "Layer2";
-        private static readonly string layer3Name = "Layer3";
+        private const string Layer1Name = "Layer1";
+        private const string Layer2Name = "Layer2";
+        private const string Layer3Name = "Layer3";
 
         #endregion
 
@@ -27,17 +27,13 @@ namespace Control.Layer
 
         public static string LayerTypeToString(this LayerType type)
         {
-            switch (type)
+            return type switch
             {
-                case LayerType.Layer1:
-                    return layer1Name;
-                case LayerType.Layer2:
-                    return layer2Name;
-                case LayerType.Layer3:
-                    return layer3Name;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                LayerType.Layer1 => Layer1Name,
+                LayerType.Layer2 => Layer2Name,
+                LayerType.Layer3 => Layer3Name,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
 
         #endregion

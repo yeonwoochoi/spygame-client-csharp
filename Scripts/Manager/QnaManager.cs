@@ -27,7 +27,6 @@ namespace Manager
         #region Static Variables
 
         private static QnaManager instance = null;
-
         public static QnaManager Instance => instance;
 
         #endregion

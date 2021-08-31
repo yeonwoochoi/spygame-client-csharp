@@ -25,7 +25,7 @@ namespace UI.Talking
 
         #region Readonly Variable
 
-        private readonly string npcComment = "아이템 얻기를 시도하시겠습니까?";
+        private const string NpcComment = "아이템 얻기를 시도하시겠습니까?";
 
         #endregion
 
@@ -90,7 +90,7 @@ namespace UI.Talking
         private IEnumerator BeforeQuiz()
         {
             yield return FadeIn(npcCanvasGroup);
-            yield return TypingComment(npcCommentText, npcComment);
+            yield return TypingComment(npcCommentText, NpcComment);
             
             okButton.SetActive(true);
             cancelButton.SetActive(true);

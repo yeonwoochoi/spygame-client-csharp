@@ -26,8 +26,8 @@ namespace UI.Talking
 
         #region Readonly Variables
 
-        private readonly string spyComment = "무슨 일이시죠?";
-        private readonly string playerComment = "이 병사를 심문하시겠습니까?";
+        private const string SpyComment = "무슨 일이시죠?";
+        private const string PlayerComment = "이 병사를 심문하시겠습니까?";
 
         #endregion
 
@@ -95,10 +95,10 @@ namespace UI.Talking
         private IEnumerator BeforeExamineEvent()
         {
             yield return FadeIn(spyCanvasGroup);
-            yield return TypingComment(spyCommentText, spyComment);
+            yield return TypingComment(spyCommentText, SpyComment);
             
             yield return FadeIn(playerCanvasGroup);
-            yield return TypingComment(playerCommentText, playerComment);
+            yield return TypingComment(playerCommentText, PlayerComment);
             
             okButton.SetActive(true);
             cancelButton.SetActive(true);

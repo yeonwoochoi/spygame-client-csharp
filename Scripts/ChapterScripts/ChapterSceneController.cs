@@ -73,7 +73,7 @@ namespace ChapterScripts
             
             StartCoroutine(StartLoadingAnimator(() =>
                 {
-                    nextScene = SceneNameManager.SCENE_NORMAL_LOADING;
+                    nextScene = SceneNameManager.SceneNormalLoading;
                 }, 
                 () =>
                 {
@@ -88,7 +88,7 @@ namespace ChapterScripts
             LoadingManager.Instance.LoadingType = LoadingType.Normal;
 
             StartCoroutine(StartLoadingAnimator(
-                () => nextScene = SceneNameManager.SCENE_NORMAL_LOADING,
+                () => nextScene = SceneNameManager.SceneNormalLoading,
                 () => SceneManager.LoadScene(nextScene)));
         }
         

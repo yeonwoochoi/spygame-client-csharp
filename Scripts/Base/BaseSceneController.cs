@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Base
 {
     public static class SceneNameManager {
-        #region Static Variables
+        #region Const Variables
 
-        public static readonly string SCENE_MAIN = "Main Scene";
-        public static readonly string SCENE_CHAPTER = "Chapter Scene";
-        public static readonly string SCENE_STAGE = "Stage Scene";
-        public static readonly string SCENE_INIT_LOADING = "Init Loading Scene";
-        public static readonly string SCENE_NORMAL_LOADING = "Normal Loading Scene";
+        public const string SceneMain = "Main Scene";
+        public const string SceneChapter = "Chapter Scene";
+        public const string SceneStage = "Stage Scene";
+        public const string SceneInitLoading = "Init Loading Scene";
+        public const string SceneNormalLoading = "Normal Loading Scene";
 
         #endregion
     }

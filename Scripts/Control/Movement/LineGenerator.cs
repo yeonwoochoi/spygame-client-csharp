@@ -22,7 +22,7 @@ namespace Control.Movement
         public List<Vector3> points;
         private bool isSet = false;
         private GameObject player;
-        private UnityEngine.Camera camera;
+        private UnityEngine.Camera mainCamera;
 
         #endregion
 
@@ -38,14 +38,14 @@ namespace Control.Movement
 
         #region Public Method
 
-        public void Init(Tilemap tilemap, LineRenderer line, GameObject player, EControlType eControlType, UnityEngine.Camera camera)
+        public void Init(Tilemap map, LineRenderer lr, GameObject playerObj, EControlType eControl, UnityEngine.Camera camera)
         {
-            this.tilemap = tilemap;
-            this.line = line;
-            this.player = player;
-            this.eControlType = eControlType;
-            this.camera = camera;
-            playerMoveController = player.GetComponent<PlayerMoveController>();
+            tilemap = map;
+            line = lr;
+            player = playerObj;
+            eControlType = eControl;
+            mainCamera = camera;
+            playerMoveController = playerObj.GetComponent<PlayerMoveController>();
             isSet = true;
         }
 
@@ -92,7 +92,7 @@ namespace Control.Movement
 
         private void SetPoints()
         {
-            var clickPoint = camera.ScreenToWorldPoint(Input.mousePosition);
+            var clickPoint = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             var nodePos = playerMoveController.GetNodePosition(tilemap.WorldToCell(clickPoint));
             nodePos.z = 0;
 

@@ -24,23 +24,25 @@ namespace Control.Item
 
         #endregion
 
-        #region Static Variable
+        #region Const Variable
 
-        private static string ANIMATION_VARIABLE_BOX_OPEN = "IsOpen";
+        private const string AnimationVariableBoxOpen = "IsOpen";
+        private static readonly int Open = Animator.StringToHash(AnimationVariableBoxOpen);
 
         #endregion
 
         // TODO (Property => Getter Setter)
         public bool IsSet { get; private set; } = false;
-        
+
         private bool isOpen;
+
         public bool IsOpen
         {
             get => isOpen;
             private set
             {
                 isOpen = value;
-                animator.SetBool(ANIMATION_VARIABLE_BOX_OPEN, isOpen);
+                animator.SetBool(Open, isOpen);
             }
         }
 
@@ -66,7 +68,7 @@ namespace Control.Item
         {
             isOpen = false;
             animator = GetComponent<Animator>();
-            animator.SetBool(ANIMATION_VARIABLE_BOX_OPEN, false);
+            animator.SetBool(AnimationVariableBoxOpen, false);
             Item = item;
             boxSpeechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
             boxSpeechBalloonController.item = item;

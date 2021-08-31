@@ -24,7 +24,7 @@ namespace LoadingScripts
         {
             if (LoadingManager.Instance.CurrentType == MainSceneType.Main)
             {
-                nextScene = SceneNameManager.SCENE_CHAPTER;    
+                nextScene = SceneNameManager.SceneChapter;    
             }
 
             if (LoadingManager.Instance.CurrentType == MainSceneType.Select)
@@ -32,10 +32,10 @@ namespace LoadingScripts
                 switch (LoadingManager.Instance.NextType)
                 {
                     case MainSceneType.Main:
-                        nextScene = SceneNameManager.SCENE_MAIN;
+                        nextScene = SceneNameManager.SceneMain;
                         break;
                     case MainSceneType.Play:
-                        nextScene = SceneNameManager.SCENE_STAGE;
+                        nextScene = SceneNameManager.SceneStage;
                         QnaManager.Instance.GetQnaData(LoadingManager.Instance.ChapterType, LoadingManager.Instance.StageType);
                         break;
                 }
@@ -43,7 +43,7 @@ namespace LoadingScripts
 
             if (LoadingManager.Instance.CurrentType == MainSceneType.Play)
             {
-                nextScene = SceneNameManager.SCENE_CHAPTER;
+                nextScene = SceneNameManager.SceneChapter;
             }
 
             StartCoroutine(LoadScene(nextScene));

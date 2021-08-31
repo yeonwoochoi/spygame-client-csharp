@@ -31,7 +31,7 @@ namespace StageScripts
 
         #region Static Variable
 
-        public static readonly int playerHp = 3;
+        public const int PlayerHp = 3;
 
         #endregion
 
@@ -156,7 +156,7 @@ namespace StageScripts
 
         public void SetStageState()
         {
-            CurrentHp = playerHp;
+            CurrentHp = PlayerHp;
             currentNormalSpyCount = currentStage.normalSpyCount;
             currentBossSpyCount = currentStage.bossSpyCount;
             captureNormalSpyCount = 0;
@@ -189,7 +189,7 @@ namespace StageScripts
 
         private void GetHp(object _, ItemUseEventArgs e)
         {
-            if (e.item.type == ItemType.Hp && currentHp < playerHp) CurrentHp++;
+            if (e.item.type == ItemType.Hp && currentHp < PlayerHp) CurrentHp++;
         }
         
         private void LoseHp(object _, CaptureSpyEventArgs e)
