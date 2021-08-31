@@ -61,7 +61,7 @@ namespace Control.Collision
 
         private bool IsValidTrigger(string tag)
         {
-            if (!isSet || itemBoxController == null || !itemBoxController.IsSet || itemBoxController.IsOpen) return false;
+            if (!isSet || itemBoxController == null || !itemBoxController.GetIsSet() || itemBoxController.GetIsOpen()) return false;
             return tag == "Player";
         }
 

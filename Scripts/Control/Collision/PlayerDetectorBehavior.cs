@@ -59,7 +59,7 @@ namespace Control.Collision
             
             if (other.gameObject.TryGetComponent(out ItemBoxController itemBoxController))
             {
-                if (!boxes.Contains(other.gameObject) && !itemBoxController.IsOpen)
+                if (!boxes.Contains(other.gameObject) && !itemBoxController.GetIsOpen())
                 {
                     boxes.Add(other.gameObject);   
                 }
@@ -142,7 +142,7 @@ namespace Control.Collision
         {
             if (!IsValidTrigger()) return;
             if (spies.Count == 0) return;
-            spies.RemoveAll(target => target.GetComponent<SpyMoveController>().Spy.index == e.spy.index);
+            spies.RemoveAll(target => target.GetComponent<SpyMoveController>().GetSpy().index == e.spy.index);
             isClicked = false;
         }
 
@@ -150,7 +150,7 @@ namespace Control.Collision
         {
             if (!IsValidTrigger()) return;
             if (boxes.Count == 0) return;
-            boxes.RemoveAll(target => target.GetComponent<ItemBoxController>().Item.index == e.item.index);
+            boxes.RemoveAll(target => target.GetComponent<ItemBoxController>().GetItem().index == e.item.index);
             isClicked = false;
         }
         
@@ -161,13 +161,13 @@ namespace Control.Collision
             isClicked = true;
             if (target.TryGetComponent(out ItemBoxController itemBoxController))
             {
-                itemBoxController.boxSpeechBalloonController.EmitOpenItemQnaEvent(new OpenItemQnaEventArgs { item = itemBoxController.Item });
+                itemBoxController.boxSpeechBalloonController.EmitOpenItemQnaEvent(new OpenItemQnaEventArgs { item = itemBoxController.GetItem() });
                 return;
             }
 
             if (target.TryGetComponent(out SpyMoveController spyMoveController))
             {
-                spyMoveController.speechBalloonController.EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs{ spy = spyMoveController.Spy });
+                spyMoveController.speechBalloonController.EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs{ spy = spyMoveController.GetSpy() });
             }
         }
 

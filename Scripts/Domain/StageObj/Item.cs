@@ -31,9 +31,6 @@ namespace Domain.StageObj
 
         #endregion
 
-        public string question => qna.question; // TODO(??)
-        public string answer => GetAnswer(); // TODO(??)
-
         #region Constructor
 
         public Item(int index, Qna qna)
@@ -49,7 +46,12 @@ namespace Domain.StageObj
 
         #region Getter
 
-        private string GetAnswer()
+        public string GetQuestion()
+        {
+            return qna.question;
+        }
+
+        public string GetAnswer()
         {
             return isCorrect 
                 ? qna.correctAnswers[Random.Range(0, qna.correctAnswers.Length)] 

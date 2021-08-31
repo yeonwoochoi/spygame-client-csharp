@@ -40,27 +40,41 @@ namespace Control.Movement
         private SpriteRenderer spriteRenderer;
 
         private Spy spy;
+        private SpyStateType spyStateType;
 
         #endregion
 
-        public Spy Spy => spy;
-        
-        private SpyStateType spyStateType;
+        #region Getter
 
-        public SpyStateType SpyStateType
+        public bool GetIsSet()
         {
-            get => spyStateType;
-            set
+            return getIsSet;
+        }
+
+        public Spy GetSpy()
+        {
+            return spy;
+        }
+
+        public SpyStateType GetSpyStateType()
+        {
+            return spyStateType;
+        }
+
+        #endregion
+
+        #region Setter
+
+        public void SetSpyStateType(SpyStateType spyState)
+        {
+            spyStateType = spyState;
+            if (spyStateType != SpyStateType.Free)
             {
-                spyStateType = value;
-                if (spyStateType != SpyStateType.Free)
-                {
-                    StopWandering();
-                }
+                StopWandering();
             }
         }
 
-        public bool IsSet => isSet;
+        #endregion
 
         #region Event Methods
 
@@ -91,8 +105,8 @@ namespace Control.Movement
 
         protected void OnCollisionEnter2D(Collision2D other)
         {
-            if (!IsSet) return;
-            if (SpyStateType != SpyStateType.Free) return;
+            if (!GetIsSet()) return;
+            if (spyStateType != SpyStateType.Free) return;
             if (other.collider.transform.IsChildOf(transform)) return;
             StopWandering();
         }
@@ -100,8 +114,8 @@ namespace Control.Movement
 
         protected void OnCollisionExit2D(Collision2D other)
         {
-            if (!IsSet) return;
-            if (SpyStateType != SpyStateType.Free) return;
+            if (!GetIsSet()) return;
+            if (spyStateType != SpyStateType.Free) return;
             if (other.collider.transform.IsChildOf(transform)) return;
             StartWandering();
         }
@@ -116,10 +130,10 @@ namespace Control.Movement
             speechBalloon.GetComponent<SpySpeechBalloonController>().spy = spy;
             speed = 2f;
             objectType = MoveObjectType.Spy;
-            SpyStateType = SpyStateType.Free;
+            SetSpyStateType(SpyStateType.Free);
             wanderCoroutine = StartCoroutine(Wander());
             StartCoroutine(CheckIdle());
-            isSet = true;
+            getIsSet = true;
         }
 
         public void StartWandering()
@@ -155,7 +169,7 @@ namespace Control.Movement
                 var afterPos = transform.position;
                 if ((afterPos - beforePos).sqrMagnitude < 1)
                 {
-                    if (SpyStateType == SpyStateType.Free)
+                    if (spyStateType == SpyStateType.Free)
                     {
                         StopWandering();
                         StartWandering();   
@@ -260,12 +274,12 @@ namespace Control.Movement
         private void InactivateSpy(object _, CaptureSpyEventArgs e)
         {
             if (e.spy.index != spy.index) return;
-            SpyStateType = e.type switch
+            SetSpyStateType(e.type switch
             {
                 CaptureSpyType.Capture => SpyStateType.Capture,
                 CaptureSpyType.Release => SpyStateType.Release,
-                _ => SpyStateType
-            };
+                _ => spyStateType
+            });
             speechBalloon.SetActive(false);
             StartCoroutine(FadeOut());
         }
@@ -273,7 +287,7 @@ namespace Control.Movement
         private void InactivateMoving(object _, OpenSpyQnaEventArgs e)
         {
             if (e.spy.index != spy.index) return;
-            SpyStateType = SpyStateType.Examined;
+            SetSpyStateType(SpyStateType.Examined);
         }
 
         #endregion

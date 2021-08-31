@@ -138,7 +138,7 @@ namespace MainScripts
             var index = (int) chapter.chapterType;
             if (index >= chapters.Length) return;
             var nextChapter = GetChapter((ChapterType) (index + 1));
-            nextChapter.isLocked = !chapter.IsClear;
+            nextChapter.isLocked = !chapter.GetIsClear();
         }
         
         private void Quit()

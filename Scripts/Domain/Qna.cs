@@ -14,10 +14,19 @@
     {
         #region Public Variables
 
-        public string difficulty; // ??
+        private string difficulty;
         public string question;
         public string[] correctAnswers;
         public string[] wrongAnswers;
+
+        #endregion
+
+        #region Getter
+
+        public QnaDifficulty GetDifficulty()
+        {
+            return difficulty == "Easy" ? QnaDifficulty.Easy : QnaDifficulty.Hard;
+        }
 
         #endregion
     }

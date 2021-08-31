@@ -122,8 +122,8 @@ namespace UI.Qna
         private IEnumerator TypingReportContent()
         {
             yield return new WaitForSeconds(0.5f);
-            yield return TypingComment(questionText, $"Q : {item.question}");
-            yield return TypingComment(answerText, $"A : {item.answer}");
+            yield return TypingComment(questionText, $"Q : {item.GetQuestion()}");
+            yield return TypingComment(answerText, $"A : {item.GetAnswer()}");
             yield return TypingComment(correctOrNotText, correctOrNotComment);
             
             yesButton.SetActive(true);

@@ -23,18 +23,19 @@ namespace Domain
 
         #endregion
 
-        public bool IsClear
+        #region Getter
+
+        public bool GetIsClear()
         {
-            get
+            isClear = true;
+            foreach (var stage in stages)
             {
-                isClear = true;
-                foreach (var stage in stages)
-                {
-                    if (stage.score < 1) isClear = false;
-                }
-                return isClear;
+                if (stage.score < 1) isClear = false;
             }
+            return isClear;
         }
+
+        #endregion
     }
 
     [Serializable]

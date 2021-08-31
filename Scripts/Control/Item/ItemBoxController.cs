@@ -20,7 +20,10 @@ namespace Control.Item
 
         #region Private Variables
 
+        private Domain.StageObj.Item item;
         private Animator animator;
+        private bool isSet = false;
+        private bool isOpen = false;
 
         #endregion
 
@@ -31,22 +34,34 @@ namespace Control.Item
 
         #endregion
 
-        // TODO (Property => Getter Setter)
-        public bool IsSet { get; private set; } = false;
+        #region Getter
 
-        private bool isOpen;
-
-        public bool IsOpen
+        public bool GetIsSet()
         {
-            get => isOpen;
-            private set
-            {
-                isOpen = value;
-                animator.SetBool(Open, isOpen);
-            }
+            return isSet;
         }
 
-        public Domain.StageObj.Item Item { get; private set; }
+        public bool GetIsOpen()
+        {
+            return isOpen;
+        }
+
+        public Domain.StageObj.Item GetItem()
+        {
+            return item;
+        }
+
+        #endregion
+
+        #region Setter
+
+        private void SetIsOpen(bool flag)
+        {
+            isOpen = flag;
+            animator.SetBool(Open, isOpen);
+        }
+
+        #endregion
 
         #region Event Methods
 
@@ -66,13 +81,12 @@ namespace Control.Item
 
         public void Init(Domain.StageObj.Item item)
         {
-            isOpen = false;
             animator = GetComponent<Animator>();
-            animator.SetBool(AnimationVariableBoxOpen, false);
-            Item = item;
+            animator.SetBool(Open, false);
+            this.item = item;
             boxSpeechBalloonController = speechBalloon.GetComponent<BoxSpeechBalloonController>();
             boxSpeechBalloonController.item = item;
-            IsSet = true;
+            isSet = true;
         }
 
         #endregion
@@ -81,9 +95,9 @@ namespace Control.Item
 
         private void InactivateSpeechBalloon(object _, ItemGetEventArgs e)
         {
-            if (!IsSet) return;
-            if (e.item.index != Item.index) return;
-            IsOpen = true;
+            if (!isSet) return;
+            if (e.item.index != item.index) return;
+            SetIsOpen(true);
             speechBalloon.SetActive(false);
         }
 

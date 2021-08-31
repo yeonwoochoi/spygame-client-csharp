@@ -17,8 +17,6 @@ namespace Domain.StageObj
 
         public int index;
         public SpyType type;
-        public string question => qna.question; // TODO(??)
-        public string answer => GetAnswer(); // TODO(??)
         public bool isSpy;
 
         #endregion
@@ -51,7 +49,12 @@ namespace Domain.StageObj
 
         #region Getter
 
-        private string GetAnswer()
+        public string GetQuestion()
+        {
+            return qna.question;
+        }
+        
+        public string GetAnswer()
         {
             return isSpy ? qna.wrongAnswers[Random.Range(0, qna.wrongAnswers.Length)] : qna.correctAnswers[Random.Range(0, qna.correctAnswers.Length)];
         }

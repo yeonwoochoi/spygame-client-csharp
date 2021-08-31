@@ -21,20 +21,20 @@ namespace Control.Movement
 
         public void Init()
         {
-            if (isSet) return;
+            if (getIsSet) return;
             SetCurrentState(MoveStateType.Idle);
             objectType = MoveObjectType.Player;
             
             if (eControlType == EControlType.KeyBoard)
             {
                 speed = 3f;
-                isSet = true;
+                getIsSet = true;
                 return;
             }
             
             speed = 4f;
             StartCoroutine(CheckIdle());
-            isSet = true;
+            getIsSet = true;
         }
 
         public void MovePlayer(List<Vector3> positions)

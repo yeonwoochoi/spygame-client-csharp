@@ -36,7 +36,7 @@ namespace Base
         protected Animator animator;
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
-        protected bool isSet = false;
+        protected bool getIsSet = false;
         
         #endregion
 

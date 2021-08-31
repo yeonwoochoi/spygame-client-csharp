@@ -136,8 +136,8 @@ namespace UI.Qna
         private IEnumerator TypingReportContent()
         {
             yield return new WaitForSeconds(0.5f);
-            yield return TypingComment(playerQuestionText, $"Player : {spy.question}");
-            yield return TypingComment(spyAnswerText, $"Soldier : {spy.answer}");
+            yield return TypingComment(playerQuestionText, $"Player : {spy.GetQuestion()}");
+            yield return TypingComment(spyAnswerText, $"Soldier : {spy.GetAnswer()}");
             yield return TypingComment(spyOrNotText, SpyOrNotQuestionComment);
             
             captureBtn.SetActive(true);

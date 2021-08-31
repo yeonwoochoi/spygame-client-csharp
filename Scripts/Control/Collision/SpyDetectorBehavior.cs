@@ -24,7 +24,7 @@ namespace Control.Collision
         {
             if (!IsValidTrigger(other.gameObject.tag)) return;
             if (eControlType == EControlType.Mouse) other.gameObject.GetComponent<PlayerMoveController>().StopMove();
-            spyMoveController.SpyStateType = SpyStateType.Examined;
+            spyMoveController.SetSpyStateType(SpyStateType.Examined);
             speechBalloon.SetActive(true);
             speechBalloonController.StartDetection();
             audioManager.Play(SoundType.Meet);
@@ -35,7 +35,7 @@ namespace Control.Collision
             if (!IsValidTrigger(other.gameObject.tag)) return;
             speechBalloonController.clicked = false;
             speechBalloon.SetActive(false);
-            spyMoveController.SpyStateType = SpyStateType.Free;
+            spyMoveController.SetSpyStateType(SpyStateType.Free);
             spyMoveController.StartWandering();
         }
 
@@ -59,8 +59,8 @@ namespace Control.Collision
 
         private bool IsValidTrigger(string tag)
         {
-            if (!isSet || spyMoveController == null || !spyMoveController.IsSet || tag == "Detector") return false;
-            if (spyMoveController.SpyStateType == SpyStateType.Capture || spyMoveController.SpyStateType == SpyStateType.Release) return false;
+            if (!isSet || spyMoveController == null || !spyMoveController.GetIsSet() || tag == "Detector") return false;
+            if (spyMoveController.GetSpyStateType() == SpyStateType.Capture || spyMoveController.GetSpyStateType() == SpyStateType.Release) return false;
             return tag == "Player";
         }
 

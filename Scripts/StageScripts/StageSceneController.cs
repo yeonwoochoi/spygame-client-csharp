@@ -307,12 +307,12 @@ namespace StageScripts
 
             if (qnaDifficulty == QnaDifficulty.Easy)
             {
-                result = qna.Where(qna => qna.difficulty == "Easy").ToList();
+                result = qna.Where(qna => qna.GetDifficulty() == QnaDifficulty.Easy).ToList();
                 return result[Random.Range(0, result.Count)];
             }
             else
             {
-                result = qna.Where(qna => qna.difficulty == "Hard").ToList();
+                result = qna.Where(qna => qna.GetDifficulty() == QnaDifficulty.Hard).ToList();
                 return result[Random.Range(0, result.Count)];
             }
         }
