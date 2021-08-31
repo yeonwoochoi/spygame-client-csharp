@@ -82,30 +82,8 @@ namespace LoadingScripts
 
                     if (loadingBar.fillAmount < 1.0f) continue;
 
-                    var done = false;
-                    var limitCount = 1200;
-                    
-                    while (!done)
-                    {
-                        if (limitCount < 0) break;
-                        if (LoadingManager.Instance.NextType == MainSceneType.Play)
-                        {
-                            if (QnaManager.Instance.isLoaded)
-                            {
-                                LoadingManager.Instance.qna = QnaManager.Instance.response.content;
-                                QnaManager.Instance.isLoaded = false;
-                                done = true;
-                            }
-                        }
-                        else
-                        {
-                            done = true;
-                        }
+                    yield return StartCoroutine(GetQnaData());
 
-                        limitCount--;
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    
                     manager.allowSceneActivation = true;
                     yield return new WaitForSeconds(0.5f);
                     StartCoroutine(Fade(false));
@@ -114,6 +92,38 @@ namespace LoadingScripts
             }
         }
 
+        private IEnumerator GetQnaData()
+        {
+            var done = false;
+            // waiting time is not over 2 minute
+            var limitCount = 1200;
+                    
+            while (!done)
+            {
+                if (limitCount < 0)
+                {
+                    // TODO (error) Server data is not loaded.
+                    break;
+                }
+                if (LoadingManager.Instance.nextType == MainSceneType.Play)
+                {
+                    if (QnaManager.Instance.isLoaded)
+                    {
+                        LoadingManager.Instance.qna = QnaManager.Instance.response.content;
+                        QnaManager.Instance.isLoaded = false;
+                        done = true;
+                    }
+                }
+                else
+                {
+                    done = true;
+                }
+
+                limitCount--;
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        
         #endregion
     }
 }
