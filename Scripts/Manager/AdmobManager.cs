@@ -107,11 +107,11 @@ namespace Manager
         {
             if (!isLoaded) return;
             
-            isSoundMute = AudioManager.instance.IsSoundMute;
-            isEffectMute = AudioManager.instance.IsEffectMute;
+            isSoundMute = AudioManager.instance.GetIsSoundMute();
+            isEffectMute = AudioManager.instance.GetIsEffectMute();
 
-            AudioManager.instance.IsSoundMute = true;
-            AudioManager.instance.IsEffectMute = true;
+            AudioManager.instance.SetIsSoundMute(true);
+            AudioManager.instance.SetIsEffectMute(true);
         }
 
         private void HandleOnAdFailedToLoad(object sender, AdFailedToLoadEventArgs e) { }
@@ -119,8 +119,8 @@ namespace Manager
 
         private void HandleOnAdClosed(object sender, EventArgs e)
         {
-            AudioManager.instance.IsSoundMute = isSoundMute;
-            AudioManager.instance.IsEffectMute = isEffectMute;
+            AudioManager.instance.SetIsSoundMute(isSoundMute);
+            AudioManager.instance.SetIsEffectMute(isEffectMute);
         }
 
         #endregion

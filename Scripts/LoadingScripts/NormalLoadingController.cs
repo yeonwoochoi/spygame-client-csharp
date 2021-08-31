@@ -22,26 +22,26 @@ namespace LoadingScripts
 
         protected override void HandleLoading()
         {
-            if (LoadingManager.Instance.CurrentType == MainSceneType.Main)
+            if (LoadingManager.Instance.currentType == MainSceneType.Main)
             {
                 nextScene = SceneNameManager.SceneChapter;    
             }
 
-            if (LoadingManager.Instance.CurrentType == MainSceneType.Select)
+            if (LoadingManager.Instance.currentType == MainSceneType.Select)
             {
-                switch (LoadingManager.Instance.NextType)
+                switch (LoadingManager.Instance.nextType)
                 {
                     case MainSceneType.Main:
                         nextScene = SceneNameManager.SceneMain;
                         break;
                     case MainSceneType.Play:
                         nextScene = SceneNameManager.SceneStage;
-                        QnaManager.Instance.GetQnaData(LoadingManager.Instance.ChapterType, LoadingManager.Instance.StageType);
+                        QnaManager.Instance.GetQnaData(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType);
                         break;
                 }
             }
 
-            if (LoadingManager.Instance.CurrentType == MainSceneType.Play)
+            if (LoadingManager.Instance.currentType == MainSceneType.Play)
             {
                 nextScene = SceneNameManager.SceneChapter;
             }

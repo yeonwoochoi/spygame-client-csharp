@@ -19,7 +19,7 @@ namespace Manager
 
         #region Const Variable
 
-        private const string baseURL =
+        private const string BaseURL =
             "https://script.google.com/macros/s/AKfycbxfW0c3rzK1PEu5cHGIkUuIk0R1YjTsRIjmLuip1jO5-0MP77WJFNmMmuIQ1MR2h9qNlA/exec";
 
         #endregion
@@ -56,7 +56,7 @@ namespace Manager
             WWWForm form = new WWWForm();
             form.AddField("stage", $"Stage {(int) chapterType}-{(int) stageType + 1}");
             
-            StartCoroutine(Post(form, baseURL));
+            StartCoroutine(Post(form, BaseURL));
         }
 
         #endregion

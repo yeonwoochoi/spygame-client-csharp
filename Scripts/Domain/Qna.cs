@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using System;
+
+namespace Domain
 {
     #region Enum
 
@@ -9,12 +11,12 @@
 
     #endregion
 
-    // TODO()
+    [Serializable]
     public class Qna
     {
         #region Public Variables
 
-        private string difficulty;
+        public string difficulty;
         public string question;
         public string[] correctAnswers;
         public string[] wrongAnswers;
@@ -24,8 +26,8 @@
         #region Getter
 
         public QnaDifficulty GetDifficulty()
-        {
-            return difficulty == "Easy" ? QnaDifficulty.Easy : QnaDifficulty.Hard;
+        {   
+            return difficulty.Contains("Easy") ? QnaDifficulty.Easy : QnaDifficulty.Hard;
         }
 
         #endregion

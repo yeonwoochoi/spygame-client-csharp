@@ -102,10 +102,10 @@ namespace MainScripts
         
         private void LoadChapterScene(ChapterType chapterType)
         {
-            LoadingManager.Instance.CurrentType = MainSceneType.Main;
-            LoadingManager.Instance.NextType = MainSceneType.Select;
-            LoadingManager.Instance.LoadingType = LoadingType.Normal;
-            LoadingManager.Instance.ChapterType = chapterType;
+            LoadingManager.Instance.currentType = MainSceneType.Main;
+            LoadingManager.Instance.nextType = MainSceneType.Select;
+            LoadingManager.Instance.loadingType = LoadingType.Normal;
+            LoadingManager.Instance.chapterType = chapterType;
             LoadingManager.Instance.chapter = GetChapter(chapterType);
 
             StartCoroutine(StartLoadingAnimator(() =>

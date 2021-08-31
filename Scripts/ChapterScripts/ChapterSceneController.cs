@@ -64,11 +64,11 @@ namespace ChapterScripts
 
         private void LoadStageScene(StageType stageType)
         {
-            LoadingManager.Instance.CurrentType = MainSceneType.Select;
-            LoadingManager.Instance.NextType = MainSceneType.Play;
-            LoadingManager.Instance.LoadingType = LoadingType.Normal;
-            LoadingManager.Instance.ChapterType = currentChapter.chapterType;
-            LoadingManager.Instance.StageType = stageType;
+            LoadingManager.Instance.currentType = MainSceneType.Select;
+            LoadingManager.Instance.nextType = MainSceneType.Play;
+            LoadingManager.Instance.loadingType = LoadingType.Normal;
+            LoadingManager.Instance.chapterType = currentChapter.chapterType;
+            LoadingManager.Instance.stageType = stageType;
             LoadingManager.Instance.stage = GetCurrentStage(stageType);
             
             StartCoroutine(StartLoadingAnimator(() =>
@@ -83,9 +83,9 @@ namespace ChapterScripts
 
         private void OnClickBackBtn()
         {
-            LoadingManager.Instance.CurrentType = MainSceneType.Select;
-            LoadingManager.Instance.NextType = MainSceneType.Main;
-            LoadingManager.Instance.LoadingType = LoadingType.Normal;
+            LoadingManager.Instance.currentType = MainSceneType.Select;
+            LoadingManager.Instance.nextType = MainSceneType.Main;
+            LoadingManager.Instance.loadingType = LoadingType.Normal;
 
             StartCoroutine(StartLoadingAnimator(
                 () => nextScene = SceneNameManager.SceneNormalLoading,

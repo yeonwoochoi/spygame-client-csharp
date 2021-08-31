@@ -291,10 +291,10 @@ namespace StageScripts
 
         private void OnClickExitBtn(ChapterType chapterType)
         {
-            LoadingManager.Instance.CurrentType = MainSceneType.Play;
-            LoadingManager.Instance.NextType = MainSceneType.Select;
-            LoadingManager.Instance.LoadingType = LoadingType.Normal;
-            LoadingManager.Instance.ChapterType = chapterType;
+            LoadingManager.Instance.currentType = MainSceneType.Play;
+            LoadingManager.Instance.nextType = MainSceneType.Select;
+            LoadingManager.Instance.loadingType = LoadingType.Normal;
+            LoadingManager.Instance.chapterType = chapterType;
 
             StartCoroutine(StartLoadingAnimator(
                 () => nextScene = SceneNameManager.SceneNormalLoading, 
@@ -303,18 +303,8 @@ namespace StageScripts
 
         private Qna GetRandomQna(QnaDifficulty qnaDifficulty)
         {
-            var result = new List<Qna>();
-
-            if (qnaDifficulty == QnaDifficulty.Easy)
-            {
-                result = qna.Where(qna => qna.GetDifficulty() == QnaDifficulty.Easy).ToList();
-                return result[Random.Range(0, result.Count)];
-            }
-            else
-            {
-                result = qna.Where(qna => qna.GetDifficulty() == QnaDifficulty.Hard).ToList();
-                return result[Random.Range(0, result.Count)];
-            }
+            var result = qna.Where(q => q.GetDifficulty() == qnaDifficulty).ToList();
+            return result[Random.Range(0, result.Count)];
         }
 
         #endregion

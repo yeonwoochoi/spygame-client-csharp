@@ -39,8 +39,8 @@ namespace UI.Stage
             exitButton.onClick.AddListener(ExitGame);
             StageHudController.OpenStagePauseEvent += OpenPausePopup;
             
-            soundButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.IsSoundMute);
-            effectButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.IsEffectMute);
+            soundButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.GetIsSoundMute());
+            effectButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.GetIsEffectMute());
         }
 
         protected override void OnDisable()
@@ -55,12 +55,12 @@ namespace UI.Stage
 
         private void MuteSound()
         {
-            AudioManager.instance.IsSoundMute = !AudioManager.instance.IsSoundMute;
+            AudioManager.instance.SetIsSoundMute(!AudioManager.instance.GetIsSoundMute());
         }
 
         private void MuteEffect()
         {
-            AudioManager.instance.IsEffectMute = !AudioManager.instance.IsEffectMute;
+            AudioManager.instance.SetIsEffectMute(!AudioManager.instance.GetIsEffectMute());
         }
 
         private void RestartGame()

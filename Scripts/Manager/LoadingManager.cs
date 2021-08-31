@@ -19,15 +19,13 @@ namespace Manager
 
     public class LoadingManager
     {
-        //TODO (Getter Setter)
-
-        public MainSceneType CurrentType { get; set; }
-        public MainSceneType NextType { get; set; }
-        public ChapterType ChapterType { get; set; }
-        public StageType StageType { get; set; }
-        public LoadingType LoadingType { get; set; }
-
         #region Public Variables
+
+        public MainSceneType currentType;
+        public MainSceneType nextType;
+        public ChapterType chapterType;
+        public StageType stageType;
+        public LoadingType loadingType;
 
         public Stage stage;
         public Chapter chapter;
@@ -45,8 +43,8 @@ namespace Manager
 
         private LoadingManager()
         {
-            CurrentType = MainSceneType.Main;
-            LoadingType = LoadingType.Normal;
+            currentType = MainSceneType.Main;
+            loadingType = LoadingType.Normal;
         }
 
         #endregion

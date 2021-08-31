@@ -17,42 +17,52 @@ namespace Manager
         private bool isEffectMute;
 
         #endregion
-        
-        public bool IsSoundMute
-        {
-            get => isSoundMute;
-            set
-            {
-                isSoundMute = value;
-                foreach (var sound in sounds)
-                {
-                    if (sound.isEffect) continue;
-                    sound.source.volume = isSoundMute ? 0 : 1;
-                    soundManager.isSoundMute = isSoundMute;
-                    GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
-                }
-            }
-        }
-
-        public bool IsEffectMute
-        {
-            get => isEffectMute;
-            set
-            {
-                isEffectMute = value;
-                foreach (var sound in sounds)
-                {
-                    if (!sound.isEffect) continue;
-                    sound.source.volume = isEffectMute ? 0 : 1;
-                    soundManager.isEffectMute = isEffectMute;
-                    GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
-                }
-            }
-        }
 
         #region Static Variable
 
         public static AudioManager instance = null;
+
+        #endregion
+        
+        #region Getter
+
+        public bool GetIsSoundMute()
+        {
+            return isSoundMute;
+        }
+
+        public bool GetIsEffectMute()
+        {
+            return isEffectMute;
+        }
+
+        #endregion
+
+        #region Setter
+
+        public void SetIsSoundMute(bool flag)
+        {
+            isSoundMute = flag;
+            foreach (var sound in sounds)
+            {
+                if (sound.isEffect) continue;
+                sound.source.volume = isSoundMute ? 0 : 1;
+                soundManager.isSoundMute = isSoundMute;
+                GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
+            }
+        }
+
+        public void SetIsEffectMute(bool flag)
+        {
+            isEffectMute = flag;
+            foreach (var sound in sounds)
+            {
+                if (!sound.isEffect) continue;
+                sound.source.volume = isEffectMute ? 0 : 1;
+                soundManager.isEffectMute = isEffectMute;
+                GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
+            }
+        }
 
         #endregion
 
@@ -85,8 +95,8 @@ namespace Manager
                 GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, soundManager);
             }
             
-            IsSoundMute = soundManager.isSoundMute;
-            IsEffectMute = soundManager.isEffectMute;
+            SetIsSoundMute(soundManager.isSoundMute);
+            SetIsEffectMute(soundManager.isEffectMute);
         }
 
         private void Start()
