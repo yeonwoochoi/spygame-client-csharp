@@ -2967,7 +2967,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768131057
   m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -3143,7 +3143,7 @@ GameObject:
   - component: {fileID: 4482352772700853896}
   - component: {fileID: 4482352772700853899}
   m_Layer: 0
-  m_Name: Stage 1-3
+  m_Name: Stage 1-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3180,6 +3180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04cfe9d6f05e43898fa5de55054b3d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  qna: []
   tilemap: {fileID: 5098357108848632106}
   initPlayerTransform: {fileID: 3480426248839625205}
   line: {fileID: 4482352773119610417}
@@ -3187,7 +3188,6 @@ MonoBehaviour:
   normalSpy: {fileID: 7205103202358907157, guid: 2eb399dc1c0ea3a42a484de63113a308, type: 3}
   bossSpy: {fileID: 7205103202358907157, guid: 9e9185be1d7d01d4bbb76c9000f137a8, type: 3}
   item: {fileID: 95050256989225157, guid: ab6e59c641eaf5946850f9b6697e494a, type: 3}
-  missionType: 0
 --- !u!1 &4482352772758135816
 GameObject:
   m_ObjectHideFlags: 0
@@ -123437,7 +123437,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -43883999
   m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -126738,7 +126738,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -768131057
   m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -136628,6 +136628,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4671491510567973397, guid: b0cc529edf7f8c74aa7d0f2a2d7faf7d, type: 3}
       propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671491510567973397, guid: b0cc529edf7f8c74aa7d0f2a2d7faf7d, type: 3}
+      propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4671491510567973397, guid: b0cc529edf7f8c74aa7d0f2a2d7faf7d, type: 3}

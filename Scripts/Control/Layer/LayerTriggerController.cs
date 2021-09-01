@@ -1,4 +1,5 @@
 ﻿using System;
+using Base;
 using Control.Movement;
 using UnityEngine;
 
@@ -52,15 +53,9 @@ namespace Control.Layer
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.gameObject.GetComponent<PlayerMoveController>() == null) return;
-            other.gameObject.layer = LayerMask.NameToLayer(layer.LayerTypeToString());
-
-            other.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = sortingLayer.LayerTypeToString();
-            var spriteRenderers = other.gameObject.GetComponentsInChildren<SpriteRenderer>(); // TODO(Player Spy에 붙여줘 child object 모아서 넘겨주는거)
-            foreach (var sr in spriteRenderers)
-            {
-                sr.sortingLayerName = sortingLayer.LayerTypeToString();
-            }
+            var controller = other.gameObject.GetComponent<PlayerLayerController>();
+            if (controller == null) return;
+            controller.ChangeLayer(layer, sortingLayer);
         }
 
         #endregion

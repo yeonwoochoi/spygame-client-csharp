@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 8712555811997165615}
   - component: {fileID: 6069153928607211233}
   - component: {fileID: 55958885864610563}
+  - component: {fileID: 4890179226705523916}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -238,11 +239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
-  speed: 0
-  eControlType: 0
-  rb2D: {fileID: 0}
-  animator: {fileID: 0}
-  detectorForPlayer: {fileID: 7232247209876187067}
 --- !u!114 &55958885864610563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +253,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterCollider2D: {fileID: 8712555811997165615}
   characterBlockerCollider2D: {fileID: 4582345517285746905}
+--- !u!114 &4890179226705523916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846266074223731435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3d7bca6dd14d0894f9d534ac58ae73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderers:
+  - {fileID: 846266074223731436}
 --- !u!1 &4191926420071188217
 GameObject:
   m_ObjectHideFlags: 0

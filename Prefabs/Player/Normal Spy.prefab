@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3174108566149720130}
   - component: {fileID: 4972603635684944971}
   - component: {fileID: 6130364163855161836}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Speech Balloon
   m_TagString: Speech Balloon
   m_Icon: {fileID: 0}
@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: -6019100242370133363}
   - component: {fileID: 6154111696238000797}
   - component: {fileID: 5514356439582866291}
+  - component: {fileID: 8273155095365825544}
   m_Layer: 10
   m_Name: Normal Spy
   m_TagString: Spy
@@ -447,3 +448,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterCollider2D: {fileID: 7205103202358907154}
   characterBlockerCollider2D: {fileID: 2076452424967112569}
+--- !u!114 &8273155095365825544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205103202358907157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3d7bca6dd14d0894f9d534ac58ae73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderers:
+  - {fileID: 7205103202358907152}
+  - {fileID: 3174108566149720130}

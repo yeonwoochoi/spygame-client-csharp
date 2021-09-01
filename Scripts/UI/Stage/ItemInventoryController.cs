@@ -12,7 +12,6 @@ using Util;
 
 namespace UI.Stage
 {
-    // TODO()
     public class ItemInventoryController: MonoBehaviour
     {
         #region Private Variables
