@@ -16,7 +16,6 @@ namespace Event
 
     #endregion
 
-    // TODO()
     public class UpdateStageStateEventArgs : EventArgs
     {
         #region Public Variables

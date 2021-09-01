@@ -51,7 +51,6 @@ namespace UI.Base
             bgCanvasGroup.Visible(flag);
         }
 
-        // TODO()
         protected IEnumerator Fade(CanvasGroup target, bool isFadeIn = true)
         {
             if (isFadeIn)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Domain
 {
-    // TODO(REF)
+    // TODO(DATA)
     [Serializable]
     [ CreateAssetMenu( fileName = "Chapter", menuName = "Scriptable Object Asset/Chapter" )]
     public class Chapter: ScriptableObject

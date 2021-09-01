@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Domain.Network
 {
-    // TODO
+    // TODO(?)
     [Serializable]
     public class Response
     {

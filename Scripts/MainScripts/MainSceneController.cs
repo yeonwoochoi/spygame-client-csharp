@@ -67,7 +67,7 @@ namespace MainScripts
 
         #region Private Methods
 
-        // TODO()
+        // TODO(Data)
         private void InitScores()
         {
             for (var chapterIndex = 0; chapterIndex < chapters.Length; chapterIndex++)
@@ -121,13 +121,18 @@ namespace MainScripts
 
         private Chapter GetChapter(ChapterType chapterType)
         {
-            var result = chapters[0];
+            Chapter result = null;
             foreach (var chapter in chapters)
             {
                 if (chapter.chapterType == chapterType)
                 {
                     result = chapter;
                 }
+            }
+
+            if (result == null)
+            {
+                // TODO (Error) : There is no chapter data
             }
             return result;
         }

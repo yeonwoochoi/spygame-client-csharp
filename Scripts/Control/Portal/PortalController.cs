@@ -36,7 +36,7 @@ namespace Control.Portal
 
         #region Private Method
 
-        // TODO()
+        // TODO(?)
         private void EmitPortalMoveEvent(PortalMoveEventArgs e)
         {
             if (PortalMoveEvent == null) return;

@@ -57,7 +57,7 @@ namespace Control.SpeechBalloon
 
         #region Protected Method
 
-        // TODO()
+        // TODO(?)
         protected override void CheckValidHit(GameObject collider)
         {
             base.CheckValidHit(collider);

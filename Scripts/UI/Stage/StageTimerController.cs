@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 namespace UI.Stage
 {
-    // TODO()
     public class StageTimerController: MonoBehaviour
     {
         #region Public Variable

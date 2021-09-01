@@ -94,14 +94,18 @@ namespace ChapterScripts
         
         private Stage GetCurrentStage(StageType currentStageType)
         {
-            // TODO : 해당되는 stage 없을 땐 default로 Chapter1 stage1 받아옴 (수정 필요)
-            var result = currentChapter.stages[0];
+            Stage result = null;
             foreach (var stage in currentChapter.stages)
             {
                 if (stage.chapterType == currentChapter.chapterType && stage.stageType == currentStageType)
                 {
                     result = stage;
                 }
+            }
+
+            if (result == null)
+            {
+                // TODO (Error) : There is no stage data
             }
             return result;
         }
