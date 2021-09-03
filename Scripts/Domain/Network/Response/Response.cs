@@ -45,7 +45,7 @@ namespace Domain.Network.Response
 
         #region Private Variable
 
-        private ResponseOccurredEventArgs eventArgs;
+        private ResponseOccurredEventArgs responseOccurredEventArgs;
         
         #endregion
 
@@ -53,7 +53,7 @@ namespace Domain.Network.Response
 
         public HashSet<DeserializeType> GetDeserializeTypes()
         {
-            return eventArgs.types;
+            return responseOccurredEventArgs.types;
         }
 
         public HttpStatus GetHttpCode()
@@ -67,7 +67,7 @@ namespace Domain.Network.Response
 
         public void AddDeserializeTypes(DeserializeType type)
         {
-            eventArgs.types.Add(type);
+            responseOccurredEventArgs.types.Add(type);
         }
 
         #endregion
@@ -114,7 +114,7 @@ namespace Domain.Network.Response
             if (ResponseOccurredEvent == null) return;
             foreach (var invocation in ResponseOccurredEvent.GetInvocationList())
             {
-                invocation?.DynamicInvoke(this, eventArgs);
+                invocation?.DynamicInvoke(this, responseOccurredEventArgs);
             }
         }
         
@@ -124,7 +124,7 @@ namespace Domain.Network.Response
 
         private void InitEventArgs()
         {
-            eventArgs = new ResponseOccurredEventArgs();
+            responseOccurredEventArgs = new ResponseOccurredEventArgs();
         }
 
         #endregion
@@ -156,10 +156,14 @@ namespace Domain.Network.Response
             if (!response.HasKeyAndNotNull(key)) return;
             var chapter = response.Deserialize<PseudoChapter>(key);
             PseudoChapter.Instance.SetUp(chapter);
+            response.AddDeserializeTypes(DeserializeType.Chapter);
         }
 
-        public static void DeserializeAll(this PseudoResponse response)
+        public static void DeserializeAll(this PseudoResponse response, bool deserialize = true)
         {
+            // NetworkManager.cs의 HandleResponse에서 DeserializeAll()을 할것인지 아니면
+            // Data를 사용하는 script내에서 추가적인 처리를 한 다음에 DeserializeAll()을 할것인지 여부를 결정하기 위한 bool값
+            if (!deserialize) return;
             response.DeserializeQna();
             response.DeserializeStage();
             response.EmitResponseOccurredEvent();
