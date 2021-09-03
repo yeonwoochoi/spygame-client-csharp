@@ -14,12 +14,7 @@ namespace Domain
 
     public enum ChapterType
     {
-        Chapter1 = 1, 
-        Chapter2 = 2, 
-        Chapter3 = 3, 
-        Chapter4 = 4, 
-        Chapter5 = 5, 
-        Chapter6 = 6
+        Chapter1, Chapter2, Chapter3, Chapter4, Chapter5, Chapter6
     }
 
     #endregion
@@ -31,7 +26,7 @@ namespace Domain
         #region Public Variables
 
         public GameObject stagePrefab;
-        public Sprite stageCaptureSprite;
+        public Sprite mapSprite;
         public StageMissionType stageMissionType;
         public ChapterType chapterType;
         public StageType stageType;

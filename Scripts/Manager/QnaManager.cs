@@ -2,6 +2,7 @@
 using System.Collections;
 using Domain;
 using Domain.Network;
+using Domain.Network.Response;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,6 +13,7 @@ namespace Manager
     {
         #region Public Variables
 
+        public Qna[] qna;
         public Response response;
         [HideInInspector] public bool isLoaded = false;
 
@@ -51,10 +53,15 @@ namespace Manager
 
         #region Public Method
 
+        public void Setup(Qna[] content)
+        {
+            qna = content;
+        }
+
         public void GetQnaData(ChapterType chapterType, StageType stageType)
         {
             WWWForm form = new WWWForm();
-            form.AddField("stage", $"Stage {(int) chapterType}-{(int) stageType + 1}");
+            form.AddField("stage", $"Stage {(int) chapterType + 1}-{(int) stageType + 1}");
             
             StartCoroutine(Post(form, BaseURL));
         }

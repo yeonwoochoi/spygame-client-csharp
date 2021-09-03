@@ -20,5 +20,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 95144e06a4c52c84ea71180210062a88, type: 2}
   - {fileID: 11400000, guid: fcce62315ecf487438aabbe5905c9fba, type: 2}
   mapPrefab: {fileID: 4933028714131932198, guid: 3cb3719eb740737498a64ae53bc0a1d6, type: 3}
-  chapterType: 1
+  chapterType: 0
   isLocked: 0

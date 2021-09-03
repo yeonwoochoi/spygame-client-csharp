@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Stage 1-6
   m_EditorClassIdentifier: 
   stagePrefab: {fileID: 4482352772700853897, guid: 92270c61898d9de45810661479274d9e, type: 3}
-  stageCaptureSprite: {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
+  mapSprite: {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
   stageMissionType: 0
-  chapterType: 1
+  chapterType: 0
   stageType: 5
   limitTime: 450
   boxCount: 7

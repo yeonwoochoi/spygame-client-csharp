@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Domain
 {
@@ -16,10 +17,10 @@ namespace Domain
     {
         #region Public Variables
 
-        public string difficulty;
-        public string question;
-        public string[] correctAnswers;
-        public string[] wrongAnswers;
+        [SerializeField] public string difficulty;
+        [SerializeField] public string question;
+        [SerializeField] public string[] correctAnswers;
+        [SerializeField] public string[] wrongAnswers;
 
         #endregion
 

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Stage 1-2
   m_EditorClassIdentifier: 
   stagePrefab: {fileID: 4482352772700853897, guid: 71c6b689828d9b94ea944f4a639c0b15, type: 3}
-  stageCaptureSprite: {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  mapSprite: {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
   stageMissionType: 0
-  chapterType: 1
+  chapterType: 0
   stageType: 1
   limitTime: 210
   boxCount: 4
@@ -23,4 +23,4 @@ MonoBehaviour:
   bossSpyCount: 3
   goalNormalSpyCount: 3
   goalBossSpyCount: 2
-  score: 0
+  score: 2

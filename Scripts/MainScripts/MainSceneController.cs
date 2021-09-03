@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Linq.Expressions;
 using Base;
 using Domain;
 using Event;
@@ -33,7 +35,7 @@ namespace MainScripts
                 chapterManager = ChapterManager.Create();
                 GlobalDataManager.Instance.Set(GlobalDataKey.CHAPTER, chapterManager);
             }
-            
+
             var soundManager = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND);
             if (soundManager == null)
             {
@@ -84,7 +86,7 @@ namespace MainScripts
         {
             for (var i = 0; i < chapterButtons.Length; i++)
             {
-                SetButtonController(chapterButtons[i], (ChapterType) i + 1);
+                SetButtonController(chapterButtons[i], (ChapterType) i);
             }
         }
 
@@ -139,10 +141,18 @@ namespace MainScripts
 
         private void UnlockChapterButton(Chapter chapter)
         {
-            if (chapter.chapterType == ChapterType.Chapter1) chapter.isLocked = false;
+            if (chapter.chapterType == ChapterType.Chapter1)
+            {
+                chapter.isLocked = false;
+                return;
+            }
             var index = (int) chapter.chapterType;
-            if (index >= chapters.Length) return;
+            if (index + 1 >= chapters.Length) return;
             var nextChapter = GetChapter((ChapterType) (index + 1));
+            if (nextChapter.chapterType == ChapterType.Chapter2)
+            {
+                Debug.Log($"{chapter.GetIsClear()}");
+            }
             nextChapter.isLocked = !chapter.GetIsClear();
         }
         

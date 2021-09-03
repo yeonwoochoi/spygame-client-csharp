@@ -41,7 +41,7 @@ namespace UI.Main
         public void SetChapterSelectButtons(Domain.Chapter chapter)
         {
             SetIsLocked(chapter.isLocked);
-            titleText.text = $"Chapter {(int) chapter.chapterType}";
+            titleText.text = $"Chapter {(int) chapter.chapterType + 1}";
         }
 
         #endregion

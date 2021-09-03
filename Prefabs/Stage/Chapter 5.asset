@@ -15,5 +15,5 @@ MonoBehaviour:
   stages:
   - {fileID: 11400000, guid: 07bc653939fd0b847bd8e15a31a3dc49, type: 2}
   mapPrefab: {fileID: 3600574154855037752, guid: 7666d341c0b1d6047a3ef197753309f0, type: 3}
-  chapterType: 5
-  isLocked: 0
+  chapterType: 4
+  isLocked: 1
