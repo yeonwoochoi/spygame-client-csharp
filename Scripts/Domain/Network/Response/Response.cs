@@ -24,7 +24,7 @@ namespace Domain.Network.Response
         #region Static Variables
         
         public static readonly string KEY_QNA = "qna";
-        public static readonly string KEY_CHAPTER = "chapter";
+        public static readonly string KEY_CHAPTER_INFO = "chapterInfo";
         
         #endregion
     }
@@ -39,7 +39,7 @@ namespace Domain.Network.Response
         public string timestamp;
         public Dictionary<string, object> data;
         public string message;
-        public string error;
+        // public string error;
 
         #endregion
 
@@ -145,18 +145,18 @@ namespace Domain.Network.Response
         {
             var key = ResponseKeyManager.KEY_QNA;
             if (!response.HasKeyAndNotNull(key)) return;
-            var qna = response.Deserialize<Qna[]>(key);
+            var qna = response.Deserialize<List<Qna>>(key);
             QnaManager.Instance.Setup(qna);
             response.AddDeserializeTypes(DeserializeType.Qna);
         }
 
         private static void DeserializeStage(this PseudoResponse response)
         {
-            var key = ResponseKeyManager.KEY_CHAPTER;
+            var key = ResponseKeyManager.KEY_CHAPTER_INFO;
             if (!response.HasKeyAndNotNull(key)) return;
-            var chapter = response.Deserialize<PseudoChapter>(key);
+            var chapter = response.Deserialize<List<PseudoChapterInfo>>(key);
             PseudoChapter.Instance.SetUp(chapter);
-            response.AddDeserializeTypes(DeserializeType.Chapter);
+            response.AddDeserializeTypes(DeserializeType.ChapterInfo);
         }
 
         public static void DeserializeAll(this PseudoResponse response, bool deserialize = true)

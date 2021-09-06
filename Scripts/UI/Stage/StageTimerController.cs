@@ -3,6 +3,7 @@ using System.Collections;
 using Domain;
 using Domain.StageObj;
 using Event;
+using Manager;
 using StageScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,7 +54,7 @@ namespace UI.Stage
         private void SetTimer(object _, UpdateStageStateEventArgs e)
         {
             if (isSet) return;
-            time = e.currentStage.limitTime;
+            time = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType).limitTime;
             Init(true);
         }
         

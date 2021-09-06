@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Domain;
 using Domain.Network;
 using Domain.Network.Response;
@@ -13,8 +14,8 @@ namespace Manager
     {
         #region Public Variables
 
-        public Qna[] qna;
-        public Response response;
+        [HideInInspector] public List<Qna> qna;
+        [HideInInspector] public Response response;
         [HideInInspector] public bool isLoaded = false;
 
         #endregion
@@ -53,7 +54,7 @@ namespace Manager
 
         #region Public Method
 
-        public void Setup(Qna[] content)
+        public void Setup(List<Qna> content)
         {
             qna = content;
         }

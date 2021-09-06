@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
 
 namespace Domain
@@ -40,6 +42,10 @@ namespace Domain
         #endregion
     }
 
+    /// <summary>
+    /// Init loading에서 불러와야한다.
+    /// 모든 chapter info를 불러오는 것이기 때문
+    /// </summary>
     [Serializable]
     public class PseudoChapter
     {
@@ -99,9 +105,9 @@ namespace Domain
 
         #region Public Method
 
-        public void SetUp(PseudoChapter chapter)
+        public void SetUp(List<PseudoChapterInfo> chapter)
         {
-            chapterInfos = chapter.chapterInfos;
+            chapterInfos = chapter;
         }
 
         #endregion
@@ -115,7 +121,10 @@ namespace Domain
         #region Public Variables
 
         [SerializeField] public string title;
+        
+        [JsonConverter(typeof(StringEnumConverter))]
         [SerializeField] public ChapterType chapterType;
+        
         [SerializeField] public List<PseudoStageInfo> stageInfos;
 
         #endregion
@@ -126,13 +135,16 @@ namespace Domain
     {
         #region Public Variables
 
+        [JsonConverter(typeof(StringEnumConverter))]
         [SerializeField] public StageType stageType;
+        
         [SerializeField] public int limitTime;
         [SerializeField] public int boxCount;
         [SerializeField] public int normalSpyCount;
         [SerializeField] public int bossSpyCount;
         [SerializeField] public int goalNormalSpyCount;
         [SerializeField] public int goalBossSpyCount;
+        [SerializeField] public int score;
 
         #endregion
     }
