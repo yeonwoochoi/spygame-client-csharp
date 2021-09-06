@@ -38,10 +38,10 @@ namespace UI.Main
 
         #region Public Method
 
-        public void SetChapterSelectButtons(Domain.Chapter chapter)
+        public void SetChapterSelectButtons(PseudoChapterInfo chapterInfo, bool flag)
         {
-            SetIsLocked(chapter.isLocked);
-            titleText.text = $"Chapter {(int) chapter.chapterType + 1}";
+            SetIsLocked(flag);
+            titleText.text = chapterInfo.title;
         }
 
         #endregion
