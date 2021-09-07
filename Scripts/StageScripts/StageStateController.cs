@@ -12,21 +12,17 @@ namespace StageScripts
 {
     public class StageStateController: MonoBehaviour
     {
-        #region Public Variables
-
-        [HideInInspector] public Stage currentStage;
-        [HideInInspector] public bool isSet = false;
-
-        #endregion
-
         #region Private Variables
 
+        private PseudoStageInfo currentStageInfo;
         private int currentHp;
         private int currentNormalSpyCount;
         private int currentBossSpyCount;
         private int captureNormalSpyCount;
         private int captureBossSpyCount;
-        
+
+        private bool isSet = false;
+
         #endregion
 
         #region Static Variable
@@ -54,9 +50,9 @@ namespace StageScripts
         {
             currentNormalSpyCount = count;
             UpdateState();
-            if (currentStage.goalNormalSpyCount > captureNormalSpyCount)
+            if (currentStageInfo.goalNormalSpyCount > captureNormalSpyCount)
             {
-                if (currentStage.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
+                if (currentStageInfo.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
                 {
                     EmitStageDoneEvent(new ExitStageEventArgs
                     {
@@ -70,9 +66,9 @@ namespace StageScripts
         {
             currentBossSpyCount = count;
             UpdateState();
-            if (currentStage.goalBossSpyCount > captureBossSpyCount)
+            if (currentStageInfo.goalBossSpyCount > captureBossSpyCount)
             {
-                if (currentStage.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
+                if (currentStageInfo.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
                 {
                     EmitStageDoneEvent(new ExitStageEventArgs
                     {
@@ -86,7 +82,7 @@ namespace StageScripts
         {
             captureNormalSpyCount = count;
             UpdateState();
-            if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
+            if (currentStageInfo.goalNormalSpyCount <= captureNormalSpyCount && currentStageInfo.goalBossSpyCount <= captureBossSpyCount)
             {
                 EmitStageDoneEvent(new ExitStageEventArgs
                 {
@@ -99,7 +95,7 @@ namespace StageScripts
         {
             captureBossSpyCount = count;
             UpdateState();
-            if (currentStage.goalNormalSpyCount <= captureNormalSpyCount && currentStage.goalBossSpyCount <= captureBossSpyCount)
+            if (currentStageInfo.goalNormalSpyCount <= captureNormalSpyCount && currentStageInfo.goalBossSpyCount <= captureBossSpyCount)
             {
                 EmitStageDoneEvent(new ExitStageEventArgs
                 {
@@ -124,6 +120,9 @@ namespace StageScripts
             ItemInventoryController.ItemUseEvent += GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += ProcessSpyInterviewResult;
+            
+            currentStageInfo = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType);
+            SetStageState();
         }
 
         private void OnDisable()
@@ -139,9 +138,10 @@ namespace StageScripts
 
         public void SetStageState()
         {
+            if (isSet) return;
             SetCurrentHp(PlayerHp);
-            currentNormalSpyCount = currentStage.normalSpyCount;
-            currentBossSpyCount = currentStage.bossSpyCount;
+            currentNormalSpyCount = currentStageInfo.normalSpyCount;
+            currentBossSpyCount = currentStageInfo.bossSpyCount;
             captureNormalSpyCount = 0;
             captureBossSpyCount = 0;
             UpdateState();
@@ -167,7 +167,7 @@ namespace StageScripts
         private void UpdateState()
         {
             EmitUpdateStageStateEvent(
-                new UpdateStageStateEventArgs(currentStage, currentHp, captureNormalSpyCount, captureBossSpyCount, currentNormalSpyCount, currentBossSpyCount));
+                new UpdateStageStateEventArgs(currentHp, captureNormalSpyCount, captureBossSpyCount, currentNormalSpyCount, currentBossSpyCount));
         }
 
         private void GetHp(object _, ItemUseEventArgs e)

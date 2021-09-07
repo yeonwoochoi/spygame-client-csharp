@@ -29,12 +29,6 @@ namespace StageScripts
     
     public class StageSceneController: BaseSceneController
     {
-        #region Public Variable
-
-        public Qna[] qna;
-
-        #endregion
-        
         #region Private Variables
 
         [SerializeField] private Tilemap tilemap;
@@ -44,20 +38,24 @@ namespace StageScripts
         [SerializeField] private GameObject normalSpy;
         [SerializeField] private GameObject bossSpy;
         [SerializeField] private GameObject item;
+
+        private List<Qna> qna;
         
         private JoystickMoveController joystickMoveController;
         private Transform playerObjParent;
         private Transform spyObjParent;
         private Transform boxObjParent;
-        
-        private Stage currentStage;
 
+        private PseudoStageInfo currentStageInfo;
+        
         private List<Vector3> normalSpyPositions;
         private List<Vector3> bossSpyPositions;
         private List<Vector3> itemPositions;
         private Vector3 nodeSize;
+        
         private EControlType eControlType;
-
+        private ChapterType currentChapterType;
+        
         #endregion
 
         #region Event
@@ -70,15 +68,17 @@ namespace StageScripts
 
         protected override void Start()
         {
-            StagePauseController.ExitStageEvent += ExitStageSceneScene;
-            StageDonePopupController.ExitStageSceneEvent += ExitStageSceneScene;
+            StagePauseController.ExitStageEvent += ExitStageScene;
+            StageDonePopupController.ExitStageSceneEvent += ExitStageScene;
+            qna = QnaManager.Instance.qna;
+            currentChapterType = LoadingManager.Instance.chapterType;
             StartCoroutine(ShowMissionPopup());
         }
 
         private void OnDisable()
         {
-            StagePauseController.ExitStageEvent -= ExitStageSceneScene;
-            StageDonePopupController.ExitStageSceneEvent -= ExitStageSceneScene;
+            StagePauseController.ExitStageEvent -= ExitStageScene;
+            StageDonePopupController.ExitStageSceneEvent -= ExitStageScene;
         }
 
         #endregion
@@ -92,9 +92,9 @@ namespace StageScripts
             boxObjParent = boxParent;
         }
         
-        public void SetCurrentStage(Stage stage, JoystickMoveController joystick, EControlType e, UnityEngine.Camera camera)
+        public void SetCurrentStage(PseudoStageInfo stageInfo, JoystickMoveController joystick, EControlType e, UnityEngine.Camera camera)
         {
-            currentStage = stage;
+            currentStageInfo = stageInfo;
             eControlType = e;
 
             nodeSize = tilemap.transform.localScale / 2;
@@ -127,7 +127,7 @@ namespace StageScripts
             itemPositions = new List<Vector3>();
             
             // Set spies and items
-            SetSpy(stage.goalNormalSpyCount, stage.goalBossSpyCount);
+            SetSpy(stageInfo.goalNormalSpyCount, stageInfo.goalBossSpyCount);
             SetItem();
         }
 
@@ -178,11 +178,11 @@ namespace StageScripts
 
         private void SetSpyPositions()
         {
-            for (var i = 0; i < currentStage.normalSpyCount; i++)
+            for (var i = 0; i < currentStageInfo.normalSpyCount; i++)
             {
                 normalSpyPositions.Add(GetPossiblePosition());
             }
-            for (var i = 0; i < currentStage.bossSpyCount; i++)
+            for (var i = 0; i < currentStageInfo.bossSpyCount; i++)
             {
                 bossSpyPositions.Add(GetPossiblePosition());
             }
@@ -190,7 +190,7 @@ namespace StageScripts
 
         private void SetItemPositions()
         {
-            for (var i = 0; i < currentStage.boxCount; i++)
+            for (var i = 0; i < currentStageInfo.boxCount; i++)
             {
                 itemPositions.Add(GetPossiblePosition());
             }
@@ -269,10 +269,7 @@ namespace StageScripts
         private IEnumerator ShowMissionPopup()
         {
             yield return new WaitForSeconds(0.01f);
-            EmitOpenStageMissionPopupEvent(new OpenStageMissionPopupEventArgs
-            {
-                stage = currentStage
-            });
+            EmitOpenStageMissionPopupEvent(new OpenStageMissionPopupEventArgs());
         }
         
         private void EmitOpenStageMissionPopupEvent(OpenStageMissionPopupEventArgs e)
@@ -284,9 +281,9 @@ namespace StageScripts
             }
         }
         
-        private void ExitStageSceneScene(object _, ExitStageEventArgs e)
+        private void ExitStageScene(object _, ExitStageEventArgs e)
         {
-            OnClickExitBtn(currentStage.chapterType);
+            OnClickExitBtn(currentChapterType);
         }
 
         private void OnClickExitBtn(ChapterType chapterType)

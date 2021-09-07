@@ -13,14 +13,17 @@ namespace ChapterScripts
     public class ChapterSceneController: BaseSceneController
     {
         #region Private Variables
-        
+
+        [SerializeField] private GameObject[] chapterMapPrefabs;
+        [SerializeField] private Sprite[] stageMapPreviewSprites;
         [SerializeField] private CanvasGroup loadingCanvasGroup;
         [SerializeField] private StagePlayReadyPopupController stagePlayReadyPopupController;
         [SerializeField] private Button backButton;
         [SerializeField] private Text chapterText;
         [SerializeField] private Transform parent;
 
-        private Chapter currentChapter;
+        private PseudoChapterInfo currentChapterInfo;
+        private ChapterType currentChapterType;
         private ChapterButtonController chapterButtonController;
         
         #endregion
@@ -36,14 +39,28 @@ namespace ChapterScripts
 
         #endregion
 
+        #region Getter
+
+        // TODO (map preview sprites) : 하드 코딩이니 서버 생기면 수정
+        private Sprite GetStageMapPreviewSprites(StageType stageType)
+        {
+            var chapterIndex = (int) currentChapterInfo.chapterType;
+            var stageIndex = (int) stageType;
+            var index = chapterIndex * 6 + stageIndex;
+            return stageMapPreviewSprites[index];
+        }
+
+        #endregion
+
         #region Private Methods
 
         private void SetChapterMap()
         {
-            currentChapter = LoadingManager.Instance.chapter;
+            currentChapterType = LoadingManager.Instance.chapterType;
+            var index = (int) currentChapterType;
 
             // map setting
-            var currentChapterMap = Instantiate(currentChapter.mapPrefab, parent.position, Quaternion.identity);
+            var currentChapterMap = Instantiate(chapterMapPrefabs[index], parent.position, Quaternion.identity);
             currentChapterMap.transform.SetParent(parent);
             currentChapterMap.GetComponent<RectTransform>().localScale = Vector3.one;
             
@@ -51,7 +68,7 @@ namespace ChapterScripts
             chapterButtonController = currentChapterMap.GetComponent<ChapterButtonController>();
             chapterButtonController.SetStageButtonEvent(OnClickStageBtn);
             chapterButtonController.SetButtonScore(stageType => GetCurrentStage(stageType).score);
-            chapterText.text = $"{currentChapter.chapterType}";
+            chapterText.text = $"{currentChapterInfo.title}";
             
             // chapter scene setting is done
             loadingCanvasGroup.Visible(false);
@@ -59,7 +76,11 @@ namespace ChapterScripts
         
         private void OnClickStageBtn(StageType stageType)
         {
-            stagePlayReadyPopupController.OpenStagePlayReadyPopup(GetCurrentStage(stageType), LoadStageScene);
+            stagePlayReadyPopupController.OpenStagePlayReadyPopup(
+                GetCurrentStage(stageType), 
+                GetStageMapPreviewSprites(stageType),
+                LoadStageScene
+                );
         }
 
         private void LoadStageScene(StageType stageType)
@@ -67,9 +88,8 @@ namespace ChapterScripts
             LoadingManager.Instance.currentType = MainSceneType.Select;
             LoadingManager.Instance.nextType = MainSceneType.Play;
             LoadingManager.Instance.loadingType = LoadingType.Normal;
-            LoadingManager.Instance.chapterType = currentChapter.chapterType;
+            LoadingManager.Instance.chapterType = currentChapterType;
             LoadingManager.Instance.stageType = stageType;
-            LoadingManager.Instance.stage = GetCurrentStage(stageType);
             
             StartCoroutine(StartLoadingAnimator(() =>
                 {
@@ -92,22 +112,9 @@ namespace ChapterScripts
                 () => SceneManager.LoadScene(nextScene)));
         }
         
-        private Stage GetCurrentStage(StageType currentStageType)
+        private PseudoStageInfo GetCurrentStage(StageType stageType)
         {
-            Stage result = null;
-            foreach (var stage in currentChapter.stages)
-            {
-                if (stage.chapterType == currentChapter.chapterType && stage.stageType == currentStageType)
-                {
-                    result = stage;
-                }
-            }
-
-            if (result == null)
-            {
-                // TODO (Error) : There is no stage data
-            }
-            return result;
+            return PseudoChapter.Instance.GetStageInfo(currentChapterType, stageType);
         }
 
         #endregion

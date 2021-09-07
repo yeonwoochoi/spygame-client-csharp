@@ -10,12 +10,15 @@ namespace StageScripts
     {
         #region Private Variables
 
+        [SerializeField] private GameObject[] stagePrefabs;
         [SerializeField] private UnityEngine.Camera camera;
         [SerializeField] private Transform stageParent;
         [SerializeField] private Transform spyParent;
         [SerializeField] private Transform boxParent;
         [SerializeField] private JoystickMoveController joystickMoveController;
-        private Stage currentStage;
+
+        private ChapterType currentChapterType;
+        private PseudoStageInfo currentStageInfo;
         private StageStateController stageStateController;
         
         private EControlType eControlType;
@@ -33,19 +36,34 @@ namespace StageScripts
 
         #endregion
 
+        #region Getter
+
+        private GameObject GetStagePrefab()
+        {
+            var chapterIndex = (int) currentChapterType;
+            var stageIndex = (int) currentStageInfo.stageType;
+            var index = chapterIndex * 6 + stageIndex;
+            return stagePrefabs[index];
+        }
+
+        #endregion
+
         #region Private Method
 
         private void SetStage()
         {
-            currentStage = LoadingManager.Instance.stage;
-            stageStateController.currentStage = currentStage;
+            currentChapterType = LoadingManager.Instance.chapterType;
+            currentStageInfo = PseudoChapter.Instance.GetStageInfo(currentChapterType, LoadingManager.Instance.stageType);
+            
             stageStateController.SetStageState();
-            var stageObj = Instantiate(currentStage.stagePrefab, Vector3.zero, Quaternion.identity);
+            
+            //TODO (stage prefab) : 하드 코딩이니 서버 생기면 수정 
+            var stageObj = Instantiate(GetStagePrefab(), Vector3.zero, Quaternion.identity);
             stageObj.transform.SetParent(stageParent);
+            
             var stageSceneController = stageObj.GetComponent<StageSceneController>();
-            stageSceneController.qna = LoadingManager.Instance.qna;
             stageSceneController.SetStageObjParent(stageParent, spyParent, boxParent);
-            stageSceneController.SetCurrentStage(currentStage, joystickMoveController, eControlType, camera);
+            stageSceneController.SetCurrentStage(currentStageInfo, joystickMoveController, eControlType, camera);
         }
 
         #endregion
