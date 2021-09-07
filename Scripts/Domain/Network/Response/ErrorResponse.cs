@@ -60,9 +60,10 @@ namespace Domain.Network.Response
         #region Static Variables
 
         // TODO(Error) : Error 상황 생각나면 ErrorCode 추가
-        public static readonly ErrorCode QNA_NOT_FOUND = new ErrorCode(404, ERROR_CODE_QNA, 100, "");
+        public static readonly ErrorCode QNA_NOT_FOUND = new ErrorCode(404, ERROR_CODE_QNA, 100, "Stage Not Found");
 
         public static readonly ErrorCode CHAPTER_NOT_FOUND = new ErrorCode(404, ERROR_CODE_CHAPTER, 200, "Chapter Not Found");
+        public static readonly ErrorCode STAGE_NOT_FOUND = new ErrorCode(404, ERROR_CODE_CHAPTER, 201, "Stage Not Found");
 
         #endregion
 
@@ -72,6 +73,7 @@ namespace Domain.Network.Response
         {
             yield return QNA_NOT_FOUND;
             yield return CHAPTER_NOT_FOUND;
+            yield return STAGE_NOT_FOUND;
         }
 
         #endregion

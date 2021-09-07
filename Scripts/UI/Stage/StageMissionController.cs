@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using Domain;
 using Event;
+using Manager;
 using StageScripts;
 using UI.Base;
 using UnityEngine;
@@ -41,7 +43,9 @@ namespace UI.Stage
         {
             fakeLoadingCanvasGroup.Visible(false);
             OnOpenPopup();
-            StartCoroutine(ShowMissionText(e.stage.GetMissionText()));
+            var currentStage = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
+                LoadingManager.Instance.stageType);
+            StartCoroutine(ShowMissionText(currentStage.GetStageMissionText()));
         }
 
         private IEnumerator ShowMissionText(string mission)

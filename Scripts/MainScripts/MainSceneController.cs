@@ -154,7 +154,6 @@ namespace MainScripts
             LoadingManager.Instance.nextType = MainSceneType.Select;
             LoadingManager.Instance.loadingType = LoadingType.Normal;
             LoadingManager.Instance.chapterType = chapterType;
-            LoadingManager.Instance.chapter = GetChapter(chapterType);
 
             StartCoroutine(StartLoadingAnimator(() =>
                 {

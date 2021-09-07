@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Domain
@@ -66,6 +67,17 @@ namespace Domain
             return result;
         }
 
+        public void UpdateStageScore(ChapterType chapterType, StageType stageType, int score)
+        {
+            foreach (var chapterInfo in chapterInfos.Where(chapterInfo => chapterInfo.chapterType == chapterType))
+            {
+                foreach (var stageInfo in chapterInfo.stageInfos.Where(stageInfo => stageInfo.stageType == stageType))
+                {
+                    stageInfo.score = score;
+                }
+            }
+        }
+
         #endregion
 
         #region Public Method
@@ -110,6 +122,15 @@ namespace Domain
         [SerializeField] public int goalNormalSpyCount;
         [SerializeField] public int goalBossSpyCount;
         [SerializeField] public int score;
+
+        #endregion
+
+        #region Getter
+
+        public string GetStageMissionText()
+        {
+            return $"Catch {goalNormalSpyCount} normal spy and {goalBossSpyCount} boss spies through interrogation.";
+        }
 
         #endregion
     }

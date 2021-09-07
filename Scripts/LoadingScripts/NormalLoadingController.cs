@@ -2,6 +2,7 @@
 using System.Collections;
 using Base;
 using Event;
+using Http;
 using MainScripts;
 using Manager;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace LoadingScripts
         #region Private Variable
 
         [SerializeField] private Text progressText;
+        private bool isLoaded;
 
         #endregion
 
@@ -36,7 +38,8 @@ namespace LoadingScripts
                         break;
                     case MainSceneType.Play:
                         nextScene = SceneNameManager.SceneStage;
-                        QnaManager.Instance.GetQnaData(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType);
+                        isLoaded = false;
+                        StartCoroutine(GetQnaData());
                         break;
                 }
             }
@@ -81,7 +84,7 @@ namespace LoadingScripts
 
                     if (loadingBar.fillAmount < 1.0f) continue;
 
-                    yield return StartCoroutine(GetQnaData());
+                    while (isLoaded) yield return null;
 
                     manager.allowSceneActivation = true;
                     yield return new WaitForSeconds(0.5f);
@@ -93,34 +96,31 @@ namespace LoadingScripts
 
         private IEnumerator GetQnaData()
         {
-            var done = false;
-            // waiting time is not over 2 minute
-            var limitCount = 1200;
-                    
-            while (!done)
-            {
-                if (limitCount < 0)
-                {
-                    // TODO (error) Server data is not loaded.
-                    break;
-                }
-                if (LoadingManager.Instance.nextType == MainSceneType.Play)
-                {
-                    if (QnaManager.Instance.isLoaded)
-                    {
-                        LoadingManager.Instance.qna = QnaManager.Instance.response.content;
-                        QnaManager.Instance.isLoaded = false;
-                        done = true;
-                    }
-                }
-                else
-                {
-                    done = true;
-                }
+            var www = HttpFactory.Build(RequestUrlType.Qna);
+            yield return www.SendWebRequest();
+            
+            NetworkManager.HandleResponse(www, out var response, out var errorResponse);
 
-                limitCount--;
-                yield return new WaitForSeconds(0.1f);
+            if (response == null && errorResponse == null)
+            {
+                NetworkManager.HandleServerError();
+                yield break;
             }
+
+            if (response != null)
+            {
+                isLoaded = true;
+                yield break;
+            }
+
+            var code = errorResponse.GetErrorCode();
+            NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
+                .Type(AlertType.Notice)
+                .Title("No qna data")
+                .Content(code.message)
+                .OkHandler(() => Application.Quit(0))
+                .Build()
+            );
         }
         
         #endregion

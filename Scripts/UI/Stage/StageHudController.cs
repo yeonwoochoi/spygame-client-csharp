@@ -18,7 +18,7 @@ namespace UI.Stage
         [SerializeField] private Text hpText;
         [SerializeField] private Button pauseButton;
 
-        private Domain.Stage currentStage;
+        private PseudoStageInfo currentStage;
         private int hp;
         private int captureNormalSpyCount;
         private int captureBossSpyCount;
@@ -36,6 +36,8 @@ namespace UI.Stage
         private void Start()
         {
             pauseButton.onClick.AddListener(EmitOpenStagePauseEvent);
+            currentStage = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
+                LoadingManager.Instance.stageType);
             StageStateController.UpdateStageStateEvent += UpdateStageState;
         }
 
@@ -51,7 +53,6 @@ namespace UI.Stage
         private void UpdateStageState(object _, UpdateStageStateEventArgs e)
         {
             hp = e.hp;
-            currentStage = e.currentStage;
             captureNormalSpyCount = e.captureNormalSpyCount;
             captureBossSpyCount = e.captureBossSpyCount;
             normalSpyCountText.text = $"{captureNormalSpyCount} / {currentStage.goalNormalSpyCount}";

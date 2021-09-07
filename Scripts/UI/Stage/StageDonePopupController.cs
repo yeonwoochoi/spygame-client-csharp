@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using Domain;
 using Event;
+using Http;
 using Manager;
 using Manager.Data;
 using StageScripts;
@@ -21,7 +23,10 @@ namespace UI.Stage
         [SerializeField] private GameObject exitButton;
         [SerializeField] private StageTimerController stageTimerController;
 
-        private Domain.Stage currentStage;
+        private ChapterType chapterType;
+        private StageType stageType;
+        
+        private PseudoStageInfo currentStageInfo;
         private int currentHp;
         private readonly string stageClearComment = "Stage Clear";
         private readonly string gameOverComment = "Game Over";
@@ -43,6 +48,11 @@ namespace UI.Stage
             isDone = false;
             retryButton.GetComponent<Button>().onClick.AddListener(RestartGame);
             exitButton.GetComponent<Button>().onClick.AddListener(ExitGame);
+            
+            chapterType = LoadingManager.Instance.chapterType;
+            stageType = LoadingManager.Instance.stageType;
+            
+            currentStageInfo = PseudoChapter.Instance.GetStageInfo(chapterType, stageType);
             
             StageStateController.UpdateStageStateEvent += UpdateStageState;
             StageTimerController.TimeOverEvent += OpenGameOver;
@@ -66,7 +76,6 @@ namespace UI.Stage
 
         private void UpdateStageState(object _, UpdateStageStateEventArgs e)
         {
-            currentStage = e.currentStage;
             currentHp = e.hp;
         }
 
@@ -76,7 +85,7 @@ namespace UI.Stage
             if (isDone) return;
             isDone = true;
             titleText.text = $"{gameOverComment}";
-            stageText.text = $"{currentStage.stageType}";
+            stageText.text = $"{currentStageInfo.stageType}";
             OnOpenPopup();
             starHandler.ShowStars(0);
             AudioManager.instance.Stop(SoundType.Background);
@@ -87,24 +96,51 @@ namespace UI.Stage
         {
             if (e.exitType != StageExitType.StageClear) return;
             if (isDone) return;
-            isDone = true;
-            titleText.text = $"{stageClearComment}";
-            stageText.text = $"{currentStage.stageType}";
-            OnOpenPopup();
+            
             var score = CalculateStarScore();
+            StartCoroutine(SetStageScore(score));
+            
+            titleText.text = $"{stageClearComment}";
+            stageText.text = $"{currentStageInfo.stageType}";
             starHandler.ShowStars(score);
-            if (currentStage.score < score)
-            {
-                currentStage.score = score;
-                var chapterManager = GlobalDataManager.Instance.Get<ChapterManager>(GlobalDataKey.CHAPTER);
-                var chapterIndex = (int) currentStage.chapterType;
-                var stageIndex = (int) currentStage.stageType;
-                chapterManager.chapterInfos[chapterIndex - 1].stageInfos[stageIndex].score = score;
-                GlobalDataManager.Instance.Set(GlobalDataKey.CHAPTER, chapterManager);
-            }
+            OnOpenPopup();
 
             AudioManager.instance.Stop(SoundType.Background);
             AudioManager.instance.Play(SoundType.StageClear);
+            
+            isDone = true;
+        }
+
+        private IEnumerator SetStageScore(int score)
+        {
+            var www = HttpFactory.Build(RequestUrlType.StageScore, score);
+            yield return www.SendWebRequest();
+            
+            NetworkManager.HandleResponse(www, out var response, out var errorResponse);
+
+            if (response == null && errorResponse == null)
+            {
+                NetworkManager.HandleServerError();
+                yield break;
+            }
+
+            if (response != null)
+            {
+                if (currentStageInfo.score < score)
+                {
+                    PseudoChapter.Instance.UpdateStageScore(chapterType, stageType, score);       
+                }
+                yield break;
+            }
+
+            var errorCode = errorResponse.GetErrorCode();
+            NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
+                .Type(AlertType.Notice)
+                .Title("Error while saving stage score")
+                .Content(errorCode.message)
+                .OkHandler(RestartGame)
+                .Build()
+            );
         }
         
         private void RestartGame()
@@ -124,7 +160,7 @@ namespace UI.Stage
         private int CalculateStarScore()
         {
             var time = stageTimerController.time;
-            var totalTime = currentStage.limitTime;
+            var totalTime = currentStageInfo.limitTime;
             
             var totalScore = 0;
 

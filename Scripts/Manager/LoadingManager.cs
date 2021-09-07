@@ -26,9 +26,7 @@ namespace Manager
         public ChapterType chapterType;
         public StageType stageType;
         public LoadingType loadingType;
-
-        public Stage stage;
-        public Chapter chapter;
+        
         public Qna[] qna;
 
         #endregion

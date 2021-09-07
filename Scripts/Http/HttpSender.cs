@@ -9,7 +9,7 @@ namespace Http
 {
     public enum RequestUrlType
     {
-        Qna, ChapterInfo
+        Qna, ChapterInfo, StageScore
     }
 
     public enum HttpMethod
@@ -82,8 +82,31 @@ namespace Http
                     builder
                         .Method(HttpMethod.Get);
                     break;
+                case RequestUrlType.StageScore:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+
+            return builder.Build();
+        }
+
+        public static UnityWebRequest Build(RequestUrlType type, int score)
+        {
+            var builder = HttpSender.Builder()
+                .RequestUrl(type);
+
+            if (type == RequestUrlType.StageScore)
+            {
+                builder
+                    .Method(HttpMethod.Post)
+                    .Form("chapter", $"{(int) LoadingManager.Instance.chapterType + 1}")
+                    .Form("stage", $"{(int) LoadingManager.Instance.stageType + 1}")
+                    .Form("score", $"{score}");
+            }
+            else
+            {
+                return Build(type);
             }
 
             return builder.Build();
@@ -93,9 +116,9 @@ namespace Http
 
     public static class RequestUrlUtils
     {
-        // TODO (url) : 전체 Chapter Count 어디다 저장해서 get url 에 넣어줄건지.. 고민
-        private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbzU3qAqk9M6qw677feQ8wQuTWCId0-_2Vk7Tr4eI_Xn92NDsYnyPCPGSl-6K5Hqf_lIrQ/exec";
-        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbxEoGzqz8A5PKHLQkWaWEogxuHubLsoUaTkdWKoUqlTs3PvNbopTWXhOtGcorw54S-k/exec?chapterCount=6";
+        private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbwzHb9JyvTwX_uPr9cf_HMUHkaU5KcO_xzO23JEADrOSkpYw78z1ESOOceo_XUavdPn-Q/exec";
+        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbxtfY0RDkm66nqTskWODKaiL8XxwcTXm-Iqnkobr1Oa1tppzBAZgdWLDtAIN4hlT1Sr/exec?chapterCount=6";
+        private static readonly string scoreUrl = "https://script.google.com/macros/s/AKfycbxtfY0RDkm66nqTskWODKaiL8XxwcTXm-Iqnkobr1Oa1tppzBAZgdWLDtAIN4hlT1Sr/exec";
         public static string TypeToUrl(RequestUrlType type)
         {
             switch (type)
@@ -104,6 +127,8 @@ namespace Http
                     return qnaUrl;
                 case RequestUrlType.ChapterInfo:
                     return chapterUrl;
+                case RequestUrlType.StageScore:
+                    return scoreUrl;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

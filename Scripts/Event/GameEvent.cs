@@ -20,7 +20,6 @@ namespace Event
     {
         #region Public Variables
 
-        public readonly Stage currentStage;
         public readonly int hp;
         public readonly int captureNormalSpyCount;
         public readonly int captureBossSpyCount;
@@ -31,10 +30,9 @@ namespace Event
 
         #region Constructor
 
-        public UpdateStageStateEventArgs(Stage currentStage, int hp, int captureNormalSpyCount, int captureBossSpyCount,
+        public UpdateStageStateEventArgs(int hp, int captureNormalSpyCount, int captureBossSpyCount,
             int currentNormalSpyCount, int currentBossSpyCount)
         {
-            this.currentStage = currentStage;
             this.hp = hp;
             this.captureNormalSpyCount = captureNormalSpyCount;
             this.captureBossSpyCount = captureBossSpyCount;
@@ -45,10 +43,7 @@ namespace Event
         #endregion
     }
 
-    public class OpenStageMissionPopupEventArgs : EventArgs
-    {
-        public Stage stage;
-    }
+    public class OpenStageMissionPopupEventArgs : EventArgs { }
 
     public class ExitStageEventArgs : EventArgs
     {

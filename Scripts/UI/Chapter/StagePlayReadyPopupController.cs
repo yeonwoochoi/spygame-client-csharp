@@ -20,13 +20,13 @@ namespace UI.Chapter
 
         #region Public Method
 
-        public void OpenStagePlayReadyPopup(Domain.Stage currentStage, Action<StageType> loadStageAction)
+        public void OpenStagePlayReadyPopup(PseudoStageInfo stageInfo, Sprite mapPreview, Action<StageType> loadStageAction)
         {
-            titleText.text = $"{currentStage.stageType}";
-            starHandler.ShowStars(currentStage.score);
-            stageMapImage.sprite = currentStage.mapSprite;
-            stageExplanationText.text = $"{currentStage.GetStageInfoText()}";
-            playButton.onClick.AddListener(() => { loadStageAction?.Invoke(currentStage.stageType);});
+            titleText.text = $"{stageInfo.stageType}";
+            starHandler.ShowStars(stageInfo.score);
+            stageMapImage.sprite = mapPreview;
+            stageExplanationText.text = $"{stageInfo.GetStageMissionText()}";
+            playButton.onClick.AddListener(() => { loadStageAction?.Invoke(stageInfo.stageType);});
             cancelButton.onClick.AddListener(OnClickCancelButton);
             OnOpenPopup();
         }
