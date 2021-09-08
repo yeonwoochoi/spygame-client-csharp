@@ -23,12 +23,10 @@ namespace Manager
 
         public MainSceneType currentType;
         public MainSceneType nextType;
-        public ChapterType chapterType;
-        public StageType stageType;
+        public ChapterType chapterType = ChapterType.Chapter1;
+        public StageType stageType = StageType.Stage1;
         public LoadingType loadingType;
         
-        public Qna[] qna;
-
         #endregion
 
         #region Static Variables

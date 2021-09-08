@@ -12,8 +12,9 @@ namespace Domain.Network.Response
     {
         #region Public Variables
 
-        [SerializeField] public int status;
         [SerializeField] public int code;
+        [SerializeField] public bool status;
+        [SerializeField] public int index;
         [SerializeField] public int subCode;
         [SerializeField] public string message;
 
@@ -23,7 +24,7 @@ namespace Domain.Network.Response
 
         public ErrorCode GetErrorCode()
         {
-            return ErrorCode.GetValues().First(errorCode => errorCode.code == code && errorCode.subCode == subCode);
+            return ErrorCode.GetValues().First(errorCode => errorCode.index == index && errorCode.subCode == subCode);
         }
 
         #endregion
@@ -43,27 +44,28 @@ namespace Domain.Network.Response
     {
         #region Readonly Variables
 
-        public readonly int status;
-        public readonly int code;
-        public readonly int subCode;
-        public readonly string message;
-
+        public int code;
+        public bool status;
+        public int index;
+        public int subCode;
+        public string message;
+        
         #endregion
 
         #region Const Variables
 
-        public const int ERROR_CODE_QNA = 1;
-        public const int ERROR_CODE_CHAPTER = 2;
+        public const int ERROR_INDEX_QNA = 1;
+        public const int ERROR_INDEX_CHAPTER = 2;
 
         #endregion
 
         #region Static Variables
 
         // TODO(Error) : Error 상황 생각나면 ErrorCode 추가
-        public static readonly ErrorCode QNA_NOT_FOUND = new ErrorCode(404, ERROR_CODE_QNA, 100, "Stage Not Found");
+        public static readonly ErrorCode QNA_NOT_FOUND = new ErrorCode(404, false, ERROR_INDEX_QNA, 100, "Stage Not Found");
 
-        public static readonly ErrorCode CHAPTER_NOT_FOUND = new ErrorCode(404, ERROR_CODE_CHAPTER, 200, "Chapter Not Found");
-        public static readonly ErrorCode STAGE_NOT_FOUND = new ErrorCode(404, ERROR_CODE_CHAPTER, 201, "Stage Not Found");
+        public static readonly ErrorCode CHAPTER_NOT_FOUND = new ErrorCode(404, false, ERROR_INDEX_CHAPTER, 200, "Chapter Not Found");
+        public static readonly ErrorCode STAGE_NOT_FOUND = new ErrorCode(404, false, ERROR_INDEX_CHAPTER, 201, "Stage Not Found");
 
         #endregion
 
@@ -80,7 +82,7 @@ namespace Domain.Network.Response
 
         #region Constructor
 
-        private ErrorCode(int status, int code, int subCode, string message)
+        private ErrorCode(int code, bool status, int index, int subCode, string message)
         {
             this.status = status;
             this.code = code;

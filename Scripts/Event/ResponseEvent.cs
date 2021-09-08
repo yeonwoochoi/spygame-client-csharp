@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Event
 {
     public enum DeserializeType {
-        Qna, ChapterInfo
+        Qna, ChapterInfo, Score
     }
     
     public class ResponseOccurredEventArgs : EventArgs {

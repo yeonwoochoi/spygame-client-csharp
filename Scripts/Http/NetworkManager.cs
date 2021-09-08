@@ -29,7 +29,7 @@ namespace Http
                 errorResponse = null;
                 return;
             }
-
+            
             if (request.responseCode >= 200 && request.responseCode < 300)
             {
                 response = PseudoResponse.JsonToResponse(request.downloadHandler.text);

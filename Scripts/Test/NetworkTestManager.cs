@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Domain;
+using Domain.Network.Response;
 using Event;
 using Http;
 using Manager;
@@ -16,6 +17,41 @@ namespace Test
         {
             //StartCoroutine(GetQnaData());
             StartCoroutine(GetStageInfo());
+        }
+        
+        private IEnumerator SetStageScore(int score)
+        {
+            yield return new WaitForSeconds(5f);
+            var currentStageInfo = PseudoChapter.Instance.GetStageInfo(ChapterType.Chapter1, StageType.Stage1);
+            var www = HttpFactory.Build(RequestUrlType.StageScore, score);
+            yield return www.SendWebRequest();
+            
+            NetworkManager.HandleResponse(www, out var response, out var errorResponse);
+
+            if (response == null && errorResponse == null)
+            {
+                NetworkManager.HandleServerError();
+                yield break;
+            }
+
+            if (response != null)
+            {
+                if (currentStageInfo.score < score)
+                {
+                    PseudoChapter.Instance.UpdateStageScore(ChapterType.Chapter1, StageType.Stage1, score);
+                    Debug.Log(PseudoChapter.Instance.GetStageInfo(ChapterType.Chapter1, StageType.Stage1).score);
+                }
+                yield break;
+            }
+
+            var errorCode = errorResponse.GetErrorCode();
+            NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
+                .Type(AlertType.Notice)
+                .Title("Error while saving stage score")
+                .Content(errorCode.message)
+                .OkHandler(() => { Application.Quit(0); })
+                .Build()
+            );
         }
 
         private IEnumerator GetQnaData()
@@ -33,9 +69,6 @@ namespace Test
 
             if (response != null)
             {
-                Debug.Log("Get Qna");
-                yield return new WaitForSeconds(5f);
-                Debug.Log(QnaManager.Instance.qna.Count);
                 foreach (var qna in QnaManager.Instance.qna)
                 {
                     Debug.Log($"{qna.difficulty} / {qna.question}");
@@ -68,16 +101,7 @@ namespace Test
 
             if (response != null)
             {
-                Debug.Log("Get Chapter");
-                foreach (var chapterInfo in PseudoChapter.Instance.chapterInfos)
-                {
-                    var result = "";
-                    foreach (var stageInfo in chapterInfo.stageInfos)
-                    {
-                        result += $"{chapterInfo.chapterType}-{stageInfo.stageType} : {stageInfo.limitTime}";
-                    }
-                    Debug.Log(result);
-                }
+                yield return StartCoroutine(SetStageScore(1));
                 yield break;
             }
 

@@ -98,11 +98,10 @@ namespace Http
 
             if (type == RequestUrlType.StageScore)
             {
+                Debug.Log($"Chapter{(int) LoadingManager.Instance.chapterType + 1}");
                 builder
                     .Method(HttpMethod.Post)
-                    .Form("chapter", $"{(int) LoadingManager.Instance.chapterType + 1}")
-                    .Form("stage", $"{(int) LoadingManager.Instance.stageType + 1}")
-                    .Form("score", $"{score}");
+                    .Form("chapter", $"{(int) LoadingManager.Instance.chapterType + 1}/{(int) LoadingManager.Instance.stageType + 1}/{score}");
             }
             else
             {
@@ -116,9 +115,8 @@ namespace Http
 
     public static class RequestUrlUtils
     {
-        private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbwzHb9JyvTwX_uPr9cf_HMUHkaU5KcO_xzO23JEADrOSkpYw78z1ESOOceo_XUavdPn-Q/exec";
-        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbxtfY0RDkm66nqTskWODKaiL8XxwcTXm-Iqnkobr1Oa1tppzBAZgdWLDtAIN4hlT1Sr/exec?chapterCount=6";
-        private static readonly string scoreUrl = "https://script.google.com/macros/s/AKfycbxtfY0RDkm66nqTskWODKaiL8XxwcTXm-Iqnkobr1Oa1tppzBAZgdWLDtAIN4hlT1Sr/exec";
+        private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbzAD_1OmkUJGdOivcysEs9GquKhnkfT9k0RA5Hemzu5CqhOMnZIq27YhKgkm7oJo3Qjjg/exec";
+        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbzSdZLzrHXK5kKkj8NeaQ1TBUiQgdjxnWOMhV7l4w4zes_lS4iJeOEuW3vkMR9YXCmO/exec";
         public static string TypeToUrl(RequestUrlType type)
         {
             switch (type)
@@ -126,9 +124,9 @@ namespace Http
                 case RequestUrlType.Qna:
                     return qnaUrl;
                 case RequestUrlType.ChapterInfo:
-                    return chapterUrl;
+                    return chapterUrl + "?chapterCount=6";
                 case RequestUrlType.StageScore:
-                    return scoreUrl;
+                    return chapterUrl;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

@@ -13,6 +13,7 @@ using MainScripts;
 using Manager;
 using Manager.Data;
 using UI.Stage;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -55,6 +56,7 @@ namespace StageScripts
         
         private EControlType eControlType;
         private ChapterType currentChapterType;
+        private StageType currentStageType;
         
         #endregion
 
@@ -70,8 +72,6 @@ namespace StageScripts
         {
             StagePauseController.ExitStageEvent += ExitStageScene;
             StageDonePopupController.ExitStageSceneEvent += ExitStageScene;
-            qna = QnaManager.Instance.qna;
-            currentChapterType = LoadingManager.Instance.chapterType;
             StartCoroutine(ShowMissionPopup());
         }
 
@@ -92,11 +92,16 @@ namespace StageScripts
             boxObjParent = boxParent;
         }
         
-        public void SetCurrentStage(PseudoStageInfo stageInfo, JoystickMoveController joystick, EControlType e, UnityEngine.Camera camera)
+        public void SetCurrentStage(JoystickMoveController joystick, EControlType e, UnityEngine.Camera camera)
         {
-            currentStageInfo = stageInfo;
+            qna = QnaManager.Instance.qna;
+            Debug.Log(qna.Count);
+            currentChapterType = LoadingManager.Instance.chapterType;
+            currentStageType = LoadingManager.Instance.stageType;
+            currentStageInfo = PseudoChapter.Instance.GetStageInfo(currentChapterType, currentStageType);
+            
             eControlType = e;
-
+            
             nodeSize = tilemap.transform.localScale / 2;
             nodeSize.z = 0;
 
@@ -127,7 +132,7 @@ namespace StageScripts
             itemPositions = new List<Vector3>();
             
             // Set spies and items
-            SetSpy(stageInfo.goalNormalSpyCount, stageInfo.goalBossSpyCount);
+            SetSpy();
             SetItem();
         }
 
@@ -135,7 +140,7 @@ namespace StageScripts
 
         #region Private Methods
 
-        private void SetSpy(int goalNormalSpyCount, int goalBossSpyCount)
+        private void SetSpy()
         {
             SetSpyPositions();
             var currentSetNormalSpyCount = 0;
@@ -147,7 +152,7 @@ namespace StageScripts
                 spyObj.transform.SetParent(spyObjParent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
                 spyMoveController.SetTilemap(tilemap);
-                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), currentSetNormalSpyCount >= goalNormalSpyCount));
+                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), currentSetNormalSpyCount >= currentStageInfo.goalNormalSpyCount));
                 currentSetNormalSpyCount++;
             }
             
@@ -158,7 +163,7 @@ namespace StageScripts
                 spyObj.transform.SetParent(spyObjParent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
                 spyMoveController.SetTilemap(tilemap);
-                spyMoveController.Init(new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), currentSetBossSpyCount >= goalBossSpyCount));
+                spyMoveController.Init(new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), currentSetBossSpyCount >= currentStageInfo.goalBossSpyCount));
                 currentSetBossSpyCount++;
             }
         }

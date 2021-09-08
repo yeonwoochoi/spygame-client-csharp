@@ -25,6 +25,8 @@ namespace ChapterScripts
         private PseudoChapterInfo currentChapterInfo;
         private ChapterType currentChapterType;
         private ChapterButtonController chapterButtonController;
+
+        private bool isSet = false;
         
         #endregion
 
@@ -56,7 +58,10 @@ namespace ChapterScripts
 
         private void SetChapterMap()
         {
+            if (isSet) return;
             currentChapterType = LoadingManager.Instance.chapterType;
+            currentChapterInfo = PseudoChapter.Instance.GetChapterInfo(currentChapterType);
+            
             var index = (int) currentChapterType;
 
             // map setting
@@ -66,12 +71,12 @@ namespace ChapterScripts
             
             // map controller setting
             chapterButtonController = currentChapterMap.GetComponent<ChapterButtonController>();
-            chapterButtonController.SetStageButtonEvent(OnClickStageBtn);
-            chapterButtonController.SetButtonScore(stageType => GetCurrentStage(stageType).score);
+            chapterButtonController.SetStageButtonEvent(OnClickStageBtn, currentChapterType);
             chapterText.text = $"{currentChapterInfo.title}";
             
             // chapter scene setting is done
             loadingCanvasGroup.Visible(false);
+            isSet = true;
         }
         
         private void OnClickStageBtn(StageType stageType)

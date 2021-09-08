@@ -16,7 +16,7 @@ namespace LoadingScripts
         #region Private Variable
 
         [SerializeField] private Text progressText;
-        private bool isLoaded;
+        private bool isLoaded = true;
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace LoadingScripts
 
                     if (loadingBar.fillAmount < 1.0f) continue;
 
-                    while (isLoaded) yield return null;
+                    while (!isLoaded) yield return null;
 
                     manager.allowSceneActivation = true;
                     yield return new WaitForSeconds(0.5f);

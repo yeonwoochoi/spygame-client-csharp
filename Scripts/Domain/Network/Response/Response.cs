@@ -8,23 +8,12 @@ using UnityEngine;
 
 namespace Domain.Network.Response
 {
-    // TODO(?)
-    [Serializable]
-    public class Response
-    {
-        #region Public Variables
-
-        public string title;
-        public Qna[] content;
-
-        #endregion
-    }
-    
     public static class ResponseKeyManager {
         #region Static Variables
         
         public static readonly string KEY_QNA = "qna";
         public static readonly string KEY_CHAPTER_INFO = "chapterInfo";
+        public static readonly string KEY_STAGE_SCORE = "score";
         
         #endregion
     }
@@ -150,7 +139,7 @@ namespace Domain.Network.Response
             response.AddDeserializeTypes(DeserializeType.Qna);
         }
 
-        private static void DeserializeStage(this PseudoResponse response)
+        private static void DeserializeStageInfo(this PseudoResponse response)
         {
             var key = ResponseKeyManager.KEY_CHAPTER_INFO;
             if (!response.HasKeyAndNotNull(key)) return;
@@ -165,7 +154,7 @@ namespace Domain.Network.Response
             // Data를 사용하는 script내에서 추가적인 처리를 한 다음에 DeserializeAll()을 할것인지 여부를 결정하기 위한 bool값
             if (!deserialize) return;
             response.DeserializeQna();
-            response.DeserializeStage();
+            response.DeserializeStageInfo();
             response.EmitResponseOccurredEvent();
         }
     }

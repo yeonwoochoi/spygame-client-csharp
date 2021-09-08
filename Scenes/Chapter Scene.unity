@@ -792,7 +792,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458474585}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 585.9985, y: 984.046, z: -1084.4779}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1357868196}
@@ -1720,7 +1720,7 @@ MonoBehaviour:
   cGroup: {fileID: 1002001395}
   bgCanvasGroup: {fileID: 715200121}
   titleText: {fileID: 2033612986}
-  tweenType: 1
+  moveType: 0
   starHandler: {fileID: 2097061525}
   stageMapImage: {fileID: 8878241}
   stageExplanationText: {fileID: 1870098673}
@@ -2066,6 +2066,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240a3d3cd5604f3eb19c10319b88cc33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chapterMapPrefabs:
+  - {fileID: 4933028714131932198, guid: 3cb3719eb740737498a64ae53bc0a1d6, type: 3}
+  - {fileID: 3600574154855037752, guid: 7666d341c0b1d6047a3ef197753309f0, type: 3}
+  - {fileID: 4933028714131932198, guid: 3cb3719eb740737498a64ae53bc0a1d6, type: 3}
+  - {fileID: 3600574154855037752, guid: 7666d341c0b1d6047a3ef197753309f0, type: 3}
+  - {fileID: 4933028714131932198, guid: 3cb3719eb740737498a64ae53bc0a1d6, type: 3}
+  - {fileID: 3600574154855037752, guid: 7666d341c0b1d6047a3ef197753309f0, type: 3}
+  stageMapPreviewSprites:
+  - {fileID: 21300000, guid: 0e46961e647a7a44289a73991fa17925, type: 3}
+  - {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  - {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  - {fileID: 21300000, guid: 7e40ebbcabfb1df4f9ed86212b0b23fe, type: 3}
+  - {fileID: 21300000, guid: 6816469f80678d149b6cdd1bb07c4b52, type: 3}
+  - {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
+  - {fileID: 21300000, guid: 0e46961e647a7a44289a73991fa17925, type: 3}
+  - {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  - {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  - {fileID: 21300000, guid: 7e40ebbcabfb1df4f9ed86212b0b23fe, type: 3}
+  - {fileID: 21300000, guid: 6816469f80678d149b6cdd1bb07c4b52, type: 3}
+  - {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
+  - {fileID: 21300000, guid: 0e46961e647a7a44289a73991fa17925, type: 3}
+  - {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  - {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  - {fileID: 21300000, guid: 7e40ebbcabfb1df4f9ed86212b0b23fe, type: 3}
+  - {fileID: 21300000, guid: 6816469f80678d149b6cdd1bb07c4b52, type: 3}
+  - {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
+  - {fileID: 21300000, guid: 0e46961e647a7a44289a73991fa17925, type: 3}
+  - {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  - {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  - {fileID: 21300000, guid: 7e40ebbcabfb1df4f9ed86212b0b23fe, type: 3}
+  - {fileID: 21300000, guid: 6816469f80678d149b6cdd1bb07c4b52, type: 3}
+  - {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
+  - {fileID: 21300000, guid: 0e46961e647a7a44289a73991fa17925, type: 3}
+  - {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  - {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  - {fileID: 21300000, guid: 7e40ebbcabfb1df4f9ed86212b0b23fe, type: 3}
+  - {fileID: 21300000, guid: 6816469f80678d149b6cdd1bb07c4b52, type: 3}
+  - {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
+  - {fileID: 21300000, guid: 0e46961e647a7a44289a73991fa17925, type: 3}
+  - {fileID: 21300000, guid: 3ac2efcdf4cae7a4e91a4c18675891c6, type: 3}
+  - {fileID: 21300000, guid: 5f641ddca25a7914080b29c5d2fac897, type: 3}
+  - {fileID: 21300000, guid: 7e40ebbcabfb1df4f9ed86212b0b23fe, type: 3}
+  - {fileID: 21300000, guid: 6816469f80678d149b6cdd1bb07c4b52, type: 3}
+  - {fileID: 21300000, guid: 115ea8bb1da05104cbeabbb1fef1ff2d, type: 3}
   loadingCanvasGroup: {fileID: 1382152695}
   stagePlayReadyPopupController: {fileID: 1002001397}
   backButton: {fileID: 130524034}

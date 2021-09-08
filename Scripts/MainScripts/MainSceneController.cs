@@ -43,13 +43,8 @@ namespace MainScripts
                 var initEControlManager = EControlManager.Create();
                 GlobalDataManager.Instance.Set(GlobalDataKey.ECONTROL, initEControlManager);
             }
-
-            StartCoroutine(GetStageInfo());
-        }
-
-        protected override void Start()
-        {
-            SetButtonEvent();
+            
+            Init();
         }
 
         private void Update()
@@ -96,7 +91,6 @@ namespace MainScripts
         private void Init()
         {
             if (isSet) return;
-            isSet = true;
             StartCoroutine(GetStageInfo());
         }
 
@@ -116,6 +110,7 @@ namespace MainScripts
             if (response != null)
             {
                 SetButtonEvent();
+                isSet = true;
                 yield break;
             }
 
