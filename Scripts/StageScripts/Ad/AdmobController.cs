@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Domain;
 using Event;
-using UnityEngine;
 using GoogleMobileAds.Api;
-using Manager.Data;
-using StageScripts;
+using Manager;
 using UI.Stage;
-using UnityEngine.UI;
+using UnityEngine;
 
-
-namespace Manager
+namespace StageScripts.Ad
 {
-    public class AdmobManager: MonoBehaviour
+    public class AdmobController: MonoBehaviour
     {
         #region Private Variables
 

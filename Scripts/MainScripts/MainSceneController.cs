@@ -59,7 +59,7 @@ namespace MainScripts
 
         #region Getter
 
-        private ChapterInfo GetChapter(ChapterType chapterType)
+        private ChapterInfo GetChapterInfo(ChapterType chapterType)
         {
             return ChapterManager.Instance.GetChapterInfo(chapterType);
         }
@@ -67,8 +67,8 @@ namespace MainScripts
         private bool IsClear(ChapterType chapterType)
         {
             var isClear = true;
-            var currentChapter = GetChapter(chapterType);
-            foreach (var stage in currentChapter.stageInfos.Where(stage => stage.score == 0))
+            var stageScoreInfo = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE).GetStageInfos(chapterType);
+            foreach (var stageScore in stageScoreInfo.Where(stageScore => stageScore.score == 0))
             {
                 isClear = false;
             }
@@ -91,44 +91,19 @@ namespace MainScripts
         private void Init()
         {
             if (isSet) return;
-            if (ChapterManager.Instance.IsSet())
-            {
-                SetButtonEvent();
-                isSet = true;
-                return;
-            }
-            StartCoroutine(GetStageInfo());
+            SetStageScore();
+            SetButtonEvent();
+            isSet = true;
         }
-
-        private IEnumerator GetStageInfo()
+        
+        private void SetStageScore()
         {
-            var www = HttpFactory.Build(RequestUrlType.ChapterInfo);
-            yield return www.SendWebRequest();
-            
-            NetworkManager.HandleResponse(www, out var response, out var errorResponse);
-            
-            if (response == null && errorResponse == null)
-            {
-                NetworkManager.HandleServerError();
-                yield break;
-            }
+            if (GlobalDataManager.Instance.HasKey(GlobalDataKey.STAGE_SCORE)) return;
 
-            if (response != null)
-            {
-                SetButtonEvent();
-                isSet = true;
-                yield break;
-            }
-
-            var code = errorResponse.GetErrorCode();
-            NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
-                .Type(AlertType.Notice)
-                .Title("No Chapter Info")
-                .Content(code.message)
-                .OkHandler(() => Application.Quit(0))
-                .Build()
-            );
+            var scoreInfos = StageScoreManager.Create();
+            GlobalDataManager.Instance.Set(GlobalDataKey.STAGE_SCORE, scoreInfos);
         }
+        
 
         private void SetButtonEvent()
         {
@@ -141,7 +116,7 @@ namespace MainScripts
         private void SetButtonController(Button button, ChapterType chapterType)
         {
             var controller = button.GetComponent<ChapterSelectPopupButtonController>();
-            controller.SetChapterSelectButtons(GetChapter(chapterType), IsLocked(chapterType));
+            controller.SetChapterSelectButtons(GetChapterInfo(chapterType), IsLocked(chapterType));
             button.onClick.AddListener(() =>
             {
                 if (controller.GetIsLocked()) return;

@@ -1,5 +1,7 @@
 ﻿using System;
 using Domain;
+using Manager;
+using Manager.Data;
 using UI.Chapter;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,14 +21,15 @@ namespace ChapterScripts
             for (var i = 0; i < stageButtons.Length; i++)
             {
                 var stageType = (StageType) i;
-                var stageInfo = ChapterManager.Instance.GetStageInfo(chapterType, stageType);
+                var score = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE)
+                    .GetStageScore(chapterType, stageType);
 
                 stageButtons[i].onClick.AddListener(() =>
                 {
                     openStageReadyPopupAction?.Invoke(stageType);
                 });
 
-                stageButtons[i].GetComponent<StageSpotButtonController>().SetStageScore(stageInfo.score);
+                stageButtons[i].GetComponent<StageSpotButtonController>().SetStageScore(score);
             }
         }   
         #endregion

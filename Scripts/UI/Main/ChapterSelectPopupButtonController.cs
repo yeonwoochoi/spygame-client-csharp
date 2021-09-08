@@ -1,5 +1,6 @@
 ﻿using System;
 using Domain;
+using Manager;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;

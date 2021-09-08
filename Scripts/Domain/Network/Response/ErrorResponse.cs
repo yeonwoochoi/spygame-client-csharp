@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Domain.Network.Response
@@ -65,7 +64,6 @@ namespace Domain.Network.Response
         public static readonly ErrorCode QNA_NOT_FOUND = new ErrorCode(404, false, ERROR_INDEX_QNA, 100, "Stage Not Found");
 
         public static readonly ErrorCode CHAPTER_NOT_FOUND = new ErrorCode(404, false, ERROR_INDEX_CHAPTER, 200, "Chapter Not Found");
-        public static readonly ErrorCode STAGE_NOT_FOUND = new ErrorCode(404, false, ERROR_INDEX_CHAPTER, 201, "Stage Not Found");
 
         #endregion
 
@@ -75,7 +73,6 @@ namespace Domain.Network.Response
         {
             yield return QNA_NOT_FOUND;
             yield return CHAPTER_NOT_FOUND;
-            yield return STAGE_NOT_FOUND;
         }
 
         #endregion

@@ -27,6 +27,8 @@ namespace UI.Stage
         private StageType stageType;
         
         private StageInfo currentStageInfo;
+        private StageScoreManager stageScoreManager;
+        
         private int currentHp;
         private readonly string stageClearComment = "Stage Clear";
         private readonly string gameOverComment = "Game Over";
@@ -53,6 +55,7 @@ namespace UI.Stage
             stageType = LoadingManager.Instance.stageType;
             
             currentStageInfo = ChapterManager.Instance.GetStageInfo(chapterType, stageType);
+            stageScoreManager = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE);
             
             StageStateController.UpdateStageStateEvent += UpdateStageState;
             StageTimerController.TimeOverEvent += OpenGameOver;
@@ -98,7 +101,7 @@ namespace UI.Stage
             if (isDone) return;
             
             var score = CalculateStarScore();
-            StartCoroutine(SetStageScore(score));
+            SetStageScore(score);
             
             titleText.text = $"{stageClearComment}";
             stageText.text = $"{currentStageInfo.stageType}";
@@ -111,36 +114,11 @@ namespace UI.Stage
             isDone = true;
         }
 
-        private IEnumerator SetStageScore(int score)
+        private void SetStageScore(int score)
         {
-            var www = HttpFactory.Build(RequestUrlType.StageScore, score);
-            yield return www.SendWebRequest();
-            
-            NetworkManager.HandleResponse(www, out var response, out var errorResponse);
-
-            if (response == null && errorResponse == null)
-            {
-                NetworkManager.HandleServerError();
-                yield break;
-            }
-
-            if (response != null)
-            {
-                if (currentStageInfo.score < score)
-                {
-                    ChapterManager.Instance.UpdateStageScore(chapterType, stageType, score);       
-                }
-                yield break;
-            }
-
-            var errorCode = errorResponse.GetErrorCode();
-            NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
-                .Type(AlertType.Notice)
-                .Title("Error while saving stage score")
-                .Content(errorCode.message)
-                .OkHandler(RestartGame)
-                .Build()
-            );
+            if (stageScoreManager.GetStageScore(chapterType, stageType) >= score) return;
+            stageScoreManager.SetStageScore(chapterType, stageType, score);
+            GlobalDataManager.Instance.Set(GlobalDataKey.STAGE_SCORE, stageScoreManager);
         }
         
         private void RestartGame()

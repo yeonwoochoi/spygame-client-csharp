@@ -9,7 +9,7 @@ namespace Http
 {
     public enum RequestUrlType
     {
-        Qna, ChapterInfo, StageScore
+        Qna, ChapterInfo
     }
 
     public enum HttpMethod
@@ -82,29 +82,8 @@ namespace Http
                     builder
                         .Method(HttpMethod.Get);
                     break;
-                case RequestUrlType.StageScore:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-
-            return builder.Build();
-        }
-
-        public static UnityWebRequest Build(RequestUrlType type, int score)
-        {
-            var builder = HttpSender.Builder()
-                .RequestUrl(type);
-
-            if (type == RequestUrlType.StageScore)
-            {
-                builder
-                    .Method(HttpMethod.Post)
-                    .Form("chapter", $"{(int) LoadingManager.Instance.chapterType + 1}/{(int) LoadingManager.Instance.stageType + 1}/{score}");
-            }
-            else
-            {
-                return Build(type);
             }
 
             return builder.Build();
@@ -115,7 +94,7 @@ namespace Http
     public static class RequestUrlUtils
     {
         private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbzAD_1OmkUJGdOivcysEs9GquKhnkfT9k0RA5Hemzu5CqhOMnZIq27YhKgkm7oJo3Qjjg/exec";
-        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbzSdZLzrHXK5kKkj8NeaQ1TBUiQgdjxnWOMhV7l4w4zes_lS4iJeOEuW3vkMR9YXCmO/exec";
+        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbzZaoqioJ4watZMqCAS7WyeGdMWNBJVobKvT71PaNQeqF3yqs9QwShCWtDSyjY1lTQH/exec";
         public static string TypeToUrl(RequestUrlType type)
         {
             switch (type)
@@ -123,9 +102,7 @@ namespace Http
                 case RequestUrlType.Qna:
                     return qnaUrl;
                 case RequestUrlType.ChapterInfo:
-                    return chapterUrl + "?chapterCount=6";
-                case RequestUrlType.StageScore:
-                    return chapterUrl;
+                    return chapterUrl + $"?chapterCount={StageManager.totalChapterCounts}";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

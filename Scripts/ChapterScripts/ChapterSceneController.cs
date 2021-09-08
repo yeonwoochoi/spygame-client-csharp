@@ -1,7 +1,9 @@
-﻿using Base;
+﻿using System.Collections.Generic;
+using Base;
 using Domain;
 using MainScripts;
 using Manager;
+using Manager.Data;
 using UI.Chapter;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +27,7 @@ namespace ChapterScripts
         private ChapterInfo currentChapterInfo;
         private ChapterType currentChapterType;
         private ChapterButtonController chapterButtonController;
+        private StageScoreManager stageScoreManager;
 
         private bool isSet = false;
         
@@ -61,6 +64,8 @@ namespace ChapterScripts
             if (isSet) return;
             currentChapterType = LoadingManager.Instance.chapterType;
             currentChapterInfo = ChapterManager.Instance.GetChapterInfo(currentChapterType);
+
+            stageScoreManager = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE);
             
             var index = (int) currentChapterType;
 
@@ -82,7 +87,8 @@ namespace ChapterScripts
         private void OnClickStageBtn(StageType stageType)
         {
             stagePlayReadyPopupController.OpenStagePlayReadyPopup(
-                GetCurrentStage(stageType), 
+                GetCurrentStage(stageType),
+                stageScoreManager.GetStageScore(currentChapterType, stageType),
                 GetStageMapPreviewSprites(stageType),
                 LoadStageScene
                 );

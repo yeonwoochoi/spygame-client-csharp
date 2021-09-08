@@ -10,7 +10,7 @@
         
         #region Static Variables
 
-        public static readonly GlobalDataKey CHAPTER = new GlobalDataKey("CHAPTER");
+        public static readonly GlobalDataKey STAGE_SCORE = new GlobalDataKey("STAGE_SCORE");
         public static readonly GlobalDataKey SOUND = new GlobalDataKey("SOUND");
         public static readonly GlobalDataKey ECONTROL = new GlobalDataKey("ECONTROL");
         public static readonly GlobalDataKey TUTORIAL = new GlobalDataKey("TUTORIAL");

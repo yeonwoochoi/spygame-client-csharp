@@ -1,5 +1,6 @@
 ﻿using System;
 using Domain;
+using Manager;
 using UI.Base;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,10 +21,10 @@ namespace UI.Chapter
 
         #region Public Method
 
-        public void OpenStagePlayReadyPopup(StageInfo stageInfo, Sprite mapPreview, Action<StageType> loadStageAction)
+        public void OpenStagePlayReadyPopup(StageInfo stageInfo, int score, Sprite mapPreview, Action<StageType> loadStageAction)
         {
             titleText.text = $"{stageInfo.stageType}";
-            starHandler.ShowStars(stageInfo.score);
+            starHandler.ShowStars(score);
             stageMapImage.sprite = mapPreview;
             stageExplanationText.text = $"{stageInfo.GetStageMissionText()}";
             playButton.onClick.AddListener(() => { loadStageAction?.Invoke(stageInfo.stageType);});
