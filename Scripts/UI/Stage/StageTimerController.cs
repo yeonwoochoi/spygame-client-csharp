@@ -54,7 +54,7 @@ namespace UI.Stage
         private void SetTimer(object _, UpdateStageStateEventArgs e)
         {
             if (isSet) return;
-            time = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType).limitTime;
+            time = ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType).limitTime;
             Init(true);
         }
         

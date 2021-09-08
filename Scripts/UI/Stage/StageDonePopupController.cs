@@ -26,7 +26,7 @@ namespace UI.Stage
         private ChapterType chapterType;
         private StageType stageType;
         
-        private PseudoStageInfo currentStageInfo;
+        private StageInfo currentStageInfo;
         private int currentHp;
         private readonly string stageClearComment = "Stage Clear";
         private readonly string gameOverComment = "Game Over";
@@ -52,7 +52,7 @@ namespace UI.Stage
             chapterType = LoadingManager.Instance.chapterType;
             stageType = LoadingManager.Instance.stageType;
             
-            currentStageInfo = PseudoChapter.Instance.GetStageInfo(chapterType, stageType);
+            currentStageInfo = ChapterManager.Instance.GetStageInfo(chapterType, stageType);
             
             StageStateController.UpdateStageStateEvent += UpdateStageState;
             StageTimerController.TimeOverEvent += OpenGameOver;
@@ -128,7 +128,7 @@ namespace UI.Stage
             {
                 if (currentStageInfo.score < score)
                 {
-                    PseudoChapter.Instance.UpdateStageScore(chapterType, stageType, score);       
+                    ChapterManager.Instance.UpdateStageScore(chapterType, stageType, score);       
                 }
                 yield break;
             }

@@ -24,6 +24,7 @@ namespace LoadingScripts
 
         protected override void HandleLoading()
         {
+            LoadingManager.Instance.loadingType = LoadingType.Normal;
             if (LoadingManager.Instance.currentType == MainSceneType.Main)
             {
                 nextScene = SceneNameManager.SceneChapter;    

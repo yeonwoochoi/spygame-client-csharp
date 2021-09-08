@@ -13,31 +13,31 @@ namespace Domain
     /// 모든 chapter info를 불러오는 것이기 때문
     /// </summary>
     [Serializable]
-    public class PseudoChapter
+    public class ChapterManager
     {
         #region Public Variable
         
-        [SerializeField] public List<PseudoChapterInfo> chapterInfos;
+        [SerializeField] public List<ChapterInfo> chapterInfos;
 
         #endregion
 
         #region Static Variables
 
-        private static PseudoChapter instance = null;
-        public static PseudoChapter Instance => instance ?? (instance = new PseudoChapter());
+        private static ChapterManager instance = null;
+        public static ChapterManager Instance => instance ?? (instance = new ChapterManager());
 
         #endregion
         
         #region Constructor
-        private PseudoChapter() {}
+        private ChapterManager() {}
 
         #endregion
 
         #region Getter
         
-        public PseudoChapterInfo GetChapterInfo(ChapterType chapterType)
+        public ChapterInfo GetChapterInfo(ChapterType chapterType)
         {
-            PseudoChapterInfo result = null;
+            ChapterInfo result = null;
             if (chapterInfos == null || chapterInfos.Count == 0) return result;
             foreach (var chapterInfo in chapterInfos
                 .Where(chapterInfo => chapterInfo.chapterType == chapterType))
@@ -48,9 +48,9 @@ namespace Domain
             return result;
         }
 
-        public PseudoStageInfo GetStageInfo(ChapterType chapterType, StageType stageType)
+        public StageInfo GetStageInfo(ChapterType chapterType, StageType stageType)
         {
-            PseudoStageInfo result = null;
+            StageInfo result = null;
             if (chapterInfos == null || chapterInfos.Count == 0) return result;
             foreach (var chapterInfo in chapterInfos
                 .Where(chapterInfo => chapterInfo.chapterType == chapterType))
@@ -67,6 +67,15 @@ namespace Domain
             return result;
         }
 
+        public bool IsSet()
+        {
+            return !(chapterInfos == null || chapterInfos.Count == 0);
+        }
+
+        #endregion
+
+        #region Setter
+
         public void UpdateStageScore(ChapterType chapterType, StageType stageType, int score)
         {
             foreach (var chapterInfo in chapterInfos.Where(chapterInfo => chapterInfo.chapterType == chapterType))
@@ -82,7 +91,7 @@ namespace Domain
 
         #region Public Method
 
-        public void SetUp(List<PseudoChapterInfo> chapter)
+        public void SetUp(List<ChapterInfo> chapter)
         {
             chapterInfos = chapter;
         }
@@ -93,7 +102,7 @@ namespace Domain
     }
 
     [Serializable]
-    public class PseudoChapterInfo
+    public class ChapterInfo
     {
         #region Public Variables
 
@@ -102,13 +111,13 @@ namespace Domain
         [JsonConverter(typeof(StringEnumConverter))]
         [SerializeField] public ChapterType chapterType;
         
-        [SerializeField] public List<PseudoStageInfo> stageInfos;
+        [SerializeField] public List<StageInfo> stageInfos;
 
         #endregion
     }
 
     [Serializable]
-    public class PseudoStageInfo
+    public class StageInfo
     {
         #region Public Variables
 

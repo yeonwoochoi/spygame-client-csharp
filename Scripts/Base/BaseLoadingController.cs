@@ -17,7 +17,7 @@ namespace Base
 
         #region Event Method
 
-        protected void Start()
+        protected virtual void Start()
         {
             loadingBar.fillAmount = 0;
             HandleLoading();

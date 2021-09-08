@@ -98,7 +98,6 @@ namespace Http
 
             if (type == RequestUrlType.StageScore)
             {
-                Debug.Log($"Chapter{(int) LoadingManager.Instance.chapterType + 1}");
                 builder
                     .Method(HttpMethod.Post)
                     .Form("chapter", $"{(int) LoadingManager.Instance.chapterType + 1}/{(int) LoadingManager.Instance.stageType + 1}/{score}");

@@ -59,9 +59,9 @@ namespace MainScripts
 
         #region Getter
 
-        private PseudoChapterInfo GetChapter(ChapterType chapterType)
+        private ChapterInfo GetChapter(ChapterType chapterType)
         {
-            return PseudoChapter.Instance.GetChapterInfo(chapterType);
+            return ChapterManager.Instance.GetChapterInfo(chapterType);
         }
         
         private bool IsClear(ChapterType chapterType)
@@ -91,6 +91,12 @@ namespace MainScripts
         private void Init()
         {
             if (isSet) return;
+            if (ChapterManager.Instance.IsSet())
+            {
+                SetButtonEvent();
+                isSet = true;
+                return;
+            }
             StartCoroutine(GetStageInfo());
         }
 

@@ -23,8 +23,8 @@ namespace Manager
 
         public MainSceneType currentType;
         public MainSceneType nextType;
-        public ChapterType chapterType = ChapterType.Chapter1;
-        public StageType stageType = StageType.Stage1;
+        public ChapterType chapterType;
+        public StageType stageType;
         public LoadingType loadingType;
         
         #endregion
@@ -39,8 +39,8 @@ namespace Manager
 
         private LoadingManager()
         {
-            currentType = MainSceneType.Main;
-            loadingType = LoadingType.Normal;
+            currentType = MainSceneType.Init;
+            loadingType = LoadingType.Init;
         }
 
         #endregion

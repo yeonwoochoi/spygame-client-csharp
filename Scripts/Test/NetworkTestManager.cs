@@ -22,7 +22,7 @@ namespace Test
         private IEnumerator SetStageScore(int score)
         {
             yield return new WaitForSeconds(5f);
-            var currentStageInfo = PseudoChapter.Instance.GetStageInfo(ChapterType.Chapter1, StageType.Stage1);
+            var currentStageInfo = ChapterManager.Instance.GetStageInfo(ChapterType.Chapter1, StageType.Stage1);
             var www = HttpFactory.Build(RequestUrlType.StageScore, score);
             yield return www.SendWebRequest();
             
@@ -38,8 +38,8 @@ namespace Test
             {
                 if (currentStageInfo.score < score)
                 {
-                    PseudoChapter.Instance.UpdateStageScore(ChapterType.Chapter1, StageType.Stage1, score);
-                    Debug.Log(PseudoChapter.Instance.GetStageInfo(ChapterType.Chapter1, StageType.Stage1).score);
+                    ChapterManager.Instance.UpdateStageScore(ChapterType.Chapter1, StageType.Stage1, score);
+                    Debug.Log(ChapterManager.Instance.GetStageInfo(ChapterType.Chapter1, StageType.Stage1).score);
                 }
                 yield break;
             }

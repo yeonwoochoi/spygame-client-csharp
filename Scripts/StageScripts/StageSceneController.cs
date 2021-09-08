@@ -47,7 +47,7 @@ namespace StageScripts
         private Transform spyObjParent;
         private Transform boxObjParent;
 
-        private PseudoStageInfo currentStageInfo;
+        private StageInfo currentStageInfo;
         
         private List<Vector3> normalSpyPositions;
         private List<Vector3> bossSpyPositions;
@@ -98,7 +98,7 @@ namespace StageScripts
             Debug.Log(qna.Count);
             currentChapterType = LoadingManager.Instance.chapterType;
             currentStageType = LoadingManager.Instance.stageType;
-            currentStageInfo = PseudoChapter.Instance.GetStageInfo(currentChapterType, currentStageType);
+            currentStageInfo = ChapterManager.Instance.GetStageInfo(currentChapterType, currentStageType);
             
             eControlType = e;
             

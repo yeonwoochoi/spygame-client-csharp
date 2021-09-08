@@ -143,8 +143,8 @@ namespace Domain.Network.Response
         {
             var key = ResponseKeyManager.KEY_CHAPTER_INFO;
             if (!response.HasKeyAndNotNull(key)) return;
-            var chapter = response.Deserialize<List<PseudoChapterInfo>>(key);
-            PseudoChapter.Instance.SetUp(chapter);
+            var chapter = response.Deserialize<List<ChapterInfo>>(key);
+            ChapterManager.Instance.SetUp(chapter);
             response.AddDeserializeTypes(DeserializeType.ChapterInfo);
         }
 

@@ -38,7 +38,7 @@ namespace UI.Main
 
         #region Public Method
 
-        public void SetChapterSelectButtons(PseudoChapterInfo chapterInfo, bool flag)
+        public void SetChapterSelectButtons(ChapterInfo chapterInfo, bool flag)
         {
             SetIsLocked(flag);
             titleText.text = chapterInfo.title;

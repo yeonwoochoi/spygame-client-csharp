@@ -22,7 +22,7 @@ namespace ChapterScripts
         [SerializeField] private Text chapterText;
         [SerializeField] private Transform parent;
 
-        private PseudoChapterInfo currentChapterInfo;
+        private ChapterInfo currentChapterInfo;
         private ChapterType currentChapterType;
         private ChapterButtonController chapterButtonController;
 
@@ -60,7 +60,7 @@ namespace ChapterScripts
         {
             if (isSet) return;
             currentChapterType = LoadingManager.Instance.chapterType;
-            currentChapterInfo = PseudoChapter.Instance.GetChapterInfo(currentChapterType);
+            currentChapterInfo = ChapterManager.Instance.GetChapterInfo(currentChapterType);
             
             var index = (int) currentChapterType;
 
@@ -117,9 +117,9 @@ namespace ChapterScripts
                 () => SceneManager.LoadScene(nextScene)));
         }
         
-        private PseudoStageInfo GetCurrentStage(StageType stageType)
+        private StageInfo GetCurrentStage(StageType stageType)
         {
-            return PseudoChapter.Instance.GetStageInfo(currentChapterType, stageType);
+            return ChapterManager.Instance.GetStageInfo(currentChapterType, stageType);
         }
 
         #endregion

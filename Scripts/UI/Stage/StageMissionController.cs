@@ -43,7 +43,7 @@ namespace UI.Stage
         {
             fakeLoadingCanvasGroup.Visible(false);
             OnOpenPopup();
-            var currentStage = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
+            var currentStage = ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
                 LoadingManager.Instance.stageType);
             StartCoroutine(ShowMissionText(currentStage.GetStageMissionText()));
         }

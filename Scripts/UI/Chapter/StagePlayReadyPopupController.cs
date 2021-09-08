@@ -20,7 +20,7 @@ namespace UI.Chapter
 
         #region Public Method
 
-        public void OpenStagePlayReadyPopup(PseudoStageInfo stageInfo, Sprite mapPreview, Action<StageType> loadStageAction)
+        public void OpenStagePlayReadyPopup(StageInfo stageInfo, Sprite mapPreview, Action<StageType> loadStageAction)
         {
             titleText.text = $"{stageInfo.stageType}";
             starHandler.ShowStars(stageInfo.score);

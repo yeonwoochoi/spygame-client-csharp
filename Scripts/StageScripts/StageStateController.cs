@@ -14,7 +14,7 @@ namespace StageScripts
     {
         #region Private Variables
 
-        private PseudoStageInfo currentStageInfo;
+        private StageInfo currentStageInfo;
         private int currentHp;
         private int currentNormalSpyCount;
         private int currentBossSpyCount;
@@ -121,7 +121,7 @@ namespace StageScripts
             SpyQnaPopupBehavior.CaptureSpyEvent += LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += ProcessSpyInterviewResult;
             
-            currentStageInfo = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType);
+            currentStageInfo = ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType);
             SetStageState();
         }
 

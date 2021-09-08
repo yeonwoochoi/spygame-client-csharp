@@ -18,7 +18,7 @@ namespace UI.Stage
         [SerializeField] private Text hpText;
         [SerializeField] private Button pauseButton;
 
-        private PseudoStageInfo currentStage;
+        private StageInfo currentStage;
         private int hp;
         private int captureNormalSpyCount;
         private int captureBossSpyCount;
@@ -36,7 +36,7 @@ namespace UI.Stage
         private void Start()
         {
             pauseButton.onClick.AddListener(EmitOpenStagePauseEvent);
-            currentStage = PseudoChapter.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
+            currentStage = ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
                 LoadingManager.Instance.stageType);
             StageStateController.UpdateStageStateEvent += UpdateStageState;
         }
