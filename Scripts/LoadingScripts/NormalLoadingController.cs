@@ -50,6 +50,11 @@ namespace LoadingScripts
                 nextScene = SceneNameManager.SceneChapter;
             }
 
+            if (LoadingManager.Instance.currentType == MainSceneType.Tutorial)
+            {
+                nextScene = SceneNameManager.SceneMain;
+            }
+
             StartCoroutine(LoadScene(nextScene));
         }
 

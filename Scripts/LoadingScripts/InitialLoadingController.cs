@@ -3,6 +3,7 @@ using Base;
 using Event;
 using Http;
 using Manager;
+using Manager.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ namespace LoadingScripts
 
         [SerializeField] private Text progressText;
         private bool isLoaded = false;
+        private bool isTutorial = false;
 
         #endregion
 
@@ -36,7 +38,8 @@ namespace LoadingScripts
         {
             LoadingManager.Instance.currentType = MainSceneType.Init;
             LoadingManager.Instance.loadingType = LoadingType.Init;
-            nextScene = SceneNameManager.SceneMain;
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
+            nextScene = isTutorial ? SceneNameManager.SceneTutorial : SceneNameManager.SceneMain;
             isLoaded = false;
             StartCoroutine(GetStageInfo());
             StartCoroutine(LoadScene(nextScene));

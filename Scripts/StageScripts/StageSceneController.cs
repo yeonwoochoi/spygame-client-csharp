@@ -58,7 +58,6 @@ namespace StageScripts
         #endregion
 
         #region Event
-
         public static event EventHandler<OpenStageMissionPopupEventArgs> OpenStageMissionPopupEvent;
 
         #endregion
@@ -282,7 +281,7 @@ namespace StageScripts
                 invocation.DynamicInvoke(this, e);
             }
         }
-        
+
         private void ExitStageScene(object _, ExitStageEventArgs e)
         {
             OnClickExitBtn(currentChapterType);

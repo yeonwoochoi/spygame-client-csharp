@@ -7,7 +7,7 @@ namespace Manager
 
     public enum MainSceneType
     {
-        Init, Main, Select, Play
+        Init, Main, Select, Play, Tutorial
     }
 
     public enum LoadingType

@@ -99,11 +99,9 @@ namespace MainScripts
         private void SetStageScore()
         {
             if (GlobalDataManager.Instance.HasKey(GlobalDataKey.STAGE_SCORE)) return;
-
             var scoreInfos = StageScoreManager.Create();
             GlobalDataManager.Instance.Set(GlobalDataKey.STAGE_SCORE, scoreInfos);
         }
-        
 
         private void SetButtonEvent()
         {

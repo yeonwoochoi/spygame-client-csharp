@@ -10,6 +10,7 @@ namespace Base
         public const string SceneMain = "Main Scene";
         public const string SceneChapter = "Chapter Scene";
         public const string SceneStage = "Stage Scene";
+        public const string SceneTutorial = "Tutorial Scene";
         public const string SceneInitLoading = "Init Loading Scene";
         public const string SceneNormalLoading = "Normal Loading Scene";
 
