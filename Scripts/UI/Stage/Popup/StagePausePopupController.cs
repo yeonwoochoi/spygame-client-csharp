@@ -1,15 +1,15 @@
 ﻿using System;
 using Event;
 using Manager;
-using StageScripts;
 using UI.Base;
+using UI.Stage.Hud;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI.Stage
+namespace UI.Stage.Popup
 {
-    public class StagePauseController: BasePopupBehavior
+    public class StagePausePopupController: BasePopupBehavior
     {
         #region Private Variables
 

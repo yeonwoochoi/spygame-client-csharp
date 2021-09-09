@@ -8,11 +8,10 @@ using StageScripts;
 using UI.Qna;
 using UnityEngine;
 using UnityEngine.UI;
-using Util;
 
-namespace UI.Stage
+namespace UI.Stage.Hud
 {
-    public class ItemInventoryController: MonoBehaviour
+    public class ItemInventoryHudController: MonoBehaviour
     {
         #region Private Variables
 

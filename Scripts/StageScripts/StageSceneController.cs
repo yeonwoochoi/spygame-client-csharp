@@ -11,6 +11,7 @@ using Domain.StageObj;
 using Event;
 using Manager;
 using UI.Stage;
+using UI.Stage.Popup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -66,14 +67,14 @@ namespace StageScripts
 
         protected override void Start()
         {
-            StagePauseController.ExitStageEvent += ExitStageScene;
+            StagePausePopupController.ExitStageEvent += ExitStageScene;
             StageDonePopupController.ExitStageSceneEvent += ExitStageScene;
             StartCoroutine(ShowMissionPopup());
         }
 
         private void OnDisable()
         {
-            StagePauseController.ExitStageEvent -= ExitStageScene;
+            StagePausePopupController.ExitStageEvent -= ExitStageScene;
             StageDonePopupController.ExitStageSceneEvent -= ExitStageScene;
         }
 

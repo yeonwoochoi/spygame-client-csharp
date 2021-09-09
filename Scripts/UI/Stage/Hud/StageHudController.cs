@@ -3,11 +3,10 @@ using Domain;
 using Event;
 using Manager;
 using StageScripts;
-using UI.Qna;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Stage
+namespace UI.Stage.Hud
 {
     public class StageHudController: MonoBehaviour
     {

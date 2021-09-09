@@ -5,6 +5,7 @@ using Event;
 using Manager;
 using UI.Qna;
 using UI.Stage;
+using UI.Stage.Hud;
 using UnityEngine;
 
 
@@ -117,7 +118,7 @@ namespace StageScripts
 
         private void Start()
         {
-            ItemInventoryController.ItemUseEvent += GetHp;
+            ItemInventoryHudController.ItemUseEvent += GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent += ProcessSpyInterviewResult;
             
@@ -127,7 +128,7 @@ namespace StageScripts
 
         private void OnDisable()
         {
-            ItemInventoryController.ItemUseEvent -= GetHp;
+            ItemInventoryHudController.ItemUseEvent -= GetHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= LoseHp;
             SpyQnaPopupBehavior.CaptureSpyEvent -= ProcessSpyInterviewResult;
         }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections;
-using Domain;
 using Domain.StageObj;
 using Event;
 using Manager;
 using StageScripts;
+using UI.Stage.Popup;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Stage
+namespace UI.Stage.Hud
 {
-    public class StageTimerController: MonoBehaviour
+    public class StageTimerHudController: MonoBehaviour
     {
         #region Public Variable
 
@@ -36,18 +36,18 @@ namespace UI.Stage
 
         private void Start()
         {
-            ItemInventoryController.ItemUseEvent += EatTimeUpItem;
+            ItemInventoryHudController.ItemUseEvent += EatTimeUpItem;
             StageStateController.UpdateStageStateEvent += SetTimer;
             StageStateController.StageDoneEvent += StopTimerByStageDone;
-            StagePauseController.PauseGameEvent += PauseGame;
+            StagePausePopupController.PauseGameEvent += PauseGame;
         }
 
         private void OnDisable()
         {
-            ItemInventoryController.ItemUseEvent -= EatTimeUpItem;
+            ItemInventoryHudController.ItemUseEvent -= EatTimeUpItem;
             StageStateController.UpdateStageStateEvent -= SetTimer;
             StageStateController.StageDoneEvent -= StopTimerByStageDone;
-            StagePauseController.PauseGameEvent -= PauseGame;
+            StagePausePopupController.PauseGameEvent -= PauseGame;
         }
 
         #endregion

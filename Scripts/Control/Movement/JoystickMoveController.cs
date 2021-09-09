@@ -5,6 +5,7 @@ using Event;
 using Manager.Data;
 using StageScripts;
 using UI.Stage;
+using UI.Stage.Popup;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -31,12 +32,12 @@ namespace Control.Movement
 
         private void Start()
         {
-            StagePauseController.PauseGameEvent += PauseGame;
+            StagePausePopupController.PauseGameEvent += PauseGame;
         }
 
         private void OnDisable()
         {
-            StagePauseController.PauseGameEvent -= PauseGame;
+            StagePausePopupController.PauseGameEvent -= PauseGame;
         }
 
         public void OnDrag(PointerEventData eventData)

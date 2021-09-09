@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections;
 using Domain;
 using Event;
-using Http;
 using Manager;
 using Manager.Data;
 using StageScripts;
 using UI.Base;
+using UI.Stage.Hud;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI.Stage
+namespace UI.Stage.Popup
 {
     public class StageDonePopupController: BasePopupBehavior
     {
@@ -21,7 +20,7 @@ namespace UI.Stage
         [SerializeField] private StarHandler starHandler;
         [SerializeField] private GameObject retryButton;
         [SerializeField] private GameObject exitButton;
-        [SerializeField] private StageTimerController stageTimerController;
+        [SerializeField] private StageTimerHudController stageTimerHudController;
 
         private ChapterType chapterType;
         private StageType stageType;
@@ -58,7 +57,7 @@ namespace UI.Stage
             stageScoreManager = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE);
             
             StageStateController.UpdateStageStateEvent += UpdateStageState;
-            StageTimerController.TimeOverEvent += OpenGameOver;
+            StageTimerHudController.TimeOverEvent += OpenGameOver;
             StageStateController.StageDoneEvent += OpenGameOver;
             StageStateController.StageDoneEvent += OpenStageDone;
         }
@@ -68,7 +67,7 @@ namespace UI.Stage
             base.OnDisable();
             
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
-            StageTimerController.TimeOverEvent -= OpenGameOver;
+            StageTimerHudController.TimeOverEvent -= OpenGameOver;
             StageStateController.StageDoneEvent -= OpenGameOver;
             StageStateController.StageDoneEvent -= OpenStageDone;
         }
@@ -137,7 +136,7 @@ namespace UI.Stage
 
         private int CalculateStarScore()
         {
-            var time = stageTimerController.time;
+            var time = stageTimerHudController.time;
             var totalTime = currentStageInfo.limitTime;
             
             var totalScore = 0;

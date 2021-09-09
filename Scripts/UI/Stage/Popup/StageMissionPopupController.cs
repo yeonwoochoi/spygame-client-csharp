@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Domain;
 using Event;
 using Manager;
 using StageScripts;
@@ -8,9 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-namespace UI.Stage
+namespace UI.Stage.Popup
 {
-    public class StageMissionController: BasePopupBehavior
+    public class StageMissionPopupController: BasePopupBehavior
     {
         #region Private Variables
 

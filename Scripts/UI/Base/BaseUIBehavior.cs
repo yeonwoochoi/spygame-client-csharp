@@ -2,6 +2,7 @@
 using System.Collections;
 using Event;
 using UI.Stage;
+using UI.Stage.Popup;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -32,12 +33,12 @@ namespace UI.Base
         {
             isClickSpeechBalloon = false;
             isOpen = false;
-            StagePauseController.PauseGameEvent += PauseGame;
+            StagePausePopupController.PauseGameEvent += PauseGame;
         }
 
         protected virtual void OnDisable()
         {
-            StagePauseController.PauseGameEvent -= PauseGame;
+            StagePausePopupController.PauseGameEvent -= PauseGame;
         }
 
         #endregion

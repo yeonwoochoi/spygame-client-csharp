@@ -5,6 +5,7 @@ using Event;
 using Manager;
 using Manager.Data;
 using UI.Stage;
+using UI.Stage.Popup;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -70,12 +71,12 @@ namespace Base
         }
         protected virtual void Start()
         {
-            StagePauseController.PauseGameEvent += PauseGame;
+            StagePausePopupController.PauseGameEvent += PauseGame;
         }
 
         protected virtual void OnDisable()
         {
-            StagePauseController.PauseGameEvent -= PauseGame;
+            StagePausePopupController.PauseGameEvent -= PauseGame;
         }
         #endregion
 

@@ -4,9 +4,9 @@ using Manager.Data;
 using UnityEngine;
 using Util;
 
-namespace UI.Stage
+namespace UI.Stage.Hud
 {
-    public class JoystickUIController: MonoBehaviour
+    public class JoystickHudController: MonoBehaviour
     {
         #region Private Variable
 
