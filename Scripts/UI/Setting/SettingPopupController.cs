@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI.Setting
 {
-    public class SettingUIController: BasePopupBehavior
+    public class SettingPopupController: BasePopupBehavior
     {
         #region Private Variables
 
