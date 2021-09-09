@@ -4,7 +4,7 @@ using UI.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Main
+namespace UI.MainScripts
 {
     public class ChapterSelectPopupController: BasePopupBehavior
     {

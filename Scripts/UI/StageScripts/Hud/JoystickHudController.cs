@@ -4,7 +4,7 @@ using Manager.Data;
 using UnityEngine;
 using Util;
 
-namespace UI.Stage.Hud
+namespace UI.StageScripts.Hud
 {
     public class JoystickHudController: MonoBehaviour
     {

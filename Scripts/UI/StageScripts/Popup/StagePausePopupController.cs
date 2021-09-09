@@ -2,12 +2,12 @@
 using Event;
 using Manager;
 using UI.Base;
-using UI.Stage.Hud;
+using UI.StageScripts.Hud;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI.Stage.Popup
+namespace UI.StageScripts.Popup
 {
     public class StagePausePopupController: BasePopupBehavior
     {

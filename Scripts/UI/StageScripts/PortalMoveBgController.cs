@@ -4,7 +4,7 @@ using Event;
 using UnityEngine;
 using Util;
 
-namespace UI.Stage
+namespace UI.StageScripts
 {
     public class PortalMoveBgController: MonoBehaviour
     {

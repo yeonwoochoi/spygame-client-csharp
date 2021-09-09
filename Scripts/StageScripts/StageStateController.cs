@@ -4,8 +4,8 @@ using Domain.StageObj;
 using Event;
 using Manager;
 using UI.Qna;
-using UI.Stage;
-using UI.Stage.Hud;
+using UI.StageScripts;
+using UI.StageScripts.Hud;
 using UnityEngine;
 
 

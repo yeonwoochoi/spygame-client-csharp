@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using Event;
 using GoogleMobileAds.Api;
 using Manager;
-using UI.Stage;
-using UI.Stage.Hud;
+using UI.StageScripts;
+using UI.StageScripts.Hud;
 using UnityEngine;
 
 namespace StageScripts.Ad

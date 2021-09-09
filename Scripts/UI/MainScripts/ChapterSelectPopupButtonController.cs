@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-namespace UI.Main
+namespace UI.MainScripts
 {
     public class ChapterSelectPopupButtonController: MonoBehaviour
     {

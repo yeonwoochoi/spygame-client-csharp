@@ -2,7 +2,7 @@
 using Domain;
 using Manager;
 using Manager.Data;
-using UI.Chapter;
+using UI.ChapterScripts;
 using UnityEngine;
 using UnityEngine.UI;
 

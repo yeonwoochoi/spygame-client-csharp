@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using Event;
-using UI.Stage;
-using UI.Stage.Popup;
+using UI.StageScripts;
+using UI.StageScripts.Popup;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

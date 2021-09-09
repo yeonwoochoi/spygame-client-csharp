@@ -6,7 +6,7 @@ using Control.Collision;
 using Domain;
 using Event;
 using Manager.Data;
-using UI.Stage;
+using UI.StageScripts;
 using UnityEngine;
 
 namespace Control.Movement

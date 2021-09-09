@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-namespace UI.Chapter
+namespace UI.ChapterScripts
 {
     public class StageSpotButtonController: MonoBehaviour
     {

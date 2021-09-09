@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-namespace UI.Stage.Popup
+namespace UI.StageScripts.Popup
 {
     public class StageMissionPopupController: BasePopupBehavior
     {

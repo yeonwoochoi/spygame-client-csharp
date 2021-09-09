@@ -4,11 +4,11 @@ using Domain.StageObj;
 using Event;
 using Manager;
 using StageScripts;
-using UI.Stage.Popup;
+using UI.StageScripts.Popup;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Stage.Hud
+namespace UI.StageScripts.Hud
 {
     public class StageTimerHudController: MonoBehaviour
     {

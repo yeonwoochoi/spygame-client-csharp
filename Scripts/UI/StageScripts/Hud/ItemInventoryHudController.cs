@@ -9,7 +9,7 @@ using UI.Qna;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Stage.Hud
+namespace UI.StageScripts.Hud
 {
     public class ItemInventoryHudController: MonoBehaviour
     {

@@ -5,7 +5,7 @@ using UI.Base;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Chapter
+namespace UI.ChapterScripts
 {
     public class StagePlayReadyPopupController: BasePopupBehavior
     {
