@@ -13,13 +13,13 @@ namespace Domain.Network.Response
         
         public static readonly string KEY_QNA = "qna";
         public static readonly string KEY_CHAPTER_INFO = "chapterInfo";
-        public static readonly string KEY_STAGE_SCORE = "score";
+        public static readonly string KEY_TUTORIAL_QNA = "tutorialQna";
         
         #endregion
     }
 
     [Serializable]
-    public class PseudoResponse
+    public class Response
     {
         #region Public Variables
 
@@ -69,7 +69,7 @@ namespace Domain.Network.Response
 
         #region Constructors
 
-        public PseudoResponse()
+        public Response()
         {
             code = "";
             status = false;
@@ -78,7 +78,7 @@ namespace Domain.Network.Response
             message = "";
         }
 
-        public PseudoResponse(string code, bool status, string timestamp, Dictionary<string ,object> data, string message)
+        public Response(string code, bool status, string timestamp, Dictionary<string ,object> data, string message)
         {
             this.code = code;
             this.status = status;
@@ -91,9 +91,9 @@ namespace Domain.Network.Response
         
         #region Public Method
 
-        public static PseudoResponse JsonToResponse(string json)
+        public static Response JsonToResponse(string json)
         {
-            var res = JsonConvert.DeserializeObject<PseudoResponse>(json);
+            var res = JsonConvert.DeserializeObject<Response>(json);
             res.InitEventArgs();
             return res;
         }
@@ -121,16 +121,16 @@ namespace Domain.Network.Response
 
     public static class ResponseExtension
     {
-        private static bool HasKeyAndNotNull(this PseudoResponse response, string key) =>
+        private static bool HasKeyAndNotNull(this Response response, string key) =>
             response.data.ContainsKey(key) && response.data[key] != null;
 
-        private static T Deserialize<T>(this PseudoResponse response, string key)
+        private static T Deserialize<T>(this Response response, string key)
         {
             var value = response.data[key];
             return JsonConvert.DeserializeObject<T>(value.ToString());
         }
 
-        private static void DeserializeQna(this PseudoResponse response)
+        private static void DeserializeQna(this Response response)
         {
             var key = ResponseKeyManager.KEY_QNA;
             if (!response.HasKeyAndNotNull(key)) return;
@@ -138,8 +138,16 @@ namespace Domain.Network.Response
             QnaManager.Instance.Setup(qna);
             response.AddDeserializeTypes(DeserializeType.Qna);
         }
+        private static void DeserializeTutorialQna(this Response response)
+        {
+            var key = ResponseKeyManager.KEY_TUTORIAL_QNA;
+            if (!response.HasKeyAndNotNull(key)) return;
+            var qna = response.Deserialize<List<Qna>>(key);
+            QnaManager.Instance.Setup(qna, true);
+            response.AddDeserializeTypes(DeserializeType.Tutorial);
+        }
 
-        private static void DeserializeStageInfo(this PseudoResponse response)
+        private static void DeserializeStageInfo(this Response response)
         {
             var key = ResponseKeyManager.KEY_CHAPTER_INFO;
             if (!response.HasKeyAndNotNull(key)) return;
@@ -148,12 +156,13 @@ namespace Domain.Network.Response
             response.AddDeserializeTypes(DeserializeType.ChapterInfo);
         }
 
-        public static void DeserializeAll(this PseudoResponse response, bool deserialize = true)
+        public static void DeserializeAll(this Response response, bool deserialize = true)
         {
             // NetworkManager.cs의 HandleResponse에서 DeserializeAll()을 할것인지 아니면
             // Data를 사용하는 script내에서 추가적인 처리를 한 다음에 DeserializeAll()을 할것인지 여부를 결정하기 위한 bool값
             if (!deserialize) return;
             response.DeserializeQna();
+            response.DeserializeTutorialQna();
             response.DeserializeStageInfo();
             response.EmitResponseOccurredEvent();
         }

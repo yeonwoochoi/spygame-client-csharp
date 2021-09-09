@@ -11,14 +11,14 @@ namespace Http
     {
         private class NetworkErrorManager {}
         
-        public static PseudoResponse response = null;
+        public static Response response = null;
         public static ErrorResponse errorResponse = null;
 
         public static event EventHandler<AlertOccurredEventArgs> AlertOccurredEvent;
 
         public static void HandleResponse(
             UnityWebRequest request,
-            out PseudoResponse response,
+            out Response response,
             out ErrorResponse errorResponse,
             bool deserialize = true
         )
@@ -32,7 +32,7 @@ namespace Http
             
             if (request.responseCode >= 200 && request.responseCode < 300)
             {
-                response = PseudoResponse.JsonToResponse(request.downloadHandler.text);
+                response = Response.JsonToResponse(request.downloadHandler.text);
                 response.DeserializeAll(deserialize);
                 errorResponse = null;
                 return;

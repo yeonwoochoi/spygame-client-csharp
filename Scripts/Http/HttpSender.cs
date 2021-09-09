@@ -9,7 +9,7 @@ namespace Http
 {
     public enum RequestUrlType
     {
-        Qna, ChapterInfo
+        Qna, ChapterInfo, Tutorial
     }
 
     public enum HttpMethod
@@ -76,11 +76,16 @@ namespace Http
                 case RequestUrlType.Qna:
                     builder
                         .Method(HttpMethod.Post)
-                        .Form("stage", $"Stage {(int) LoadingManager.Instance.chapterType + 1}-{(int) LoadingManager.Instance.stageType + 1}");
+                        .Form("sheetName", $"Stage {(int) LoadingManager.Instance.chapterType + 1}-{(int) LoadingManager.Instance.stageType + 1}");
                     break;
                 case RequestUrlType.ChapterInfo:
                     builder
                         .Method(HttpMethod.Get);
+                    break;
+                case RequestUrlType.Tutorial:
+                    builder
+                        .Method(HttpMethod.Post)
+                        .Form("sheetName", "Tutorial");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -93,7 +98,7 @@ namespace Http
 
     public static class RequestUrlUtils
     {
-        private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbzAD_1OmkUJGdOivcysEs9GquKhnkfT9k0RA5Hemzu5CqhOMnZIq27YhKgkm7oJo3Qjjg/exec";
+        private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycby0VAQJcrt8N3vmZ0UxpZ-v7MU1bh9aU54STgEv71b7xHt__fRv5gV2MpSGYQT0AsKrjg/exec";
         private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbzZaoqioJ4watZMqCAS7WyeGdMWNBJVobKvT71PaNQeqF3yqs9QwShCWtDSyjY1lTQH/exec";
         public static string TypeToUrl(RequestUrlType type)
         {
@@ -103,6 +108,8 @@ namespace Http
                     return qnaUrl;
                 case RequestUrlType.ChapterInfo:
                     return chapterUrl + $"?chapterCount={StageManager.totalChapterCounts}";
+                case RequestUrlType.Tutorial:
+                    return qnaUrl;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Base;
+using Domain;
 using Event;
 using Http;
 using Manager;
@@ -18,6 +19,7 @@ namespace LoadingScripts
 
         [SerializeField] private Text progressText;
         private bool isLoaded = false;
+        private bool isTutorialLoaded = false;
         private bool isTutorial = false;
 
         #endregion
@@ -42,6 +44,13 @@ namespace LoadingScripts
             nextScene = isTutorial ? SceneNameManager.SceneTutorial : SceneNameManager.SceneMain;
             isLoaded = false;
             StartCoroutine(GetStageInfo());
+            if (isTutorial)
+            {
+                isTutorialLoaded = false;
+                var tutorialManager = TutorialManager.Create();
+                GlobalDataManager.Instance.Set(GlobalDataKey.TUTORIAL, tutorialManager);
+                StartCoroutine(GetTutorialQnaData());
+            }
             StartCoroutine(LoadScene(nextScene));
         }
 
@@ -79,6 +88,11 @@ namespace LoadingScripts
 
                     while (!isLoaded) yield return null;
 
+                    if (isTutorial)
+                    {
+                        while (!isTutorial) yield return null;
+                    }
+
                     manager.allowSceneActivation = true;
                     yield return new WaitForSeconds(0.5f);
                     StartCoroutine(Fade(false));
@@ -110,6 +124,35 @@ namespace LoadingScripts
             NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
                 .Type(AlertType.Notice)
                 .Title("No Chapter Info")
+                .Content(code.message)
+                .OkHandler(() => Application.Quit(0))
+                .Build()
+            );
+        }
+        
+        private IEnumerator GetTutorialQnaData()
+        {
+            var www = HttpFactory.Build(RequestUrlType.Qna);
+            yield return www.SendWebRequest();
+            
+            NetworkManager.HandleResponse(www, out var response, out var errorResponse);
+
+            if (response == null && errorResponse == null)
+            {
+                NetworkManager.HandleServerError();
+                yield break;
+            }
+
+            if (response != null)
+            {
+                isTutorialLoaded = true;
+                yield break;
+            }
+
+            var code = errorResponse.GetErrorCode();
+            NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
+                .Type(AlertType.Notice)
+                .Title("No qna data")
                 .Content(code.message)
                 .OkHandler(() => Application.Quit(0))
                 .Build()

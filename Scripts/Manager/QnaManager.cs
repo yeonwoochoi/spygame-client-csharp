@@ -16,6 +16,7 @@ namespace Manager
         #region Public Variables
 
         [SerializeField] public List<Qna> qna;
+        [SerializeField] public List<Qna> tutorialQna;
 
         #endregion
 
@@ -29,9 +30,16 @@ namespace Manager
 
         #region Public Method
 
-        public void Setup(List<Qna> content)
+        public void Setup(List<Qna> content, bool isTutorial = false)
         {
-            qna = content;
+            if (isTutorial)
+            {
+                tutorialQna = content;
+            }
+            else
+            {
+                qna = content;
+            }
         }
         
         #endregion
