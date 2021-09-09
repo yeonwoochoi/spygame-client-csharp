@@ -48,7 +48,7 @@ namespace Control.Movement
 
         public bool GetIsSet()
         {
-            return getIsSet;
+            return isSet;
         }
 
         public Spy GetSpy()
@@ -133,7 +133,7 @@ namespace Control.Movement
             SetSpyStateType(SpyStateType.Free);
             wanderCoroutine = StartCoroutine(Wander());
             StartCoroutine(CheckIdle());
-            getIsSet = true;
+            isSet = true;
         }
 
         public void StartWandering()

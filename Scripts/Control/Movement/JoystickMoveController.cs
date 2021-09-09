@@ -1,5 +1,10 @@
-﻿using Domain;
+﻿using System;
+using System.Collections;
+using Domain;
+using Event;
 using Manager.Data;
+using StageScripts;
+using UI.Stage;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,14 +23,26 @@ namespace Control.Movement
         private PlayerMoveController playerMoveController;
         private EControlType eControlType;
         private bool isSet = false;
+        private bool isPaused = false;
 
         #endregion
         
         #region Event Methods
 
+        private void Start()
+        {
+            StagePauseController.PauseGameEvent += PauseGame;
+        }
+
+        private void OnDisable()
+        {
+            StagePauseController.PauseGameEvent -= PauseGame;
+        }
+
         public void OnDrag(PointerEventData eventData)
         {
             if (!isSet) return;
+            if (isPaused) return;
             MovePlayerByJoystick(eventData.position);
         }
 
@@ -33,6 +50,7 @@ namespace Control.Movement
         public void OnPointerDown(PointerEventData eventData)
         {
             if (!isSet) return;
+            if (isPaused) return;
             MovePlayerByJoystick(eventData.position);
         }
 
@@ -40,6 +58,7 @@ namespace Control.Movement
         public void OnPointerUp(PointerEventData eventData)
         {
             if (!isSet) return;
+            if (isPaused) return;
             playerMoveController.MovePlayer(false, Vector2.zero);
             joystickRect.localPosition = Vector2.zero;
         }
@@ -82,8 +101,14 @@ namespace Control.Movement
 
             if (touchOffsetNormal.sqrMagnitude > 0)
             {
+                
                 playerMoveController.MovePlayer(true, touchOffsetNormal);
             }
+        }
+        
+        private void PauseGame(object _, PauseGameEventArgs e)
+        {
+            isPaused = e.isPaused;
         }
 
         #endregion

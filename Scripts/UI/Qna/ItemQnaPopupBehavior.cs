@@ -156,6 +156,7 @@ namespace UI.Qna
             bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, true);
             while (remainingTime > 0)
             {
+                while (isPaused) yield return null;
                 if (isSolved)
                 {
                     OnClosePopup();

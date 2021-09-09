@@ -39,7 +39,8 @@ namespace LoadingScripts
             LoadingManager.Instance.currentType = MainSceneType.Init;
             LoadingManager.Instance.loadingType = LoadingType.Init;
             isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
-            nextScene = isTutorial ? SceneNameManager.SceneTutorial : SceneNameManager.SceneMain;
+            // nextScene = isTutorial ? SceneNameManager.SceneTutorial : SceneNameManager.SceneMain;
+            nextScene = SceneNameManager.SceneMain;
             isLoaded = false;
             StartCoroutine(GetStageInfo());
             StartCoroutine(LoadScene(nextScene));

@@ -66,6 +66,7 @@ namespace UI.Stage
         private void RestartGame()
         {
             OnClosePopup();
+            EmitPauseGameEvent(new PauseGameEventArgs { isPaused = false });
         }
 
         private void RetryGame()

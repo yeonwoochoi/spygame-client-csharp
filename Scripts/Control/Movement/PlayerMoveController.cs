@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Base;
 using Control.Collision;
 using Domain;
+using Event;
 using Manager.Data;
+using UI.Stage;
 using UnityEngine;
 
 namespace Control.Movement
@@ -17,24 +19,25 @@ namespace Control.Movement
 
         #endregion
 
+
         #region Public Methods
 
         public void Init()
         {
-            if (getIsSet) return;
+            if (isSet) return;
             SetCurrentState(MoveStateType.Idle);
             objectType = MoveObjectType.Player;
             
             if (eControlType == EControlType.KeyBoard)
             {
                 speed = 3f;
-                getIsSet = true;
+                isSet = true;
                 return;
             }
             
             speed = 4f;
             StartCoroutine(CheckIdle());
-            getIsSet = true;
+            isSet = true;
         }
 
         public void MovePlayer(List<Vector3> positions)
@@ -82,6 +85,7 @@ namespace Control.Movement
         {
             while (true)
             {
+                while (isPaused) yield return null;
                 yield return null;
                 var beforePos = transform.position;
                 yield return new WaitForSeconds(0.5f);

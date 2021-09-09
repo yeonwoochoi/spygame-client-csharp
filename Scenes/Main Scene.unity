@@ -570,7 +570,7 @@ MonoBehaviour:
   cGroup: {fileID: 352381988}
   bgCanvasGroup: {fileID: 1002199842}
   titleText: {fileID: 1315692223}
-  tweenType: 1
+  moveType: 0
   exitButton: {fileID: 1123372164}
 --- !u!1 &405442157
 GameObject:
@@ -1271,7 +1271,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 592328410}
-  - component: {fileID: 592328409}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1279,18 +1278,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &592328409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592328408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d983f166094c4f689ad7cd9e4a0a800c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &592328410
 Transform:
   m_ObjectHideFlags: 0
@@ -2843,13 +2830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed0a49c83b045ff9c3746808425e78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chapters:
-  - {fileID: 11400000, guid: 4571505dfffc8d94081d2644bacb1372, type: 2}
-  - {fileID: 11400000, guid: 3743d3c1e6fb4a14cb1bb19c88afaefb, type: 2}
-  - {fileID: 11400000, guid: cecc5785f36b26649b2235c155b3bfd7, type: 2}
-  - {fileID: 11400000, guid: 311e2de9abce8044185765179dedf031, type: 2}
-  - {fileID: 11400000, guid: 89575bf507ef6c540bf485670aec06d8, type: 2}
-  - {fileID: 11400000, guid: 042ecd77c776f404a8f0554caea39cbb, type: 2}
   chapterButtons:
   - {fileID: 1873358889}
   - {fileID: 150238593}
@@ -3061,7 +3041,7 @@ MonoBehaviour:
   cGroup: {fileID: 1414101717}
   bgCanvasGroup: {fileID: 1002199842}
   titleText: {fileID: 462316779}
-  tweenType: 1
+  moveType: 0
   soundButton: {fileID: 419799273}
   effectButton: {fileID: 1041441672}
   exitButton: {fileID: 636892275}

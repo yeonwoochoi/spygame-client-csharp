@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Domain;
+using Event;
 using Manager;
 using Manager.Data;
+using UI.Stage;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -36,7 +38,8 @@ namespace Base
         protected Animator animator;
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
-        protected bool getIsSet = false;
+        protected bool isSet = false;
+        protected bool isPaused = false;
         
         #endregion
 
@@ -65,7 +68,15 @@ namespace Base
             rb2D = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
         }
-        protected virtual void Start() { }
+        protected virtual void Start()
+        {
+            StagePauseController.PauseGameEvent += PauseGame;
+        }
+
+        protected virtual void OnDisable()
+        {
+            StagePauseController.PauseGameEvent -= PauseGame;
+        }
         #endregion
 
         #region Public Methods
@@ -108,6 +119,7 @@ namespace Base
 
                 while (remainingDistance >= 0.001f)
                 {
+                    while (isPaused) yield return null;
                     if (rb2D != null)
                     {
                         var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.deltaTime);
@@ -122,6 +134,15 @@ namespace Base
             }
             SetCurrentState(MoveStateType.Idle);
         }
+        #endregion
+
+        #region Private Method
+
+        private void PauseGame(object _, PauseGameEventArgs e)
+        {
+            isPaused = e.isPaused;
+        }
+
         #endregion
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using Event;
+using UI.Stage;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,7 +16,8 @@ namespace UI.Base
         [SerializeField] protected CanvasGroup cGroup;
         [SerializeField] protected CanvasGroup bgCanvasGroup;
         protected bool isOpen;
-
+        protected bool isPaused = false;
+        
         #endregion
 
         #region Private Variable
@@ -29,9 +32,13 @@ namespace UI.Base
         {
             isClickSpeechBalloon = false;
             isOpen = false;
+            StagePauseController.PauseGameEvent += PauseGame;
         }
 
-        protected virtual void OnDisable() {}
+        protected virtual void OnDisable()
+        {
+            StagePauseController.PauseGameEvent -= PauseGame;
+        }
 
         #endregion
 
@@ -92,6 +99,7 @@ namespace UI.Base
             target.text = "";
             foreach (var letter in comment.ToCharArray())
             {
+                while (isPaused) yield return null;
                 if (isClickSpeechBalloon)
                 {
                     target.text = comment;
@@ -101,6 +109,15 @@ namespace UI.Base
                 target.text += letter;
                 yield return new WaitForSeconds(0.05f);
             }
+        }
+
+        #endregion
+
+        #region Private Method
+
+        private void PauseGame(object _, PauseGameEventArgs e)
+        {
+            isPaused = e.isPaused;
         }
 
         #endregion

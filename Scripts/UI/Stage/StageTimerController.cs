@@ -23,6 +23,7 @@ namespace UI.Stage
         [SerializeField] private Text timerText;
         private bool isSet = false;
         private bool isClear = false;
+        private bool isPaused = false;
 
         #endregion
         
@@ -38,6 +39,7 @@ namespace UI.Stage
             ItemInventoryController.ItemUseEvent += EatTimeUpItem;
             StageStateController.UpdateStageStateEvent += SetTimer;
             StageStateController.StageDoneEvent += StopTimerByStageDone;
+            StagePauseController.PauseGameEvent += PauseGame;
         }
 
         private void OnDisable()
@@ -45,6 +47,7 @@ namespace UI.Stage
             ItemInventoryController.ItemUseEvent -= EatTimeUpItem;
             StageStateController.UpdateStageStateEvent -= SetTimer;
             StageStateController.StageDoneEvent -= StopTimerByStageDone;
+            StagePauseController.PauseGameEvent -= PauseGame;
         }
 
         #endregion
@@ -67,7 +70,8 @@ namespace UI.Stage
         private IEnumerator StartTimer()
         {
             while (time >= 0 && !isClear)
-            { 
+            {
+                while (isPaused) yield return null;
                 timerText.text = $"Timer : {time}";
                 time--;
                 yield return new WaitForSeconds(1);
@@ -102,6 +106,11 @@ namespace UI.Stage
         {
             if (e.exitType == StageExitType.GiveUp) return;
             isClear = true;
+        }
+        
+        private void PauseGame(object _, PauseGameEventArgs e)
+        {
+            isPaused = e.isPaused;
         }
 
         #endregion
