@@ -44,6 +44,7 @@ namespace UI.TutorialScripts
 
         private float GetAngleFromVectorFloat(Vector2 dir)
         {
+            // TODO (ANGLE) : https://www.youtube.com/watch?v=dHzeHh-3bp4&t=502s 들어가서 보자.
             var eulerAngle = Mathf.Atan2(dir.y, dir.x);
             Debug.Log(eulerAngle + 90);
             return eulerAngle + 90;

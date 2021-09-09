@@ -22,6 +22,7 @@ namespace TutorialScripts
         private IEnumerator StartTutorialFlow()
         {
             yield return null;
+            // TODO (TUTORIAL) : 세부적인 튜토리얼 flow 는 여기서 짜자..
             
             // Set tutorial clear in playerPref
             var tutorialManager = GlobalDataManager.Instance.Get<TutorialManager>(GlobalDataKey.TUTORIAL);
