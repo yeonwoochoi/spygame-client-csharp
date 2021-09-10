@@ -6,6 +6,7 @@ using Manager.Data;
 using StageScripts;
 using UI.Base;
 using UI.StageScripts.Hud;
+using UI.Timer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace UI.StageScripts.Popup
         [SerializeField] private StarHandler starHandler;
         [SerializeField] private GameObject retryButton;
         [SerializeField] private GameObject exitButton;
-        [SerializeField] private StageTimerHudController stageTimerHudController;
+        [SerializeField] private TimerHudController timerHudController;
 
         private ChapterType chapterType;
         private StageType stageType;
@@ -57,7 +58,7 @@ namespace UI.StageScripts.Popup
             stageScoreManager = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE);
             
             StageStateController.UpdateStageStateEvent += UpdateStageState;
-            StageTimerHudController.TimeOverEvent += OpenGameOver;
+            TimerHudController.TimeOverEvent += OpenGameOver;
             StageStateController.StageDoneEvent += OpenGameOver;
             StageStateController.StageDoneEvent += OpenStageDone;
         }
@@ -67,7 +68,7 @@ namespace UI.StageScripts.Popup
             base.OnDisable();
             
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
-            StageTimerHudController.TimeOverEvent -= OpenGameOver;
+            TimerHudController.TimeOverEvent -= OpenGameOver;
             StageStateController.StageDoneEvent -= OpenGameOver;
             StageStateController.StageDoneEvent -= OpenStageDone;
         }
@@ -136,7 +137,7 @@ namespace UI.StageScripts.Popup
 
         private int CalculateStarScore()
         {
-            var time = stageTimerHudController.time;
+            var time = timerHudController.GetTime();
             var totalTime = currentStageInfo.limitTime;
             
             var totalScore = 0;

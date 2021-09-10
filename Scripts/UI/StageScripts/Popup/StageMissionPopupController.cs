@@ -24,14 +24,14 @@ namespace UI.StageScripts.Popup
         protected override void Start()
         {
             base.Start();
-            StageSceneController.OpenStageMissionPopupEvent += OpenStageMissionPopup;
+            StageSceneSpawner.OpenStageMissionPopupEvent += OpenStageMissionPopup;
             okButton.onClick.AddListener(OnClickOKButton);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            StageSceneController.OpenStageMissionPopupEvent -= OpenStageMissionPopup;
+            StageSceneSpawner.OpenStageMissionPopupEvent -= OpenStageMissionPopup;
         }
 
         #endregion

@@ -107,7 +107,7 @@ namespace Http
                 case RequestUrlType.Qna:
                     return qnaUrl;
                 case RequestUrlType.ChapterInfo:
-                    return chapterUrl + $"?chapterCount={StageManager.totalChapterCounts}";
+                    return chapterUrl + $"?chapterCount={StageCountManager.totalChapterCounts}";
                 case RequestUrlType.Tutorial:
                     return qnaUrl;
                 default:

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace UI.StageScripts.Hud
 {
-    public class StageHudController: MonoBehaviour
+    public class StageTopHudController: MonoBehaviour
     {
         #region Private Variables
 

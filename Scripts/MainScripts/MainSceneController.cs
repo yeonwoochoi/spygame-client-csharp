@@ -30,20 +30,6 @@ namespace MainScripts
 
         private void Awake()
         {
-            var soundManager = GlobalDataManager.Instance.Get<SoundManager>(GlobalDataKey.SOUND);
-            if (soundManager == null)
-            {
-                var initSoundManager = SoundManager.Create();
-                GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, initSoundManager);
-            }
-
-            var eControlManager = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL);
-            if (eControlManager == null)
-            {
-                var initEControlManager = EControlManager.Create();
-                GlobalDataManager.Instance.Set(GlobalDataKey.ECONTROL, initEControlManager);
-            }
-            
             Init();
         }
 
@@ -91,16 +77,8 @@ namespace MainScripts
         private void Init()
         {
             if (isSet) return;
-            SetStageScore();
             SetButtonEvent();
             isSet = true;
-        }
-        
-        private void SetStageScore()
-        {
-            if (GlobalDataManager.Instance.HasKey(GlobalDataKey.STAGE_SCORE)) return;
-            var scoreInfos = StageScoreManager.Create();
-            GlobalDataManager.Instance.Set(GlobalDataKey.STAGE_SCORE, scoreInfos);
         }
 
         private void SetButtonEvent()

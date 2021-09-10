@@ -33,11 +33,11 @@ namespace Domain.StageObj
 
         #region Constructor
 
-        public Item(int index, Qna qna)
+        public Item(int index, Qna qna, bool isRandom = true)
         {
             this.index = index;
             this.qna = qna;
-            type = (ItemType) (Random.Range(0, 2));
+            type = isRandom ? (ItemType) (Random.Range(0, 2)) : ItemType.Time;
             effect = type == ItemType.Hp ? 1 : 20;
             isCorrect = Random.Range(0, 2) == 0;
         }

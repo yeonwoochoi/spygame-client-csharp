@@ -20,7 +20,7 @@ namespace Domain
 
     #endregion
     
-    public static class StageManager{
+    public static class StageCountManager{
         public const int totalChapterCounts = 6;
         public static readonly Dictionary<ChapterType, int> totalStageCounts = new Dictionary<ChapterType, int>
         {
@@ -47,10 +47,10 @@ namespace Domain
         public StageScoreManager()
         {
             scoreInfos = new Dictionary<ChapterType, List<StageScoreInfo>>();
-            for (var i = 0; i < StageManager.totalChapterCounts; i++)
+            for (var i = 0; i < StageCountManager.totalChapterCounts; i++)
             {
                 var chapterType = (ChapterType) i;
-                var stageCount = StageManager.totalStageCounts[chapterType];
+                var stageCount = StageCountManager.totalStageCounts[chapterType];
                 scoreInfos.Add(chapterType, new List<StageScoreInfo>());
             }
         }
@@ -62,10 +62,10 @@ namespace Domain
         public static StageScoreManager Create()
         {
             var stageScoreManager = new StageScoreManager();
-            for (var i = 0; i < StageManager.totalChapterCounts; i++)
+            for (var i = 0; i < StageCountManager.totalChapterCounts; i++)
             {
                 var chapterType = (ChapterType) i;
-                var stageCount = StageManager.totalStageCounts[chapterType];
+                var stageCount = StageCountManager.totalStageCounts[chapterType];
 
                 for (var j = 0; j < stageCount; j++)
                 {

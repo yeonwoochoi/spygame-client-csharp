@@ -28,6 +28,7 @@ namespace LoadingScripts
 
         protected override void Start()
         {
+            InitPlayerPrefs();
             cGroup.Visible();
             base.Start();
         }
@@ -40,17 +41,19 @@ namespace LoadingScripts
         {
             LoadingManager.Instance.currentType = MainSceneType.Init;
             LoadingManager.Instance.loadingType = LoadingType.Init;
+            
             isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
             nextScene = isTutorial ? SceneNameManager.SceneTutorial : SceneNameManager.SceneMain;
+            
             isLoaded = false;
             StartCoroutine(GetStageInfo());
+            
             if (isTutorial)
             {
                 isTutorialLoaded = false;
-                var tutorialManager = TutorialManager.Create();
-                GlobalDataManager.Instance.Set(GlobalDataKey.TUTORIAL, tutorialManager);
                 StartCoroutine(GetTutorialQnaData());
             }
+            
             StartCoroutine(LoadScene(nextScene));
         }
 
@@ -132,7 +135,7 @@ namespace LoadingScripts
         
         private IEnumerator GetTutorialQnaData()
         {
-            var www = HttpFactory.Build(RequestUrlType.Qna);
+            var www = HttpFactory.Build(RequestUrlType.Tutorial);
             yield return www.SendWebRequest();
             
             NetworkManager.HandleResponse(www, out var response, out var errorResponse);
@@ -157,6 +160,29 @@ namespace LoadingScripts
                 .OkHandler(() => Application.Quit(0))
                 .Build()
             );
+        }
+
+        private void InitPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+            
+            if (!GlobalDataManager.Instance.HasKey(GlobalDataKey.SOUND))
+            {
+                var initSoundManager = SoundManager.Create();
+                GlobalDataManager.Instance.Set(GlobalDataKey.SOUND, initSoundManager);
+            }
+
+            if (!GlobalDataManager.Instance.HasKey(GlobalDataKey.ECONTROL))
+            {
+                var initEControlManager = EControlManager.Create();
+                GlobalDataManager.Instance.Set(GlobalDataKey.ECONTROL, initEControlManager);
+            }
+
+            if (!GlobalDataManager.Instance.HasKey(GlobalDataKey.STAGE_SCORE))
+            {
+                var initStageScoreManager = StageScoreManager.Create();
+                GlobalDataManager.Instance.Set(GlobalDataKey.STAGE_SCORE, initStageScoreManager);
+            }
         }
         
         #endregion

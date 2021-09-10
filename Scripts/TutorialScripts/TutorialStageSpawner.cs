@@ -21,22 +21,39 @@ namespace TutorialScripts
 {
     public class TutorialStageSpawner: MonoBehaviour
     {
+        #region Public Variables
+        
+        [SerializeField] public QuestPointerController questPointerController;
+        [SerializeField] public Transform initPlayerTransform;
+        [SerializeField] public Transform[] initSpyTransform;
+        [SerializeField] public Transform[] initBoxTransform;
+
+        #endregion
+        
         #region Private Variables
 
         [SerializeField] private UnityEngine.Camera mainCamera;
-        [SerializeField] private QuestArrowController arrowController;
         [SerializeField] private JoystickMoveController joystickMoveController;
-        [SerializeField] private Transform initPlayerTransform;
-        [SerializeField] private Transform initSpyTransform;
-        [SerializeField] private Transform initBoxTransform;
+        [SerializeField] private Tilemap tilemap;
+
         [SerializeField] private GameObject player;
         [SerializeField] private GameObject normalSpy;
         [SerializeField] private GameObject box;
         [SerializeField] private Transform parent;
         
-        private EControlType eControlType;
-        private bool isSet = false;
         private List<Qna> qna;
+
+        #endregion
+        
+        #region Static Variables
+
+        public static readonly int time = 120;
+        
+        // 맨 처음 sample spy 까지 포함
+        public static readonly int spyCount = 3;
+
+        // 맨 처음 sample box 까지 포함
+        public static readonly int boxCount = 2;
 
         #endregion
 
@@ -44,7 +61,6 @@ namespace TutorialScripts
 
         public void Init()
         {
-
             // Instantiate player and setting controller
             var playerObj = Instantiate(player, initPlayerTransform.position, Quaternion.identity);
             playerObj.transform.SetParent(parent);
@@ -52,20 +68,20 @@ namespace TutorialScripts
             playerMoveController.Init();
 
             // Set joystick
-            eControlType = EControlType.KeyBoard;
-            GlobalDataManager.Instance.Set(GlobalDataKey.ECONTROL, eControlType);
-            joystickMoveController.SetJoystick(playerMoveController, eControlType);
+            var eControlManager = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL);
+            eControlManager.eControlType = EControlType.KeyBoard;
+            GlobalDataManager.Instance.Set(GlobalDataKey.ECONTROL, eControlManager);
+            joystickMoveController.SetJoystick(playerMoveController, eControlManager.eControlType);
 
             // Set Camera offset
             mainCamera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
             
-            arrowController.Init(mainCamera);
+            questPointerController.Init(mainCamera);
 
             // Set spies and items
             qna = QnaManager.Instance.tutorialQna;
             SetSpy();
             SetItem();
-            isSet = true;
         }
 
         #endregion
@@ -74,18 +90,26 @@ namespace TutorialScripts
 
         private void SetSpy()
         {
-            var spyObj = Instantiate(normalSpy, initSpyTransform.position, Quaternion.identity);
-            spyObj.transform.SetParent(parent);
-            var spyMoveController = spyObj.GetComponent<SpyMoveController>();
-            spyMoveController.Init(new Spy(1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), false));
+            for (var i = 0; i < spyCount; i++)
+            {
+                var pos = initSpyTransform[i].position;
+                var spyObj = Instantiate(normalSpy, pos, Quaternion.identity);
+                spyObj.transform.SetParent(parent);
+                var spyMoveController = spyObj.GetComponent<SpyMoveController>();
+                spyMoveController.SetTilemap(tilemap);
+                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy)), i == 0);
+            }
         }
-
+        
         private void SetItem()
         {
-            var boxObj = Instantiate(box, initBoxTransform.position, Quaternion.identity);
-            boxObj.transform.SetParent(parent);
-            var itemBoxController = boxObj.GetComponent<ItemBoxController>();
-            itemBoxController.Init(new Item(2000, GetRandomQna(QnaDifficulty.Hard)));
+            for (var i = 0; i < boxCount; i++)
+            {
+                var itemObj = Instantiate(box, initBoxTransform[i].position, Quaternion.identity);
+                itemObj.transform.SetParent(parent);
+                var itemBoxController = itemObj.GetComponent<ItemBoxController>();
+                itemBoxController.Init(new Item(i+2000, GetRandomQna(QnaDifficulty.Hard), false));
+            }
         }
         
         private Qna GetRandomQna(QnaDifficulty qnaDifficulty)

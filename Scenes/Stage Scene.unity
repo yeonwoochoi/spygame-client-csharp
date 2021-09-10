@@ -3212,120 +3212,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 378890883}
   m_CullTransparentMesh: 1
---- !u!1 &415767170
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 415767171}
-  - component: {fileID: 415767172}
-  m_Layer: 0
-  m_Name: Audio Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &415767171
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415767170}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 956429701}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &415767172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415767170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ca45e6b4fa44f819a55742431d7e818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds:
-  - type: 0
-    clip: {fileID: 8300000, guid: 316a6fc48c47549f681634025e2089f5, type: 3}
-    isEffect: 0
-    volume: 0.5
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - type: 1
-    clip: {fileID: 8300000, guid: 3c0909dd7a934eb4286cec1a90b98ec2, type: 3}
-    isEffect: 0
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 2
-    clip: {fileID: 8300000, guid: c0bb1ccf006730f44a732533ea87fe4f, type: 3}
-    isEffect: 0
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 3
-    clip: {fileID: 8300000, guid: 638032ed1efc2224998b029e0d33b3de, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 4
-    clip: {fileID: 8300000, guid: f7483fe0fac16334cb8e6f599e5cfafb, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 5
-    clip: {fileID: 8300000, guid: c6977d22b70bf2a4e874e720027d0bfc, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 6
-    clip: {fileID: 8300000, guid: 2ce78318089f28d40bc091477e1dcd7c, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 7
-    clip: {fileID: 8300000, guid: 54379b25513949b468115d70fa1a4b66, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 8
-    clip: {fileID: 8300000, guid: df6bbbb0742607349a863477fdb01bd9, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - type: 9
-    clip: {fileID: 8300000, guid: 79ff087da8b4c2f45b00819fe8eb2cbc, type: 3}
-    isEffect: 1
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
 --- !u!1 &427971656
 GameObject:
   m_ObjectHideFlags: 0
@@ -7521,7 +7407,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 415767171}
   - {fileID: 2064228116}
   - {fileID: 1078356674}
   m_Father: {fileID: 0}
@@ -8877,7 +8762,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 956429701}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1078356675
 MonoBehaviour:
@@ -9900,7 +9785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cGroup: {fileID: 1291776215}
-  bgCanvasGroup: {fileID: 0}
+  bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 1875856704}
   moveType: 0
   starHandler: {fileID: 1822048293}
@@ -11573,7 +11458,7 @@ MonoBehaviour:
   starHandler: {fileID: 1027138167}
   retryButton: {fileID: 610059662}
   exitButton: {fileID: 863340177}
-  stageTimerController: {fileID: 1621862505}
+  timerHudController: {fileID: 1621862505}
 --- !u!1 &1621762307
 GameObject:
   m_ObjectHideFlags: 0
@@ -11697,7 +11582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c4973904af47cb91ad3f69e53213fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
   timerText: {fileID: 1616133781}
 --- !u!222 &1621862506
 CanvasRenderer:
@@ -14551,7 +14435,7 @@ GameObject:
   - component: {fileID: 2064228117}
   - component: {fileID: 2064228118}
   m_Layer: 0
-  m_Name: Stage Spawner
+  m_Name: Stage Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14569,7 +14453,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 956429701}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2064228117
 MonoBehaviour:

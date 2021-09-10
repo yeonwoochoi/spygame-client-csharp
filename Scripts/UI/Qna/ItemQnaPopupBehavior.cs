@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Domain.StageObj;
+using TutorialScripts;
+using UI.StageScripts.Popup;
 using Util;
 
 namespace UI.Qna
@@ -69,7 +71,7 @@ namespace UI.Qna
             base.Start();
             titleText.text = $"{popupTitle}";
             ItemTalkingUIBehavior.OpenItemQnaPopupEvent += OpenItemQnaPopup;
-            
+
             bombTimerAnimator = bombTimer.GetComponent<Animator>();
             explosionAnimator = explosion.GetComponent<Animator>();
             explosionCanvasGroup = explosion.GetComponent<CanvasGroup>();
@@ -198,7 +200,6 @@ namespace UI.Qna
                 invocation.DynamicInvoke(this, e);
             }
         }
-
         #endregion
     }
 }

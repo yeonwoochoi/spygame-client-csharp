@@ -137,7 +137,7 @@ namespace StageScripts
 
         #region Public Method
 
-        public void SetStageState()
+        private void SetStageState()
         {
             if (isSet) return;
             SetCurrentHp(PlayerHp);

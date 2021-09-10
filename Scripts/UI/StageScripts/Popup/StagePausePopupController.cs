@@ -37,7 +37,7 @@ namespace UI.StageScripts.Popup
             effectButton.onClick.AddListener(MuteEffect);
             retryButton.onClick.AddListener(RetryGame);
             exitButton.onClick.AddListener(ExitGame);
-            StageHudController.OpenStagePauseEvent += OpenPausePopup;
+            StageTopHudController.OpenStagePauseEvent += OpenPausePopup;
             
             soundButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.GetIsSoundMute());
             effectButton.GetComponent<ImageChangeButtonController>().Init(!AudioManager.instance.GetIsEffectMute());
@@ -46,7 +46,7 @@ namespace UI.StageScripts.Popup
         protected override void OnDisable()
         {
             base.OnDisable();
-            StageHudController.OpenStagePauseEvent -= OpenPausePopup;
+            StageTopHudController.OpenStagePauseEvent -= OpenPausePopup;
         }
 
         #endregion

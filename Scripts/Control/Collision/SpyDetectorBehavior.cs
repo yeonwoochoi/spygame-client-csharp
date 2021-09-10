@@ -59,7 +59,7 @@ namespace Control.Collision
 
         private bool IsValidTrigger(string tag)
         {
-            if (!isSet || spyMoveController == null || !spyMoveController.GetIsSet() || tag == "Detector") return false;
+            if (!isSet || spyMoveController == null || !spyMoveController.IsSet() || tag == "Detector") return false;
             if (spyMoveController.GetSpyStateType() == SpyStateType.Capture || spyMoveController.GetSpyStateType() == SpyStateType.Release) return false;
             return tag == "Player";
         }

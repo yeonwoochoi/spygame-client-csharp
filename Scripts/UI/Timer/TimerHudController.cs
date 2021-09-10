@@ -3,18 +3,22 @@ using System.Collections;
 using Domain.StageObj;
 using Event;
 using Manager;
+using Manager.Data;
 using StageScripts;
+using TutorialScripts;
+using UI.StageScripts.Hud;
 using UI.StageScripts.Popup;
+using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.StageScripts.Hud
+namespace UI.Timer
 {
-    public class StageTimerHudController: MonoBehaviour
+    public class TimerHudController: MonoBehaviour
     {
         #region Public Variable
 
-        public int time;
+        private int time;
 
         #endregion
 
@@ -22,13 +26,24 @@ namespace UI.StageScripts.Hud
 
         [SerializeField] private Text timerText;
         private bool isSet = false;
+        private bool isTutorial = false;
         private bool isClear = false;
         private bool isPaused = false;
+
+        #endregion
+
+        #region Getter
+
+        public int GetTime()
+        {
+            return time;
+        }
 
         #endregion
         
         #region Event
         public static event EventHandler<ExitStageEventArgs> TimeOverEvent;
+        public static event EventHandler<ExitTutorialEventArgs> TutorialTimeOverEvent;
 
         #endregion
 
@@ -36,35 +51,45 @@ namespace UI.StageScripts.Hud
 
         private void Start()
         {
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
+            Init();
+            
             ItemInventoryHudController.ItemUseEvent += EatTimeUpItem;
-            StageStateController.UpdateStageStateEvent += SetTimer;
+            
+            // Stage Scene Event
             StageStateController.StageDoneEvent += StopTimerByStageDone;
             StagePausePopupController.PauseGameEvent += PauseGame;
+            
+            // Tutorial Scene Event
+            TutorialStateController.TutorialDoneEvent += StopTimerByTutorialDone;
+            TutorialDonePopupController.PauseTutorialEvent += PauseGame;
         }
 
         private void OnDisable()
         {
             ItemInventoryHudController.ItemUseEvent -= EatTimeUpItem;
-            StageStateController.UpdateStageStateEvent -= SetTimer;
+            
+            // Stage Scene Event
             StageStateController.StageDoneEvent -= StopTimerByStageDone;
             StagePausePopupController.PauseGameEvent -= PauseGame;
+            
+            // Tutorial Scene Event
+            TutorialStateController.TutorialDoneEvent -= StopTimerByTutorialDone;
+            TutorialDonePopupController.PauseTutorialEvent -= PauseGame;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void SetTimer(object _, UpdateStageStateEventArgs e)
+        private void Init()
         {
             if (isSet) return;
-            time = ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType).limitTime;
-            Init(true);
-        }
-        
-        private void Init(bool flag)
-        {
-            isSet = flag;
-            if (isSet) StartCoroutine(StartTimer());
+            time = isTutorial
+                ? TutorialStageSpawner.time 
+                : ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType, LoadingManager.Instance.stageType).limitTime;
+            StartCoroutine(StartTimer());
+            isSet = true;
         }
 
         private IEnumerator StartTimer()
@@ -79,11 +104,22 @@ namespace UI.StageScripts.Hud
 
             if (!isClear)
             {
-                EmitGameOverEvent(new ExitStageEventArgs
+                if (isTutorial)
                 {
-                    exitType = StageExitType.GameOver
-                });   
+                    EmitTutorialTimeOverEvent(new ExitTutorialEventArgs
+                    {
+                        isSuccess = false
+                    });
+                }
+                else
+                {
+                    EmitGameOverEvent(new ExitStageEventArgs
+                    {
+                        exitType = StageExitType.GameOver
+                    });       
+                }
             }
+            
             yield return null;
         }
 
@@ -91,6 +127,15 @@ namespace UI.StageScripts.Hud
         {
             if (TimeOverEvent == null) return;
             foreach (var invocation in TimeOverEvent.GetInvocationList())
+            {
+                invocation.DynamicInvoke(this, e);
+            }
+        }
+
+        private void EmitTutorialTimeOverEvent(ExitTutorialEventArgs e)
+        {
+            if (TutorialTimeOverEvent == null) return;
+            foreach (var invocation in TutorialTimeOverEvent.GetInvocationList())
             {
                 invocation.DynamicInvoke(this, e);
             }
@@ -105,6 +150,11 @@ namespace UI.StageScripts.Hud
         private void StopTimerByStageDone(object _, ExitStageEventArgs e)
         {
             if (e.exitType == StageExitType.GiveUp) return;
+            isClear = true;
+        }
+
+        private void StopTimerByTutorialDone(object _, ExitTutorialEventArgs e)
+        {
             isClear = true;
         }
         

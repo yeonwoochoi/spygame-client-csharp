@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using Event;
 using GoogleMobileAds.Api;
 using Manager;
+using UI;
 using UI.StageScripts;
 using UI.StageScripts.Hud;
+using UI.Timer;
 using UnityEngine;
 
 namespace StageScripts.Ad
@@ -34,14 +36,14 @@ namespace StageScripts.Ad
             LoadFrontAd();
             SetTestAd();
             StageStateController.StageDoneEvent += ShowFrontAd;
-            StageTimerHudController.TimeOverEvent += ShowFrontAd;
+            TimerHudController.TimeOverEvent += ShowFrontAd;
         }
 
         private void OnDisable()
         {
             frontAd.Destroy();
             StageStateController.StageDoneEvent -= ShowFrontAd;
-            StageTimerHudController.TimeOverEvent -= ShowFrontAd;
+            TimerHudController.TimeOverEvent -= ShowFrontAd;
         }
 
         #endregion

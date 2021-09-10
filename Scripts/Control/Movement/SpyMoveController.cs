@@ -7,6 +7,8 @@ using Control.SpeechBalloon;
 using Domain;
 using Domain.StageObj;
 using Event;
+using Manager;
+using Manager.Data;
 using UI.Qna;
 using UI.Talking;
 using UnityEngine;
@@ -41,12 +43,12 @@ namespace Control.Movement
 
         private Spy spy;
         private SpyStateType spyStateType;
-
+        
         #endregion
 
         #region Getter
 
-        public bool GetIsSet()
+        public bool IsSet()
         {
             return isSet;
         }
@@ -89,8 +91,9 @@ namespace Control.Movement
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent += InactivateMoving;
         }
 
-        protected void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             SpyQnaPopupBehavior.CaptureSpyEvent -= InactivateSpy;
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent -= InactivateMoving;
         }
@@ -105,7 +108,7 @@ namespace Control.Movement
 
         protected void OnCollisionEnter2D(Collision2D other)
         {
-            if (!GetIsSet()) return;
+            if (!IsSet()) return;
             if (spyStateType != SpyStateType.Free) return;
             if (other.collider.transform.IsChildOf(transform)) return;
             StopWandering();
@@ -114,7 +117,7 @@ namespace Control.Movement
 
         protected void OnCollisionExit2D(Collision2D other)
         {
-            if (!GetIsSet()) return;
+            if (!IsSet()) return;
             if (spyStateType != SpyStateType.Free) return;
             if (other.collider.transform.IsChildOf(transform)) return;
             StartWandering();
@@ -124,11 +127,11 @@ namespace Control.Movement
 
         #region Public Methods
 
-        public void Init(Spy spy)
+        public void Init(Spy spy, bool isTutorialSample = false)
         {
             this.spy = spy;
             speechBalloon.GetComponent<SpySpeechBalloonController>().spy = spy;
-            speed = 2f;
+            speed = isTutorialSample ? 0f : 2f;
             objectType = MoveObjectType.Spy;
             SetSpyStateType(SpyStateType.Free);
             wanderCoroutine = StartCoroutine(Wander());

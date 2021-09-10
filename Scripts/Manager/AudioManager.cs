@@ -70,12 +70,15 @@ namespace Manager
 
         private void Awake()
         {
-            if (instance == null) instance = this;
+            if (instance == null)
+            {
+                instance = this;
+            }
             else
             {
                 Destroy(gameObject);
-                return;
             }
+            
             DontDestroyOnLoad(gameObject);
 
             foreach (var sound in sounds)
@@ -97,11 +100,6 @@ namespace Manager
             
             SetIsSoundMute(soundManager.isSoundMute);
             SetIsEffectMute(soundManager.isEffectMute);
-        }
-
-        private void Start()
-        {
-            Play(SoundType.Background);
         }
 
         #endregion
