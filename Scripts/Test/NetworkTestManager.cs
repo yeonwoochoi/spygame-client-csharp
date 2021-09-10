@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Camera;
+using Control.Movement;
 using Domain;
 using Domain.Network.Response;
 using Event;
 using Http;
 using Manager;
+using Manager.Data;
+using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,6 +17,44 @@ namespace Test
 {
     public class NetworkTestManager: MonoBehaviour
     {
+        [SerializeField] private UnityEngine.Camera camera;
+        [SerializeField] private GameObject player;
+        [SerializeField] private JoystickMoveController joystickMoveController;
+        [SerializeField] private QuestPointerController questPointerController;
+        [SerializeField] private Transform target;
+
+        private EControlManager eControlManager;
+
+        private void Awake()
+        {
+            if (!GlobalDataManager.Instance.HasKey(GlobalDataKey.ECONTROL))
+            {
+                eControlManager = EControlManager.Create();
+            }
+            else
+            {
+                eControlManager = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL);   
+            }
+            eControlManager.eControlType = EControlType.KeyBoard;
+            GlobalDataManager.Instance.Set(GlobalDataKey.ECONTROL, eControlManager);
+        }
+
+        private void Start()
+        {
+            // Instantiate player and setting controller
+            var playerObj = Instantiate(player, Vector3.zero, Quaternion.identity);
+            var playerMoveController = playerObj.GetComponent<PlayerMoveController>();
+            playerMoveController.Init();
+            
+            // Set joystick
+            joystickMoveController.SetJoystick(playerMoveController, eControlManager.eControlType);
+            
+            camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
+
+            questPointerController.Init(camera);
+            questPointerController.StartPointing(playerObj.transform, target);
+        }
+
         private IEnumerator GetQnaData()
         {
             var www = HttpFactory.Build(RequestUrlType.Qna);

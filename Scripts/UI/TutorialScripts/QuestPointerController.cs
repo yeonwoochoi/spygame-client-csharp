@@ -10,13 +10,13 @@ namespace UI.TutorialScripts
     {
         #region Private Variables
 
+        [SerializeField] private RectTransform canvasRect;
         private UnityEngine.Camera camera;
         private RectTransform pointerRectTransform;
         private Transform playerTransform;
         private Transform targetTransform;
 
         private CanvasGroup cGroup;
-        private Image pointerImg;
 
         private bool isSet = false;
         private bool isPointing = false;
@@ -25,7 +25,7 @@ namespace UI.TutorialScripts
 
         #region Const Variable
 
-        private const float borderSize = 50f;
+        private const float borderSize = 150f;
 
         #endregion
 
@@ -54,10 +54,12 @@ namespace UI.TutorialScripts
 
         private void SetPointerPosition(Vector3 screenPoint)
         {
-            var pointerWorldPosition = camera.ScreenToWorldPoint(screenPoint);
-            pointerRectTransform.position = pointerWorldPosition;
-            pointerRectTransform.localPosition = new Vector3(pointerRectTransform.localPosition.x,
-                pointerRectTransform.localPosition.y, 0f);
+            var pointerViewportPosition = camera.ScreenToViewportPoint(screenPoint);
+            var pointerScreenPosition = new Vector2(
+                (pointerViewportPosition.x * canvasRect.sizeDelta.x) - (canvasRect.sizeDelta.x * 0.5f),
+                (pointerViewportPosition.y * canvasRect.sizeDelta.y) - (canvasRect.sizeDelta.y * 0.5f)
+                );
+            pointerRectTransform.anchoredPosition = pointerScreenPosition;
         }
 
         #endregion
@@ -69,7 +71,6 @@ namespace UI.TutorialScripts
             this.camera = camera;
             
             pointerRectTransform = GetComponent<RectTransform>();
-            pointerImg = GetComponent<Image>();
             
             cGroup = GetComponent<CanvasGroup>();
             IsPointing(false);
@@ -100,11 +101,14 @@ namespace UI.TutorialScripts
         private IEnumerator StartPointingTarget()
         {
             if (!isSet) yield break;
-
+            
             while (isPointing)
             {
                 var targetPositionScreenPoint = camera.WorldToScreenPoint(targetTransform.position);
-      
+                
+                //Debug.Log($"player : {camera.WorldToScreenPoint(playerTransform.position)}");
+                //Debug.Log($"target : {targetPositionScreenPoint}");
+
                 if (IsOffScreen())
                 {
                     // Target 방향으로 회전
@@ -116,6 +120,7 @@ namespace UI.TutorialScripts
                     if (cappedTargetScreen.x >= Screen.width - borderSize) cappedTargetScreen.x = Screen.width - borderSize;
                     if (cappedTargetScreen.y <= 0) cappedTargetScreen.y = 0f;
                     if (cappedTargetScreen.y >= Screen.height - borderSize) cappedTargetScreen.y = Screen.height - borderSize;
+                    
                     SetPointerPosition(cappedTargetScreen);
                 }
                 else
@@ -145,7 +150,7 @@ namespace UI.TutorialScripts
 
         private float GetAngleFromVectorFloat(Vector2 dir)
         {
-            var eulerAngle = Mathf.Atan2(dir.y, dir.x);
+            var eulerAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             return eulerAngle;
         }
 
