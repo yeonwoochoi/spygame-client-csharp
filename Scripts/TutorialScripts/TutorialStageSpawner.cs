@@ -22,8 +22,7 @@ namespace TutorialScripts
     public class TutorialStageSpawner: MonoBehaviour
     {
         #region Public Variables
-        
-        [SerializeField] public QuestPointerController questPointerController;
+        [SerializeField] public PointerController pointerController;
         [SerializeField] public Transform initPlayerTransform;
         [SerializeField] public Transform[] initSpyTransform;
         [SerializeField] public Transform[] initBoxTransform;
@@ -76,7 +75,7 @@ namespace TutorialScripts
             // Set Camera offset
             mainCamera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
             
-            questPointerController.Init(mainCamera);
+            pointerController.Init(mainCamera);
 
             // Set spies and items
             qna = QnaManager.Instance.tutorialQna;

@@ -52,13 +52,13 @@ namespace Base
 
         #region Static Variables
         
-        private static readonly int Horizontal = Animator.StringToHash(AnimationPlayerHorizontal);
-        private static readonly int Vertical = Animator.StringToHash(AnimationPlayerVertical);
-        private static readonly int Speed = Animator.StringToHash(AnimationPlayerSpeed);
+        private static readonly int AnimatorIdHorizontal = Animator.StringToHash(AnimatorParamHorizontal);
+        private static readonly int AnimatorIdVertical = Animator.StringToHash(AnimatorParamVertical);
+        private static readonly int AnimatorIdSpeed = Animator.StringToHash(AnimatorParamSpeed);
         
-        protected const string AnimationPlayerHorizontal = "Horizontal";
-        protected const string AnimationPlayerVertical = "Vertical";
-        private const string AnimationPlayerSpeed = "Speed";
+        protected const string AnimatorParamHorizontal = "Horizontal";
+        protected const string AnimatorParamVertical = "Vertical";
+        private const string AnimatorParamSpeed = "Speed";
 
         #endregion
         
@@ -104,7 +104,7 @@ namespace Base
         protected void SetCurrentState(MoveStateType moveStateType)
         {
             currentState = moveStateType;
-            animator.SetFloat(Speed, currentState == MoveStateType.Idle ? 0 : 1);
+            animator.SetFloat(AnimatorIdSpeed, currentState == MoveStateType.Idle ? 0 : 1);
         }
 
         protected IEnumerator Move(List<Vector3> positions)
@@ -126,8 +126,8 @@ namespace Base
                         var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.deltaTime);
                         rb2D.MovePosition(newPosition);
                         offset = pos - transform.position;
-                        animator.SetFloat(Horizontal, offset.x * 50);
-                        animator.SetFloat(Vertical, offset.y * 50);
+                        animator.SetFloat(AnimatorIdHorizontal, offset.x * 50);
+                        animator.SetFloat(AnimatorIdVertical, offset.y * 50);
                         remainingDistance = offset.sqrMagnitude;
                     }
                     yield return new WaitForFixedUpdate();

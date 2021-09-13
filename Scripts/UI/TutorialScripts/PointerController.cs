@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using Util;
 
 namespace UI.TutorialScripts
 {
-    public class QuestPointerController: MonoBehaviour
+    public class PointerController : MonoBehaviour
     {
         #region Private Variables
 
-        [SerializeField] private RectTransform canvasRect;
-        [SerializeField] private RectTransform pointerRectTransform;
+        private Transform pointerTransform;
+        private SpriteRenderer pointerSpriteRenderer;
         private Animator animator;
         private UnityEngine.Camera camera;
         private Transform playerTransform;
         private Transform targetTransform;
-
-        private CanvasGroup cGroup;
-
+        
         private bool isSet = false;
         private bool isPointing = false;
         private Coroutine pointerMoveCoroutine;
@@ -27,10 +23,10 @@ namespace UI.TutorialScripts
 
         #region Const & Static Variables
 
-        private static readonly int PointingAnimator = Animator.StringToHash(AnimatorParamIsPointing);
+        private static readonly int AnimatorParamIDIsPointing = Animator.StringToHash(AnimatorParamIsPointing);
 
         private const string AnimatorParamIsPointing = "IsPointing";
-        private const float borderSize = 150f;
+        private const float borderSize = 200f;
 
         #endregion
 
@@ -60,17 +56,13 @@ namespace UI.TutorialScripts
         private void IsPointing(bool flag)
         {
             isPointing = flag;
-            cGroup.Visible(flag);
+            pointerSpriteRenderer.color = new Color(1, 1, 1, flag ? 1 : 0);
         }
 
         private void SetPointerPosition(Vector3 screenPoint)
         {
-            var pointerViewportPosition = camera.ScreenToViewportPoint(screenPoint);
-            var pointerScreenPosition = new Vector2(
-                (pointerViewportPosition.x * canvasRect.sizeDelta.x) - (canvasRect.sizeDelta.x * 0.5f),
-                (pointerViewportPosition.y * canvasRect.sizeDelta.y) - (canvasRect.sizeDelta.y * 0.5f)
-                );
-            pointerRectTransform.anchoredPosition = pointerScreenPosition;
+            var worldPosition = camera.ScreenToWorldPoint(screenPoint);
+            pointerTransform.localPosition = worldPosition;
         }
 
         #endregion
@@ -81,10 +73,10 @@ namespace UI.TutorialScripts
         {
             this.camera = camera;
             
-            // pointerRectTransform = GetComponent<RectTransform>();
+            pointerTransform = GetComponent<Transform>();
             animator = GetComponent<Animator>();
+            pointerSpriteRenderer = GetComponent<SpriteRenderer>();
             
-            cGroup = GetComponent<CanvasGroup>();
             IsPointing(false);
             isSet = true;
         }
@@ -135,12 +127,6 @@ namespace UI.TutorialScripts
                 }
                 else
                 {
-                    // 회전 제거
-                    pointerRectTransform.localEulerAngles = Vector3.forward * -90;
-                
-                    // 화면 안에 Target이 있을 때 화살표(Pointer) 위치 설정
-                    SetPointerPosition(targetPositionScreenPoint);
-                    
                     pointerMoveCoroutine ??= StartCoroutine(PointerUpDownMove());
                 }
 
@@ -156,48 +142,45 @@ namespace UI.TutorialScripts
             // 각도 계산해서 화살표 회전시켜줌 (Target 위치로 방향 가리켜야하니까)
             var dir = (toPosition - fromPosition).normalized;
             var angle = GetAngleFromVectorFloat(dir);
-            pointerRectTransform.localEulerAngles = new Vector3(0, 0, angle);
+            pointerTransform.localEulerAngles = new Vector3(0, 0, angle);
         }
 
         private IEnumerator PointerUpDownMove()
         {
-            var downPos = (Vector2) pointerRectTransform.localPosition;
-            var upPos = downPos + Vector2.up * 3;
+            pointerTransform.localEulerAngles = Vector3.forward * -90;
 
             var isMoveUp = true;
+            var downPos = (Vector2) targetTransform.position;
+            var upPos = downPos + Vector2.up;
+
+            pointerTransform.position = downPos;
+            
             while (!IsOffScreen())
             {
                 yield return null;
                 
-                var targetPositionScreenPoint = camera.WorldToScreenPoint(targetTransform.position);
-                SetPointerPosition(targetPositionScreenPoint);
-                
-                
                 if (isMoveUp)
                 {
-                    pointerRectTransform.localPosition = Vector2.Lerp(pointerRectTransform.localPosition, upPos, Time.deltaTime);
-                    var after = (Vector2) pointerRectTransform.localPosition;
+                    var after = Vector2.Lerp(pointerTransform.position, upPos, Time.deltaTime * 1.5f);
+                    pointerTransform.position = after;
                     var distance = (after - upPos).sqrMagnitude;
-                    Debug.Log($"up before : {upPos} / after : {after}");
-                    if (distance < 0.01f)
+                    if (distance < 0.1f)
                     {
                         isMoveUp = false;
                     }
                 }
                 else
                 {
-                    pointerRectTransform.localPosition = Vector2.Lerp(pointerRectTransform.localPosition, downPos, Time.deltaTime);
-                    var after = (Vector2) pointerRectTransform.localPosition;
+                    var after = Vector2.Lerp(pointerTransform.position, downPos, Time.deltaTime * 1.5f);
+                    pointerTransform.position = after;
                     var distance = (after - downPos).sqrMagnitude;
-                    Debug.Log($"down before : {downPos} / after : {after}");
-                    if (distance < 0.01f)
+                    if (distance < 0.1f)
                     {
                         isMoveUp = true;
                     }
                 }
                 
             }
-            animator.SetBool(PointingAnimator, false);
         }
         
         #endregion

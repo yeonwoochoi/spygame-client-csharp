@@ -93,7 +93,7 @@ namespace LoadingScripts
 
                     if (isTutorial)
                     {
-                        while (!isTutorial) yield return null;
+                        while (!isTutorialLoaded) yield return null;
                     }
 
                     manager.allowSceneActivation = true;

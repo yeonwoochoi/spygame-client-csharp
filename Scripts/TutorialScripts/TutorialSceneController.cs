@@ -18,7 +18,7 @@ namespace TutorialScripts
         [SerializeField] private TutorialStageSpawner tutorialStageSpawner;
         [SerializeField] private Transform housePortalTransform;
 
-        private QuestPointerController questPointerController;
+        private PointerController pointerController;
         private Transform playerTransform;
         private Transform initSpyTransform;
         private Transform initBoxTransform;
@@ -47,7 +47,7 @@ namespace TutorialScripts
 
         private void Init()
         {
-            questPointerController = tutorialStageSpawner.questPointerController;
+            pointerController = tutorialStageSpawner.pointerController;
             playerTransform = tutorialStageSpawner.initPlayerTransform;
             initSpyTransform = tutorialStageSpawner.initSpyTransform[0];
             initBoxTransform = tutorialStageSpawner.initBoxTransform[0];

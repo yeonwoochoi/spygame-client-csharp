@@ -20,7 +20,7 @@ namespace Test
         [SerializeField] private UnityEngine.Camera camera;
         [SerializeField] private GameObject player;
         [SerializeField] private JoystickMoveController joystickMoveController;
-        [SerializeField] private QuestPointerController questPointerController;
+        [SerializeField] private PointerController pointerController;
         [SerializeField] private Transform target;
 
         private EControlManager eControlManager;
@@ -51,8 +51,9 @@ namespace Test
             
             camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
-            questPointerController.Init(camera);
-            questPointerController.StartPointing(playerObj.transform, target);
+            
+            pointerController.Init(camera);
+            pointerController.StartPointing(playerObj.transform, target);
         }
 
         private IEnumerator GetQnaData()
