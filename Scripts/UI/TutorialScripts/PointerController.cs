@@ -91,7 +91,7 @@ namespace UI.TutorialScripts
             IsPointing(true);
             StartCoroutine(StartPointingTarget());
         }
-
+        
         public void EndPointing()
         {
             if (!isSet) return;

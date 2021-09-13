@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Base;
 using Camera;
 using Control.Item;
@@ -21,15 +22,12 @@ namespace TutorialScripts
 {
     public class TutorialStageSpawner: MonoBehaviour
     {
-        #region Public Variables
-        [SerializeField] public PointerController pointerController;
-        [SerializeField] public Transform initPlayerTransform;
-        [SerializeField] public Transform[] initSpyTransform;
-        [SerializeField] public Transform[] initBoxTransform;
-
-        #endregion
-        
         #region Private Variables
+
+        [SerializeField] private PointerController pointerController;
+        [SerializeField] private Transform initPlayerTransform;
+        [SerializeField] private Transform[] initSpyTransforms;
+        [SerializeField] private Transform[] initBoxTransforms;
 
         [SerializeField] private UnityEngine.Camera mainCamera;
         [SerializeField] private JoystickMoveController joystickMoveController;
@@ -41,6 +39,7 @@ namespace TutorialScripts
         [SerializeField] private Transform parent;
         
         private List<Qna> qna;
+        public Transform playerTransform;
 
         #endregion
         
@@ -56,13 +55,31 @@ namespace TutorialScripts
 
         #endregion
 
+        #region Getter
+
+        public Transform GetInitSpyPosition()
+        {
+            return initSpyTransforms[0];
+        }
+        public Transform GetInitBoxPosition()
+        {
+            return initBoxTransforms[0];
+        }
+        public PointerController GetPointerController()
+        {
+            return pointerController;
+        }
+        
+        #endregion
+
         #region Public Method
 
         public void Init()
         {
             // Instantiate player and setting controller
             var playerObj = Instantiate(player, initPlayerTransform.position, Quaternion.identity);
-            playerObj.transform.SetParent(parent);
+            playerTransform = playerObj.transform;
+            playerTransform.SetParent(parent);
             var playerMoveController = playerObj.GetComponent<PlayerMoveController>();
             playerMoveController.Init();
 
@@ -73,7 +90,7 @@ namespace TutorialScripts
             joystickMoveController.SetJoystick(playerMoveController, eControlManager.eControlType);
 
             // Set Camera offset
-            mainCamera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
+            mainCamera.GetComponent<CameraFollowController>().SetOffset(playerTransform);
             
             pointerController.Init(mainCamera);
 
@@ -91,7 +108,7 @@ namespace TutorialScripts
         {
             for (var i = 0; i < spyCount; i++)
             {
-                var pos = initSpyTransform[i].position;
+                var pos = initSpyTransforms[i].position;
                 var spyObj = Instantiate(normalSpy, pos, Quaternion.identity);
                 spyObj.transform.SetParent(parent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
@@ -104,7 +121,7 @@ namespace TutorialScripts
         {
             for (var i = 0; i < boxCount; i++)
             {
-                var itemObj = Instantiate(box, initBoxTransform[i].position, Quaternion.identity);
+                var itemObj = Instantiate(box, initBoxTransforms[i].position, Quaternion.identity);
                 itemObj.transform.SetParent(parent);
                 var itemBoxController = itemObj.GetComponent<ItemBoxController>();
                 itemBoxController.Init(new Item(i+2000, GetRandomQna(QnaDifficulty.Hard), false));

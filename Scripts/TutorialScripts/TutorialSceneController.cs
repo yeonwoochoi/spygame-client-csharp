@@ -47,10 +47,10 @@ namespace TutorialScripts
 
         private void Init()
         {
-            pointerController = tutorialStageSpawner.pointerController;
-            playerTransform = tutorialStageSpawner.initPlayerTransform;
-            initSpyTransform = tutorialStageSpawner.initSpyTransform[0];
-            initBoxTransform = tutorialStageSpawner.initBoxTransform[0];
+            pointerController = tutorialStageSpawner.GetPointerController();
+            playerTransform = tutorialStageSpawner.playerTransform;
+            initSpyTransform = tutorialStageSpawner.GetInitSpyPosition();
+            initBoxTransform = tutorialStageSpawner.GetInitBoxPosition();
             StartCoroutine(StartTutorialFlow());
         }
 
@@ -59,7 +59,7 @@ namespace TutorialScripts
             yield return null;
             // TODO (TUTORIAL) : 세부적인 튜토리얼 flow 는 여기서 짜자..
             
-            //questPointerController.StartPointing(playerTransform, initSpyTransform);
+            pointerController.StartPointing(playerTransform, initSpyTransform);
         }
 
         private void ExitTutorial(object _, ExitTutorialEventArgs e)

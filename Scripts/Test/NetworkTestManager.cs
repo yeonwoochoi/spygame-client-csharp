@@ -51,7 +51,6 @@ namespace Test
             
             camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
-            
             pointerController.Init(camera);
             pointerController.StartPointing(playerObj.transform, target);
         }
