@@ -7,6 +7,7 @@ using Base;
 using Camera;
 using Control.Item;
 using Control.Movement;
+using Control.Pointer;
 using Domain;
 using Domain.StageObj;
 using Event;

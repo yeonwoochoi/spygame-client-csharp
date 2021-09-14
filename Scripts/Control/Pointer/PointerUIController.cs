@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Util;
 
-namespace UI.TutorialScripts
+namespace Control.Pointer
 {
     public class PointerUIController: MonoBehaviour
     {

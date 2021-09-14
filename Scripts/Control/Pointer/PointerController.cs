@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Util
+namespace Control.Pointer
 {
     public class PointerController : MonoBehaviour
     {
