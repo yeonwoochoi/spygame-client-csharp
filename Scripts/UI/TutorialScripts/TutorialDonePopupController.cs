@@ -19,7 +19,8 @@ namespace UI.TutorialScripts
 
         private const string titleComment = "튜토리얼 완료";
         private const string successComment = "튜토리얼을 완료하시느라 수고 많으셨습니다.\r\n이제 본게임에 들어가서 여러 스테이지를 깨보세요.";
-        private const string failureComment = "시간 초과되었습니다.\r\n튜토리얼을 다시 진행하시겠습니까?";
+        private const string failureComment = "아쉽습니다.\r\n이제 본게임에 들어가서 여러 스테이지를 깨보세요.";
+        private const string timeOverComment = "시간 초과되었습니다.\r\n튜토리얼을 다시 진행하시겠습니까?";
         
         // Tutorial Exit button 눌렀을 때 Emit 하면 됨
         public static event EventHandler<ExitTutorialEventArgs> ExitTutorialEvent;
@@ -47,13 +48,27 @@ namespace UI.TutorialScripts
         private void OpenPopup(object _, ExitTutorialEventArgs e)
         {
             if (isDone) return;
-            
-            var comment = e.isSuccess ? successComment : failureComment;
+
+            var comment = "";
+            switch (e.tutorialExitType)
+            {
+                case TutorialExitType.Success:
+                    comment = successComment;
+                    break;
+                case TutorialExitType.TimeOver:
+                    comment = timeOverComment;
+                    break;
+                case TutorialExitType.Failure:
+                    comment = failureComment;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             SetComments(comment);
             
             EmitPauseTutorialEvent(new PauseGameEventArgs
             {
-                isPaused = e.isSuccess
+                isPaused = e.tutorialExitType == TutorialExitType.Success
             });
             
             OnOpenPopup();

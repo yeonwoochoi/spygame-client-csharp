@@ -34,7 +34,7 @@ namespace UI.Base
         protected virtual void OnClickOkBtn()
         {
             ResetAll();
-            cGroup.Visible(false);
+            ActivateUI(false);
         }
         
         protected virtual void OnClickCancelBtn()

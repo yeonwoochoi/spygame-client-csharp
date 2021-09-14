@@ -71,7 +71,7 @@ namespace UI.Talking
 
         protected override void OnClickOkBtn()
         {
-            EmitOpenQnaPopupEvent(new OpenSpyQnaEventArgs { spy = spy});
+            EmitOpenQnaPopupEvent(new OpenSpyQnaEventArgs { spy = spy });
             base.OnClickOkBtn();
         }
 

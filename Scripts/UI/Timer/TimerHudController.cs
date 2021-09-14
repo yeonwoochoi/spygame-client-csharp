@@ -117,7 +117,7 @@ namespace UI.Timer
                 {
                     EmitTutorialTimeOverEvent(new ExitTutorialEventArgs
                     {
-                        isSuccess = false
+                        tutorialExitType = TutorialExitType.TimeOver
                     });
                 }
                 else

@@ -44,7 +44,7 @@ namespace TutorialScripts
                 // 딱 목표 스파이만큼 스파이 만들거니까 하나라도 틀리면 바로 실패
                 EmitTutorialDoneEvent(new ExitTutorialEventArgs
                 {
-                    isSuccess = false
+                    tutorialExitType = TutorialExitType.Failure
                 });
                 return;
             }
@@ -56,7 +56,7 @@ namespace TutorialScripts
                 {
                     EmitTutorialDoneEvent(new ExitTutorialEventArgs
                     {
-                        isSuccess = true
+                        tutorialExitType = TutorialExitType.Success
                     });
                 }
             }
