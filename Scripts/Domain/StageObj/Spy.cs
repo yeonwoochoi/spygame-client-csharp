@@ -29,7 +29,7 @@ namespace Domain.StageObj
 
         #region Constructor
 
-        public Spy(int index, SpyType type, Qna qna, bool isRandom = true)
+        public Spy(int index, SpyType type, Qna qna, bool isRandom = true, bool isSpy = true)
         {
             this.index = index;
             this.type = type;
@@ -37,11 +37,11 @@ namespace Domain.StageObj
             if (isRandom)
             {
                 var random = Random.Range(0, 2);
-                isSpy = random == 0;
+                this.isSpy = random == 0;
             }
             else
             {
-                isSpy = true;
+                this.isSpy = isSpy;
             }
         }
 

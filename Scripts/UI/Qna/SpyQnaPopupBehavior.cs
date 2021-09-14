@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using Control.Pointer;
 using Domain;
 using Domain.StageObj;
 using Event;
 using Manager;
+using Manager.Data;
 using StageScripts;
 using TutorialScripts;
 using UI.Base;
@@ -24,6 +26,7 @@ namespace UI.Qna
     {
         #region Private Variables
 
+        [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text playerQuestionText;
         [SerializeField] private Text spyAnswerText;
         [SerializeField] private Text spyOrNotText;
@@ -38,6 +41,7 @@ namespace UI.Qna
         private Animator explosionAnimator;
         private CanvasGroup explosionCanvasGroup;
         private bool isSolved;
+        private bool isTutorial = false;
 
         #endregion
 
@@ -62,7 +66,7 @@ namespace UI.Qna
 
         public static event EventHandler<CaptureSpyEventArgs> CaptureSpyEvent;
         public static event EventHandler<SkipSpyQnaEventArgs> SkipSpyQnaEvent;
-
+        
         #endregion
 
         #region Setter
@@ -82,6 +86,8 @@ namespace UI.Qna
             base.Start();
             SpyTalkingUIBehavior.OpenSpyQnaPopupEvent += OpenSpyQnaPopup;
 
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
+            
             bombTimerAnimator = bombTimer.GetComponent<Animator>();
             explosionAnimator = explosion.GetComponent<Animator>();
             explosionCanvasGroup = explosion.GetComponent<CanvasGroup>();
@@ -93,6 +99,11 @@ namespace UI.Qna
             releaseBtn.SetActive(false);
 
             titleText.text = PopupTitle;
+            
+            if (isTutorial)
+            {
+                pointerUIController.Init();    
+            }
         }
 
         protected override void OnDisable()
@@ -132,10 +143,10 @@ namespace UI.Qna
             SetIsSolved(false);
             ResetAll();
             OnOpenPopup();
-            StartCoroutine(TypingReportContent());
+            StartCoroutine(TypingReportContent(e.spy.isSpy));
         }
 
-        private IEnumerator TypingReportContent()
+        private IEnumerator TypingReportContent(bool isSpy)
         {
             yield return new WaitForSeconds(0.5f);
             yield return TypingComment(playerQuestionText, $"Player : {spy.GetQuestion()}");
@@ -144,7 +155,12 @@ namespace UI.Qna
             
             captureBtn.SetActive(true);
             releaseBtn.SetActive(true);
-            
+
+            if (isTutorial)
+            {
+                pointerUIController.StartPointing(isSpy ? captureBtn.GetComponent<RectTransform>() : releaseBtn.GetComponent<RectTransform>());   
+            }
+
             yield return StartTimer();
         }
 
@@ -153,6 +169,8 @@ namespace UI.Qna
             OnClosePopup();
             SetIsSolved(true);
             EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Capture));
+
+            if (isTutorial) pointerUIController.EndPointing();
         }
 
         private void OnClickReleaseBtn()
@@ -160,6 +178,8 @@ namespace UI.Qna
             OnClosePopup();
             SetIsSolved(true);
             EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Release));
+            
+            if (isTutorial) pointerUIController.EndPointing();
         }
 
         private void EmitCaptureSpyEventArgs(CaptureSpyEventArgs e)

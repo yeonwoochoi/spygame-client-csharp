@@ -27,6 +27,7 @@ namespace TutorialScripts
         #region Private Variables
 
         [SerializeField] private PointerController pointerController;
+        
         [SerializeField] private Transform initPlayerTransform;
         [SerializeField] private Transform[] initSpyTransforms;
         [SerializeField] private Transform[] initBoxTransforms;
@@ -41,16 +42,17 @@ namespace TutorialScripts
         [SerializeField] private Transform parent;
         
         private List<Qna> qna;
-        public Transform playerTransform;
+        [HideInInspector] public Transform playerTransform;
 
         #endregion
         
         #region Static Variables
 
-        public static readonly int time = 120;
-        
+        public static readonly int time = 60;
+
         // 맨 처음 sample spy 까지 포함
         public static readonly int spyCount = 3;
+        public static readonly int goalSpyCount = 2;
 
         // 맨 처음 sample box 까지 포함
         public static readonly int boxCount = 2;
@@ -58,6 +60,11 @@ namespace TutorialScripts
         #endregion
 
         #region Getter
+
+        public Transform GetPlayerTransform()
+        {
+            return playerTransform;
+        }
 
         public Transform GetInitSpyPosition()
         {
@@ -115,7 +122,7 @@ namespace TutorialScripts
                 spyObj.transform.SetParent(parent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
                 spyMoveController.SetTilemap(tilemap);
-                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy)), i == 0);
+                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), false, i < goalSpyCount), i == 0);
             }
         }
         

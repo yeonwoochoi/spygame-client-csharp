@@ -1,6 +1,7 @@
 ﻿using System;
 using Domain;
 using Domain.StageObj;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Event
@@ -13,7 +14,7 @@ namespace Event
     {
         Interaction, Notice
     }
-    
+
     public class OpenSpyQnaEventArgs: EventArgs
     {
         public Spy spy;

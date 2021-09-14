@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Control.Pointer;
 using Domain;
 using Event;
 using Manager;
@@ -9,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Domain.StageObj;
+using Manager.Data;
 using TutorialScripts;
 using UI.StageScripts.Popup;
 using Util;
@@ -24,6 +26,7 @@ namespace UI.Qna
     {
         #region Private Variables
 
+        [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text questionText;
         [SerializeField] private Text answerText;
         [SerializeField] private Text correctOrNotText;
@@ -44,6 +47,7 @@ namespace UI.Qna
         private CanvasGroup explosionCanvasGroup;
 
         private bool isSolved;
+        private bool isTutorial = false;
 
         #endregion
 
@@ -69,6 +73,9 @@ namespace UI.Qna
         protected override void Start()
         {
             base.Start();
+            
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
+
             titleText.text = $"{popupTitle}";
             ItemTalkingUIBehavior.OpenItemQnaPopupEvent += OpenItemQnaPopup;
 
@@ -79,6 +86,11 @@ namespace UI.Qna
             
             yesButton.GetComponent<Button>().onClick.AddListener(OnClickYesBtn);
             noButton.GetComponent<Button>().onClick.AddListener(OnClickNoBtn);
+            
+            if (isTutorial)
+            {
+                pointerUIController.Init();    
+            }
         }
 
         protected override void OnDisable()
@@ -118,10 +130,10 @@ namespace UI.Qna
             SetIsSolved(false);
             ResetAll();
             OnOpenPopup();
-            StartCoroutine(TypingReportContent());
+            StartCoroutine(TypingReportContent(e.item.isCorrect));
         }
 
-        private IEnumerator TypingReportContent()
+        private IEnumerator TypingReportContent(bool isCorrect)
         {
             yield return new WaitForSeconds(0.5f);
             yield return TypingComment(questionText, $"Q : {item.GetQuestion()}");
@@ -130,6 +142,11 @@ namespace UI.Qna
             
             yesButton.SetActive(true);
             noButton.SetActive(true);
+            
+            if (isTutorial)
+            {
+                pointerUIController.StartPointing(isCorrect ? yesButton.GetComponent<RectTransform>() : noButton.GetComponent<RectTransform>());   
+            }
             
             yield return StartTimer();
         }
@@ -141,6 +158,8 @@ namespace UI.Qna
             EmitItemGetEvent(item.isCorrect
                 ? new ItemGetEventArgs(item, ItemGetType.Get)
                 : new ItemGetEventArgs(item, ItemGetType.Miss));
+
+            if (isTutorial) pointerUIController.EndPointing();
         }
 
         private void OnClickNoBtn()
@@ -150,6 +169,8 @@ namespace UI.Qna
             EmitItemGetEvent(item.isCorrect
                 ? new ItemGetEventArgs(item, ItemGetType.Miss)
                 : new ItemGetEventArgs(item, ItemGetType.Get));
+            
+            if (isTutorial) pointerUIController.EndPointing();
         }
 
         private IEnumerator StartTimer()

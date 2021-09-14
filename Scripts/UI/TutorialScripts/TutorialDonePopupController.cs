@@ -23,7 +23,6 @@ namespace UI.TutorialScripts
         
         // Tutorial Exit button 눌렀을 때 Emit 하면 됨
         public static event EventHandler<ExitTutorialEventArgs> ExitTutorialEvent;
-                
         public static event EventHandler<PauseGameEventArgs> PauseTutorialEvent;
 
 
@@ -48,19 +47,22 @@ namespace UI.TutorialScripts
         private void OpenPopup(object _, ExitTutorialEventArgs e)
         {
             if (isDone) return;
-            OnOpenPopup();
+            
+            var comment = e.isSuccess ? successComment : failureComment;
+            SetComments(comment);
+            
             EmitPauseTutorialEvent(new PauseGameEventArgs
             {
                 isPaused = e.isSuccess
             });
-            var comment = e.isSuccess ? successComment : failureComment;
-            StartCoroutine(StartTyping(comment));
+            
+            OnOpenPopup();
         }
 
-        private IEnumerator StartTyping(string comment)
+        private void SetComments(string comment)
         {
-            yield return StartCoroutine(TypingComment(titleText, titleComment));
-            yield return StartCoroutine(TypingComment(contentText, comment));
+            titleText.text = $"{titleComment}";
+            contentText.text = $"{comment}";
             retryButton.SetActive(true);
             exitButton.SetActive(true);
             isDone = true;

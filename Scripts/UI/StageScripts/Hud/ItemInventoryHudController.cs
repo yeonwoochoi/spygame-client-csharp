@@ -4,7 +4,9 @@ using Domain;
 using Domain.StageObj;
 using Event;
 using Manager;
+using Manager.Data;
 using StageScripts;
+using TutorialScripts;
 using UI.Qna;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +25,9 @@ namespace UI.StageScripts.Hud
         private int currentHp;
         private Dictionary<ItemType, List<Item>> itemRepository;
 
+        private bool isTutorial = false;
+        private bool isTutorialGameStart = false;
+
         #endregion
 
         #region Event
@@ -35,6 +40,7 @@ namespace UI.StageScripts.Hud
 
         private void Start()
         {
+            TutorialSceneController.StartTutorialGameEvent += StartTutorialGame;
             StageStateController.UpdateStageStateEvent += UpdateStageState;
             ItemQnaPopupBehavior.ItemGetEvent += GetItem;
             InitItemRepository();
@@ -44,6 +50,7 @@ namespace UI.StageScripts.Hud
 
         private void OnDisable()
         {
+            TutorialSceneController.StartTutorialGameEvent -= StartTutorialGame;
             StageStateController.UpdateStageStateEvent -= UpdateStageState;
             ItemQnaPopupBehavior.ItemGetEvent -= GetItem;
         }
@@ -54,6 +61,8 @@ namespace UI.StageScripts.Hud
 
         private void InitItemRepository()
         {
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
+            
             var itemTypeCount = Enum.GetValues(typeof(ItemType)).Length;
             itemRepository = new Dictionary<ItemType, List<Item>>();
             
@@ -94,6 +103,7 @@ namespace UI.StageScripts.Hud
 
         private void UseItem(ItemType type)
         {
+            if (isTutorial && !isTutorialGameStart) return;
             if (itemRepository[type].Count <= 0) return;
             if (type == ItemType.Hp && currentHp == StageStateController.PlayerHp) return;
             EmitItemUseEvent(new ItemUseEventArgs { item = itemRepository[type][0] });
@@ -114,6 +124,11 @@ namespace UI.StageScripts.Hud
         private void UpdateStageState(object _, UpdateStageStateEventArgs e)
         {
             currentHp = e.hp;
+        }
+
+        private void StartTutorialGame(object _, StartTutorialGameEventArgs e)
+        {
+            isTutorialGameStart = true;
         }
 
         private void UpdateItemCountText()

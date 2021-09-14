@@ -11,6 +11,7 @@ using UI.StageScripts.Popup;
 using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.UI;
+using Util;
 
 namespace UI.Timer
 {
@@ -23,8 +24,11 @@ namespace UI.Timer
         #endregion
 
         #region Private Variables
-
+        
         [SerializeField] private Text timerText;
+
+        private CanvasGroup cGroup;
+        
         private bool isSet = false;
         private bool isTutorial = false;
         private bool isClear = false;
@@ -51,8 +55,11 @@ namespace UI.Timer
 
         private void Start()
         {
+            cGroup = GetComponent<CanvasGroup>();
+            
             isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
-            Init();
+            cGroup.Visible(!isTutorial);
+            if (!isTutorial) Init();
             
             ItemInventoryHudController.ItemUseEvent += EatTimeUpItem;
             
@@ -61,6 +68,7 @@ namespace UI.Timer
             StagePausePopupController.PauseGameEvent += PauseGame;
             
             // Tutorial Scene Event
+            TutorialSceneController.StartTutorialGameEvent += StartTutorialTimer;
             TutorialStateController.TutorialDoneEvent += StopTimerByTutorialDone;
             TutorialDonePopupController.PauseTutorialEvent += PauseGame;
         }
@@ -74,6 +82,7 @@ namespace UI.Timer
             StagePausePopupController.PauseGameEvent -= PauseGame;
             
             // Tutorial Scene Event
+            TutorialSceneController.StartTutorialGameEvent -= StartTutorialTimer;
             TutorialStateController.TutorialDoneEvent -= StopTimerByTutorialDone;
             TutorialDonePopupController.PauseTutorialEvent -= PauseGame;
         }
@@ -121,6 +130,12 @@ namespace UI.Timer
             }
             
             yield return null;
+        }
+
+        private void StartTutorialTimer(object _, StartTutorialGameEventArgs e)
+        {
+            cGroup.Visible();
+            Init();
         }
 
         private void EmitGameOverEvent(ExitStageEventArgs e)

@@ -54,9 +54,4 @@ namespace Event
     {
         public StageExitType exitType;
     }
-
-    public class ExitTutorialEventArgs : EventArgs
-    {
-        public bool isSuccess;
-    }
 }

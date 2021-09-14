@@ -94,10 +94,10 @@ namespace UI.Talking
 
         private IEnumerator BeforeExamineEvent()
         {
-            yield return DOFade(spyCanvasGroup);
+            yield return DoFade(spyCanvasGroup);
             yield return TypingComment(spyCommentText, SpyComment);
             
-            yield return DOFade(playerCanvasGroup);
+            yield return DoFade(playerCanvasGroup);
             yield return TypingComment(playerCommentText, PlayerComment);
             
             okButton.SetActive(true);

@@ -21,15 +21,17 @@ namespace Control.Pointer
         #endregion
 
         #region Const & Static Variables
-
-        private static readonly int AnimatorParamIDIsPointing = Animator.StringToHash(AnimatorParamIsPointing);
-
-        private const string AnimatorParamIsPointing = "IsPointing";
+        
         private const float borderSize = 200f;
 
         #endregion
 
         #region Getter
+
+        public bool GetIsPointing()
+        {
+            return isPointing;
+        }
 
         private bool IsOffScreen()
         {
@@ -52,7 +54,7 @@ namespace Control.Pointer
 
         #region Setter
 
-        private void IsPointing(bool flag)
+        private void SetIsPointing(bool flag)
         {
             isPointing = flag;
             pointerSpriteRenderer.color = new Color(1, 1, 1, flag ? 1 : 0);
@@ -76,7 +78,7 @@ namespace Control.Pointer
             animator = GetComponent<Animator>();
             pointerSpriteRenderer = GetComponent<SpriteRenderer>();
             
-            IsPointing(false);
+            SetIsPointing(false);
             isSet = true;
         }
 
@@ -87,14 +89,21 @@ namespace Control.Pointer
             
             playerTransform = from;
             targetTransform = to;
-            IsPointing(true);
+            SetIsPointing(true);
             StartCoroutine(StartPointingTarget());
         }
         
         public void EndPointing()
         {
             if (!isSet) return;
-            IsPointing(false);
+            if (pointerMoveCoroutine != null)
+            {
+                StopCoroutine(pointerMoveCoroutine);
+                pointerMoveCoroutine = null;
+            }
+            playerTransform = null;
+            targetTransform = null;
+            SetIsPointing(false);
         }
 
         #endregion
@@ -149,7 +158,7 @@ namespace Control.Pointer
             pointerTransform.localEulerAngles = Vector3.forward * -90;
 
             var isMoveUp = true;
-            var downPos = (Vector2) targetTransform.position;
+            var downPos = (Vector2) targetTransform.position + Vector2.up * targetTransform.localScale / 2;
             var upPos = downPos + Vector2.up;
 
             pointerTransform.position = downPos;

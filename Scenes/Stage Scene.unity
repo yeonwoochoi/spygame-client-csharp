@@ -1027,6 +1027,7 @@ MonoBehaviour:
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 1974789609}
   moveType: 0
+  pointerUIController: {fileID: 0}
   questionText: {fileID: 145283328}
   answerText: {fileID: 316924016}
   correctOrNotText: {fileID: 1705623852}
@@ -1609,6 +1610,7 @@ MonoBehaviour:
   bgCanvasGroup: {fileID: 198128164}
   titleText: {fileID: 815230651}
   moveType: 0
+  pointerUIController: {fileID: 0}
   playerQuestionText: {fileID: 1457632186}
   spyAnswerText: {fileID: 1041476641}
   spyOrNotText: {fileID: 820854442}
@@ -11542,6 +11544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1621862504}
   - component: {fileID: 1621862506}
+  - component: {fileID: 1621862507}
   - component: {fileID: 1621862505}
   m_Layer: 5
   m_Name: Timer Panel
@@ -11591,6 +11594,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621862503}
   m_CullTransparentMesh: 0
+--- !u!225 &1621862507
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621862503}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1627676470
 GameObject:
   m_ObjectHideFlags: 0
