@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1160238229036444644}
   - component: {fileID: 3590640749821903804}
   - component: {fileID: 2414088852620323818}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Portal Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244131944959783130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: -1.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6258510179183704093}
@@ -46,7 +46,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.0193605, y: -1.2720227}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -57,7 +57,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7841234, y: 1.0000004}
+  m_Size: {x: 2, y: 1.0000004}
   m_EdgeRadius: 0
 --- !u!114 &2414088852620323818
 MonoBehaviour:
@@ -72,7 +72,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   afterPortal: {fileID: 0}
-  bgPanelCanvasGroup: {fileID: 0}
 --- !u!1 &3935976518739438710
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +81,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6258510179183704093}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Init Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +96,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3935976518739438710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1160238229036444644}
@@ -114,7 +113,7 @@ GameObject:
   - component: {fileID: 5615893575276880310}
   - component: {fileID: 5615893575276880304}
   - component: {fileID: 5615893575276880311}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: House_2
   m_TagString: Prop
   m_Icon: {fileID: 0}

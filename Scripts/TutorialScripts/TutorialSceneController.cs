@@ -93,7 +93,7 @@ namespace TutorialScripts
             pointerController.StartPointing(playerTransform, initSpyTransform);
             while (pointerController.GetIsPointing()) yield return null;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.6f);
             
             var secondComments = new List<string>
             {
@@ -106,7 +106,7 @@ namespace TutorialScripts
             pointerController.StartPointing(playerTransform, initBoxTransform);
             while (pointerController.GetIsPointing()) yield return null;
             
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.6f);
 
             var thirdComments = new List<string>
             {
@@ -119,7 +119,7 @@ namespace TutorialScripts
             pointerController.StartPointing(playerTransform, housePortalTransform);
             while (pointerController.GetIsPointing()) yield return null;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
 
             var fourthComments = new List<string>
             {
@@ -138,13 +138,14 @@ namespace TutorialScripts
 
             StartCoroutine(StartLoadingAnimator(() =>
                 {
-                    nextScene = SceneNameManager.SceneMain;
+                    nextScene = SceneNameManager.SceneNormalLoading;
                 },
                 () =>
                 {
                     SceneManager.LoadScene(nextScene);
                 }));
         }
+        
 
         private IEnumerator StartNpcTalking(List<string> comments)
         {
