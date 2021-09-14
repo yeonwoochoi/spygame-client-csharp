@@ -16,6 +16,7 @@ using Manager.Data;
 using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Util;
 using Random = UnityEngine.Random;
 
 namespace TutorialScripts

@@ -8,6 +8,7 @@ using Manager.Data;
 using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 
 namespace TutorialScripts
 {
