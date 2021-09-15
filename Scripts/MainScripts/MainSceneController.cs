@@ -50,7 +50,7 @@ namespace MainScripts
             return ChapterManager.Instance.GetChapterInfo(chapterType);
         }
         
-        private bool IsClear(ChapterType chapterType)
+        private bool IsChapterClear(ChapterType chapterType)
         {
             var isClear = true;
             var stageScoreInfo = GlobalDataManager.Instance.Get<StageScoreManager>(GlobalDataKey.STAGE_SCORE).GetStageInfos(chapterType);
@@ -62,12 +62,12 @@ namespace MainScripts
             return isClear;
         }
 
-        private bool IsLocked(ChapterType chapterType)
+        private bool IsChapterLocked(ChapterType chapterType)
         {
             if (chapterType == ChapterType.Chapter1) return false;
             var index = (int) chapterType;
             var prevChapter = (ChapterType) (index - 1);
-            return !IsClear(prevChapter);
+            return !IsChapterClear(prevChapter);
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace MainScripts
         private void SetButtonController(Button button, ChapterType chapterType)
         {
             var controller = button.GetComponent<ChapterSelectPopupButtonController>();
-            controller.SetChapterSelectButtons(GetChapterInfo(chapterType), IsLocked(chapterType));
+            controller.SetChapterSelectButtons(GetChapterInfo(chapterType), IsChapterLocked(chapterType));
             button.onClick.AddListener(() =>
             {
                 if (controller.GetIsLocked()) return;

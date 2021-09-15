@@ -69,7 +69,7 @@ namespace Http
         {
             if (AlertOccurredEvent == null) return;
             foreach (var invocation in AlertOccurredEvent.GetInvocationList())
-                invocation.DynamicInvoke(new NetworkErrorManager(), e);
+                invocation?.DynamicInvoke(new NetworkErrorManager(), e);
         }
     }
 }

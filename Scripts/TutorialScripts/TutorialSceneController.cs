@@ -32,6 +32,37 @@ namespace TutorialScripts
 
         #endregion
 
+        #region Readonly Variables
+
+        private readonly List<string> firstComments = new List<string>
+        {
+            "군 내부에 스파이가 잠입했다는 정보가 들어왔습니다.",
+            "심문을 해서 스파이를 색출해내세요.",
+            "질문에 대해 오답을 말하는 병사가 스파이입니다.",
+            "앞에 보이는 병사에게 다가가 심문을 해보세요."
+        };
+        
+        private readonly List<string> secondComments = new List<string>
+        {
+            "잘하셨어요. 다음으로 아이템을 얻는 방법을 알려드릴게요.",
+            "상자 근처로 다가가 문제를 맞추면 아이템을 얻을 수 있습니다.",
+            "화살표를 따라가 문제를 풀고 아이템을 얻어보세요."
+        };
+        
+        private readonly List<string> thirdComments = new List<string>
+        {
+            "잘하셨어요. 얻으신 아이템은 우측 버튼을 눌러 사용하실 수 있습니다.",
+            "막사 내부에도 스파이가 잠입했나봐요.",
+            "화살표를 따라가 막사 내부로 이동합시다."
+        };
+        
+        private readonly List<string> fourthComments = new List<string>
+        {
+            $"제한시간 {TutorialStageSpawner.time}초 내에 스파이 {TutorialStageSpawner.goalSpyCount-1}명을 색출해보세요."
+        };
+
+        #endregion
+
         #region Event
 
         public static event EventHandler<StartTutorialGameEventArgs> StartTutorialGameEvent; 
@@ -69,7 +100,6 @@ namespace TutorialScripts
             playerTransform = tutorialStageSpawner.GetPlayerTransform();
             initSpyTransform = tutorialStageSpawner.GetInitSpyPosition();
             initBoxTransform = tutorialStageSpawner.GetInitBoxPosition();
-
             pointerController = tutorialStageSpawner.GetPointerController();
             pointerUIController.Init();
             
@@ -79,54 +109,24 @@ namespace TutorialScripts
         private IEnumerator StartTutorialFlow()
         {
             yield return null;
-            // TODO (TUTORIAL) : 세부적인 튜토리얼 flow 는 여기서 짜자..
 
-            var firstComments = new List<string>
-            {
-                "군 내부에 스파이가 잠입했다는 정보가 들어왔습니다.",
-                "심문을 해서 스파이를 색출해내세요.",
-                "질문에 대해 오답을 말하는 병사가 스파이입니다.",
-                "앞에 보이는 병사에게 다가가 심문을 해보세요."
-            };
+            // 스파이 가리키고 다가가 문제 풀으라는 Comment
             yield return StartCoroutine(StartNpcTalking(firstComments));
-            
-            pointerController.StartPointing(playerTransform, initSpyTransform);
-            while (pointerController.GetIsPointing()) yield return null;
-
+            yield return StartCoroutine(StartPointing(playerTransform, initSpyTransform));
             yield return new WaitForSeconds(0.6f);
-            
-            var secondComments = new List<string>
-            {
-                "잘하셨어요. 다음으로 아이템을 얻는 방법을 알려드릴게요.",
-                "상자 근처로 다가가 문제를 맞추면 아이템을 얻을 수 있습니다.",
-                "앞에 보이는 상자 근처로 가서 문제를 풀어보세요."
-            };
+   
+            // 아이템 박스 가리키고 다가가 문제 풀으라는 Comment
             yield return StartCoroutine(StartNpcTalking(secondComments));
-            
-            pointerController.StartPointing(playerTransform, initBoxTransform);
-            while (pointerController.GetIsPointing()) yield return null;
-            
+            yield return StartCoroutine(StartPointing(playerTransform, initBoxTransform));
             yield return new WaitForSeconds(0.6f);
-
-            var thirdComments = new List<string>
-            {
-                "잘하셨어요. 얻으신 아이템은 우측 버튼을 눌러 사용하실 수 있습니다.",
-                "막사 내부에도 스파이가 잠입했나봐요.",
-                "화살표를 따라가 막사 내부로 이동합시다."
-            };
+            
+            // 막사로 이동하는 포털 가리키고 내부로 이동하라는 Comment
             yield return StartCoroutine(StartNpcTalking(thirdComments));
-            
-            pointerController.StartPointing(playerTransform, housePortalTransform);
-            while (pointerController.GetIsPointing()) yield return null;
-
+            yield return StartCoroutine(StartPointing(playerTransform, housePortalTransform));
             yield return new WaitForSeconds(2f);
-
-            var fourthComments = new List<string>
-            {
-                $"제한시간 {TutorialStageSpawner.time}초 내에 스파이 1명을 색출해보세요."
-            };
-            yield return StartCoroutine(StartNpcTalking(fourthComments));
             
+            // 막사 내부에서 미니게임 시작
+            yield return StartCoroutine(StartNpcTalking(fourthComments));
             EmitStartTutorialGameEvent(new StartTutorialGameEventArgs());
         }
 
@@ -151,6 +151,12 @@ namespace TutorialScripts
         {
             npcTalkingBehavior.StartTalking(comments);
             while (npcTalkingBehavior.IsTalking()) yield return null;
+        }
+
+        private IEnumerator StartPointing(Transform from, Transform to)
+        {
+            pointerController.StartPointing(from, to);
+            while (pointerController.GetIsPointing()) yield return null;
         }
 
         private void ExitTutorial(object _, ExitTutorialEventArgs e)

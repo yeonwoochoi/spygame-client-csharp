@@ -126,7 +126,7 @@ namespace LoadingScripts
             var code = errorResponse.GetErrorCode();
             NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
                 .Type(AlertType.Notice)
-                .Title("No Chapter Info")
+                .Title("Network")
                 .Content(code.message)
                 .OkHandler(() => Application.Quit(0))
                 .Build()
@@ -155,7 +155,7 @@ namespace LoadingScripts
             var code = errorResponse.GetErrorCode();
             NetworkManager.HandleError(AlertOccurredEventArgs.Builder()
                 .Type(AlertType.Notice)
-                .Title("No qna data")
+                .Title("Network")
                 .Content(code.message)
                 .OkHandler(() => Application.Quit(0))
                 .Build()

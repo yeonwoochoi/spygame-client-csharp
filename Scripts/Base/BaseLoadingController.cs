@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Event;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +14,12 @@ namespace Base
         [SerializeField] protected CanvasGroup cGroup;
 
         protected string nextScene = "";
+
+        #endregion
+
+        #region Event
+
+        public static event EventHandler<AlertOccurredEventArgs> AlertOccurredEvent; 
 
         #endregion
 
@@ -39,6 +47,12 @@ namespace Base
                 timer += Time.unscaledDeltaTime * 2f;
                 cGroup.alpha = Mathf.Lerp(isFadeIn ? 0 : 1, isFadeIn ? 1 : 0, timer);
             }
+        }
+        
+        protected void EmitAlertOccurredEvent(AlertOccurredEventArgs e) {
+            if (AlertOccurredEvent == null) return;
+            foreach (var invocation in AlertOccurredEvent.GetInvocationList())
+                invocation?.DynamicInvoke(this, e);
         }
 
         #endregion
