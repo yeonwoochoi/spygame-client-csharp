@@ -29,7 +29,6 @@ namespace UI.Qna
         [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text questionText;
         [SerializeField] private Text answerText;
-        [SerializeField] private Text correctOrNotText;
         [SerializeField] private GameObject yesButton;
         [SerializeField] private GameObject noButton;
         [SerializeField] private GameObject bombTimer;
@@ -38,7 +37,6 @@ namespace UI.Qna
 
         private Item item;
 
-        private readonly string correctOrNotComment = "Is it Correct?";
         private readonly string popupTitle = "Quiz";
         private readonly int timer = 3;
 
@@ -109,7 +107,6 @@ namespace UI.Qna
             timerText.text = "";
             questionText.text = "";
             answerText.text = "";
-            correctOrNotText.text = "";
             yesButton.SetActive(false);
             noButton.SetActive(false);
         }
@@ -138,7 +135,6 @@ namespace UI.Qna
             yield return new WaitForSeconds(0.5f);
             yield return TypingComment(questionText, $"Q : {item.GetQuestion()}");
             yield return TypingComment(answerText, $"A : {item.GetAnswer()}");
-            yield return TypingComment(correctOrNotText, correctOrNotComment);
             
             yesButton.SetActive(true);
             noButton.SetActive(true);

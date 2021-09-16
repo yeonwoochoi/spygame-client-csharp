@@ -5,6 +5,7 @@ using System.Linq;
 using Base;
 using Camera;
 using Control.Item;
+using Control.Layer;
 using Control.Movement;
 using Domain;
 using Domain.StageObj;
@@ -30,7 +31,7 @@ namespace StageScripts
     {
         #region Private Variables
 
-        [SerializeField] private Tilemap tilemap;
+        [SerializeField] private List<Tilemap> tilemaps;
         [SerializeField] private Transform initPlayerTransform;
         [SerializeField] private LineRenderer line;
         [SerializeField] private GameObject player;
@@ -47,19 +48,31 @@ namespace StageScripts
 
         private StageInfo currentStageInfo;
         
-        private List<Vector3> normalSpyPositions;
-        private List<Vector3> bossSpyPositions;
-        private List<Vector3> itemPositions;
+        private List<NodeInfo> normalSpyPositions;
+        private List<NodeInfo> bossSpyPositions;
+        private List<NodeInfo> itemPositions;
         private Vector3 nodeSize;
         
         private EControlType eControlType;
         private ChapterType currentChapterType;
         private StageType currentStageType;
         
+        private int currentLayer1ObjCount = 0;
+
         #endregion
 
         #region Event
         public static event EventHandler<OpenStageMissionPopupEventArgs> OpenStageMissionPopupEvent;
+
+        #endregion
+
+        #region Private Class
+
+        private class NodeInfo
+        {
+            public Vector3 position;
+            public LayerType layer;
+        }
 
         #endregion
 
@@ -98,15 +111,16 @@ namespace StageScripts
             
             eControlType = e;
             
-            nodeSize = tilemap.transform.localScale / 2;
+            nodeSize = tilemaps[0].transform.localScale / 2;
             nodeSize.z = 0;
 
             // Instantiate player and setting controller
             var playerObj = Instantiate(player, initPlayerTransform.position + nodeSize, Quaternion.identity);
             playerObj.transform.SetParent(playerObjParent);
+            SetObjectLayer(playerObj, LayerType.Layer1);
             var playerMoveController = playerObj.GetComponent<PlayerMoveController>();
             playerMoveController.Init();
-            playerMoveController.SetTilemap(tilemap);
+            playerMoveController.SetTilemap(tilemaps[0]);
 
             // Set joystick
             joystickMoveController = joystick;
@@ -116,16 +130,16 @@ namespace StageScripts
             if (eControlType == EControlType.Mouse)
             {
                 var lineGenerator = gameObject.AddComponent<LineGenerator>();
-                lineGenerator.Init(tilemap, line, playerObj, eControlType, camera);
+                lineGenerator.Init(tilemaps[0], line, playerObj, eControlType, camera);
             }
 
             // Set Camera offset
             camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
             // Init stage game object positions
-            normalSpyPositions = new List<Vector3>();
-            bossSpyPositions = new List<Vector3>();
-            itemPositions = new List<Vector3>();
+            normalSpyPositions = new List<NodeInfo>();
+            bossSpyPositions = new List<NodeInfo>();
+            itemPositions = new List<NodeInfo>();
             
             // Set spies and items
             SetSpy();
@@ -145,22 +159,24 @@ namespace StageScripts
             var currentSetBossSpyCount = 0;
             for (var i = 0; i < normalSpyPositions.Count; i++)
             {
-                var pos = normalSpyPositions[i];
+                var pos = normalSpyPositions[i].position;
                 var spyObj = Instantiate(normalSpy, pos, Quaternion.identity);
                 spyObj.transform.SetParent(spyObjParent);
+                SetObjectLayer(spyObj, normalSpyPositions[i].layer);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
-                spyMoveController.SetTilemap(tilemap);
+                spyMoveController.SetTilemap(tilemaps[0]);
                 spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), currentSetNormalSpyCount >= currentStageInfo.goalNormalSpyCount));
                 currentSetNormalSpyCount++;
             }
             
             for (var i = 0; i < bossSpyPositions.Count; i++)
             {
-                var pos = bossSpyPositions[i];
+                var pos = bossSpyPositions[i].position;
                 var spyObj = Instantiate(bossSpy, pos, Quaternion.identity);
                 spyObj.transform.SetParent(spyObjParent);
+                SetObjectLayer(spyObj, bossSpyPositions[i].layer);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
-                spyMoveController.SetTilemap(tilemap);
+                spyMoveController.SetTilemap(tilemaps[0]);
                 spyMoveController.Init(new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), currentSetBossSpyCount >= currentStageInfo.goalBossSpyCount));
                 currentSetBossSpyCount++;
             }
@@ -171,9 +187,10 @@ namespace StageScripts
             SetItemPositions();
             for (var i = 0; i < itemPositions.Count; i++)
             {
-                var pos = itemPositions[i];
+                var pos = itemPositions[i].position;
                 var itemObj = Instantiate(item, pos, Quaternion.identity);
                 itemObj.transform.SetParent(boxObjParent);
+                SetObjectLayer(itemObj, itemPositions[i].layer);
                 var itemBoxController = itemObj.GetComponent<ItemBoxController>();
                 itemBoxController.Init(new Item(i+3000, GetRandomQna((QnaDifficulty) Random.Range(0, 2))));
             }
@@ -199,25 +216,55 @@ namespace StageScripts
             }
         }
         
-        private Vector3 GetPossiblePosition()
+        private NodeInfo GetPossiblePosition()
         {
-            tilemap.CompressBounds();
-            var bounds = tilemap.cellBounds;
-            var result = Vector3.zero;
+            var targetLayer = Random.Range(0, tilemaps.Count);
+            if (targetLayer > 0)
+            {
+                if (IsOverLayerLimitCount())
+                {
+                    currentLayer1ObjCount++;   
+                }
+                else
+                {
+                    targetLayer = 0;
+                }
+            }
+            var targetTilemap = tilemaps[targetLayer];
+            
+            targetTilemap.CompressBounds();
+            var bounds = targetTilemap.cellBounds;
+            
+            var pos = Vector3.zero;
+            
             while (true)
             {
                 var randomX = Random.Range(bounds.xMin, bounds.xMax);
                 var randomY = Random.Range(bounds.yMin, bounds.yMax);
 
                 if (HasSpyOrItem(randomX, randomY)) continue;
-                if (!tilemap.HasTile(new Vector3Int(randomX, randomY, 0))) continue;
+                if (!targetTilemap.HasTile(new Vector3Int(randomX, randomY, 0))) continue;
                 
-                result.x = randomX;
-                result.y = randomY;
+                pos.x = randomX;
+                pos.y = randomY;
                 break;
             }
+            
 
-            return new Vector3(result.x + nodeSize.x, result.y + nodeSize.y, 0);
+            var resultNode = new NodeInfo
+            {
+                position = new Vector3(pos.x + nodeSize.x, pos.y + nodeSize.y, 0),
+                layer = (LayerType) targetLayer
+            };
+
+            return resultNode;
+        }
+        
+        private bool IsOverLayerLimitCount()
+        {
+            var totalObj = currentStageInfo.boxCount + currentStageInfo.normalSpyCount + currentStageInfo.bossSpyCount;
+            var limit = (int) (totalObj * 0.1f);
+            return limit >= currentLayer1ObjCount;
         }
         
         private bool HasSpyOrItem(int x, int y)
@@ -235,9 +282,9 @@ namespace StageScripts
             
             if (normalSpyPositions.Count > 0)
             {
-                foreach (var position in normalSpyPositions)
+                foreach (var nodeInfo in normalSpyPositions)
                 {
-                    if (position.IsSamePosition(new Vector3(x, y, 0)))
+                    if (nodeInfo.position.IsSamePosition(new Vector3(x, y, 0)))
                     {
                         hasSpy = true;
                     }
@@ -246,9 +293,9 @@ namespace StageScripts
             
             if (bossSpyPositions.Count > 0)
             {
-                foreach (var position in bossSpyPositions)
+                foreach (var nodInfo in bossSpyPositions)
                 {
-                    if (position.IsSamePosition(new Vector3(x, y, 0)))
+                    if (nodInfo.position.IsSamePosition(new Vector3(x, y, 0)))
                     {
                         hasSpy = true;
                     }
@@ -257,9 +304,9 @@ namespace StageScripts
 
             if (itemPositions.Count > 0)
             {
-                foreach (var position in itemPositions)
+                foreach (var nodeInfo in itemPositions)
                 {
-                    if (position.IsSamePosition(new Vector3(x, y, 0)))
+                    if (nodeInfo.position.IsSamePosition(new Vector3(x, y, 0)))
                     {
                         hasItem = true;
                     }
@@ -305,6 +352,12 @@ namespace StageScripts
         {
             var result = qna.Where(q => q.GetDifficulty() == qnaDifficulty).ToList();
             return result[Random.Range(0, result.Count)];
+        }
+
+        private void SetObjectLayer(GameObject targetObj, LayerType layerType)
+        {
+            targetObj.layer = LayerMask.NameToLayer(layerType.LayerTypeToString());
+            targetObj.GetComponent<SpriteRenderer>().sortingLayerName = layerType.LayerTypeToString();
         }
 
         #endregion

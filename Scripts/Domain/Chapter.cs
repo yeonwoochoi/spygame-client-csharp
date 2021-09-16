@@ -42,7 +42,7 @@ namespace Domain
 
         public string GetStageMissionText()
         {
-            return $"Catch {goalNormalSpyCount} normal spy and {goalBossSpyCount} boss spies through interrogation.";
+            return $"일반 스파이 {goalNormalSpyCount}명과\r\n보스 스파이 {goalBossSpyCount}명을\r\n색출해내세요.";
         }
 
         #endregion

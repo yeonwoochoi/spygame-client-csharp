@@ -29,7 +29,6 @@ namespace UI.Qna
         [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text playerQuestionText;
         [SerializeField] private Text spyAnswerText;
-        [SerializeField] private Text spyOrNotText;
         [SerializeField] private GameObject captureBtn;
         [SerializeField] private GameObject releaseBtn;
         [SerializeField] private GameObject bombTimer;
@@ -57,7 +56,6 @@ namespace UI.Qna
         #region Readonly Variables
 
         private const string PopupTitle = "심문 보고서";
-        private const string SpyOrNotQuestionComment = "이 병사를 포획하시겠습니까?";
         private const int QuizTimer = 3;
 
         #endregion
@@ -122,7 +120,6 @@ namespace UI.Qna
             timerText.text = "";
             playerQuestionText.text = "";
             spyAnswerText.text = "";
-            spyOrNotText.text = "";
             captureBtn.SetActive(false);
             releaseBtn.SetActive(false);
         }
@@ -149,9 +146,8 @@ namespace UI.Qna
         private IEnumerator TypingReportContent(bool isSpy)
         {
             yield return new WaitForSeconds(0.5f);
-            yield return TypingComment(playerQuestionText, $"Player : {spy.GetQuestion()}");
-            yield return TypingComment(spyAnswerText, $"Soldier : {spy.GetAnswer()}");
-            yield return TypingComment(spyOrNotText, SpyOrNotQuestionComment);
+            yield return TypingComment(playerQuestionText, $"Q : {spy.GetQuestion()}");
+            yield return TypingComment(spyAnswerText, $"A : {spy.GetAnswer()}");
             
             captureBtn.SetActive(true);
             releaseBtn.SetActive(true);
