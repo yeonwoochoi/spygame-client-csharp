@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain;
 using Event;
 using Manager;
 using UI.Base;
@@ -76,6 +77,7 @@ namespace UI.StageScripts.Popup
 
         private void ExitGame()
         {
+            AudioManager.instance.Stop(SoundType.Background);
             EmitExitStageEvent(new ExitStageEventArgs
             {
                 exitType = StageExitType.GiveUp
