@@ -18,12 +18,9 @@ namespace Control.Pointer
         private bool isPointing = false;
         private Coroutine pointerMoveCoroutine;
 
-        #endregion
-
-        #region Const & Static Variables
+        private float borderSizeX;
+        private float borderSizeY;
         
-        private const float borderSize = 200f;
-
         #endregion
 
         #region Getter
@@ -37,9 +34,9 @@ namespace Control.Pointer
         {
             // Target position이 화면 밖에 있는지 여부 확인
             var targetPositionScreenPoint = camera.WorldToScreenPoint(targetTransform.position);
-            var isOffScreen = targetPositionScreenPoint.x <= borderSize
+            var isOffScreen = targetPositionScreenPoint.x <= borderSizeX
                               || targetPositionScreenPoint.x >= Screen.width
-                              || targetPositionScreenPoint.y <= borderSize
+                              || targetPositionScreenPoint.y <= borderSizeY
                               || targetPositionScreenPoint.y >= Screen.height;
             return isOffScreen;
         }
@@ -77,6 +74,9 @@ namespace Control.Pointer
             pointerTransform = GetComponent<Transform>();
             animator = GetComponent<Animator>();
             pointerSpriteRenderer = GetComponent<SpriteRenderer>();
+
+            borderSizeX = Screen.width * 0.1f;
+            borderSizeY = Screen.height * 0.1f;
             
             SetIsPointing(false);
             isSet = true;
@@ -126,10 +126,10 @@ namespace Control.Pointer
                 
                     // 화면 밖에 Target이 있을 때 화살표(pointer) 위치 설정
                     var cappedTargetScreen = targetPositionScreenPoint;
-                    if (cappedTargetScreen.x <= 0) cappedTargetScreen.x = borderSize;
-                    if (cappedTargetScreen.x >= Screen.width - borderSize) cappedTargetScreen.x = Screen.width - borderSize;
-                    if (cappedTargetScreen.y <= 0) cappedTargetScreen.y = borderSize;
-                    if (cappedTargetScreen.y >= Screen.height - borderSize) cappedTargetScreen.y = Screen.height - borderSize;
+                    if (cappedTargetScreen.x <= 0) cappedTargetScreen.x = borderSizeX;
+                    if (cappedTargetScreen.x >= Screen.width - borderSizeX) cappedTargetScreen.x = Screen.width - borderSizeX;
+                    if (cappedTargetScreen.y <= 0) cappedTargetScreen.y = borderSizeY;
+                    if (cappedTargetScreen.y >= Screen.height - borderSizeY) cappedTargetScreen.y = Screen.height - borderSizeY;
                     
                     SetPointerPosition(cappedTargetScreen);
                 }
@@ -160,7 +160,7 @@ namespace Control.Pointer
 
             // 위 아래로 움직일 위치 정하기
             var isMoveUp = true;
-            var downPos = (Vector2) targetTransform.position + Vector2.up * targetTransform.localScale * 0.75f;
+            var downPos = (Vector2) targetTransform.position + Vector2.up * targetTransform.localScale * 0.7f;
             var upPos = downPos + Vector2.up;
 
             pointerTransform.position = downPos;
