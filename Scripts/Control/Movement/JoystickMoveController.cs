@@ -2,6 +2,7 @@
 using System.Collections;
 using Domain;
 using Event;
+using Manager;
 using Manager.Data;
 using StageScripts;
 using UI.StageScripts;
@@ -24,26 +25,30 @@ namespace Control.Movement
         private PlayerMoveController playerMoveController;
         private EControlType eControlType;
         private bool isSet = false;
-        private bool isPaused = false;
+        private bool isTutorial;
+
+        #endregion
+
+        #region Getter
+
+        private bool IsPaused()
+        {
+            return isTutorial ? GlobalTutorialManager.Instance.IsPaused() : GlobalStageManager.Instance.IsPaused();
+        }
 
         #endregion
         
         #region Event Methods
 
-        private void Start()
+        private void Awake()
         {
-            StagePausePopupController.PauseGameEvent += PauseGame;
-        }
-
-        private void OnDisable()
-        {
-            StagePausePopupController.PauseGameEvent -= PauseGame;
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             if (!isSet) return;
-            if (isPaused) return;
+            if (IsPaused()) return;
             MovePlayerByJoystick(eventData.position);
         }
 
@@ -51,7 +56,7 @@ namespace Control.Movement
         public void OnPointerDown(PointerEventData eventData)
         {
             if (!isSet) return;
-            if (isPaused) return;
+            if (IsPaused()) return;
             MovePlayerByJoystick(eventData.position);
         }
 
@@ -59,7 +64,7 @@ namespace Control.Movement
         public void OnPointerUp(PointerEventData eventData)
         {
             if (!isSet) return;
-            if (isPaused) return;
+            if (IsPaused()) return;
             playerMoveController.MovePlayer(false, Vector2.zero);
             joystickRect.localPosition = Vector2.zero;
         }
@@ -105,11 +110,6 @@ namespace Control.Movement
                 
                 playerMoveController.MovePlayer(true, touchOffsetNormal);
             }
-        }
-        
-        private void PauseGame(object _, PauseGameEventArgs e)
-        {
-            isPaused = e.isPaused;
         }
 
         #endregion

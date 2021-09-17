@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Domain;
 using Event;
@@ -29,10 +30,11 @@ namespace Base
     {
         #region Public Variable
         [HideInInspector] public MoveObjectType objectType;
+
         #endregion
 
         #region Protected Variables
-        
+
         protected float speed;
         protected EControlType eControlType;
         protected Rigidbody2D rb2D;
@@ -40,13 +42,13 @@ namespace Base
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
         protected bool isSet = false;
-        protected bool isPaused = false;
-        
+
         #endregion
 
         #region Private Variables
         private Tilemap tilemap;
         private MoveStateType currentState;
+        private bool isTutorial = false;
 
         #endregion
 
@@ -68,16 +70,12 @@ namespace Base
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
             rb2D = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
-        }
-        protected virtual void Start()
-        {
-            StagePausePopupController.PauseGameEvent += PauseGame;
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
         }
 
-        protected virtual void OnDisable()
-        {
-            StagePausePopupController.PauseGameEvent -= PauseGame;
-        }
+        protected virtual void Start() { }
+        protected virtual void OnDisable() { }
+
         #endregion
 
         #region Public Methods
@@ -120,7 +118,7 @@ namespace Base
 
                 while (remainingDistance >= 0.001f)
                 {
-                    while (isPaused) yield return null;
+                    yield return StartCoroutine(StopMoveByPausing());
                     if (rb2D != null)
                     {
                         var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.deltaTime);
@@ -135,15 +133,18 @@ namespace Base
             }
             SetCurrentState(MoveStateType.Idle);
         }
-        #endregion
 
-        #region Private Method
-
-        private void PauseGame(object _, PauseGameEventArgs e)
+        protected IEnumerator StopMoveByPausing()
         {
-            isPaused = e.isPaused;
+            if (!isTutorial)
+            {
+                while (GlobalStageManager.Instance.IsPaused()) yield return null;       
+            }
+            else
+            {
+                while (GlobalTutorialManager.Instance.IsPaused()) yield return null;
+            }
         }
-
         #endregion
     }
 }

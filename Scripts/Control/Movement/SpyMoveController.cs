@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Base;
 using Control.SpeechBalloon;
-using Domain;
 using Domain.StageObj;
 using Event;
-using Manager;
-using Manager.Data;
 using UI.Qna;
-using UI.Talking;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,6 +30,7 @@ namespace Control.Movement
 
         #region Private Variables
 
+        private readonly int spySpeed = 10;
         private readonly int wanderRange = 3;
         private readonly float wanderDelay = 3f;
         private Coroutine wanderCoroutine;
@@ -88,14 +83,14 @@ namespace Control.Movement
             speechBalloonController = speechBalloon.GetComponent<SpySpeechBalloonController>();
             
             SpyQnaPopupBehavior.CaptureSpyEvent += InactivateSpy;
-            SpyTalkingUIBehavior.OpenSpyQnaPopupEvent += InactivateMoving;
+            SpySpeechBalloonController.OpenSpyQnaPopupEvent += InactivateMoving;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             SpyQnaPopupBehavior.CaptureSpyEvent -= InactivateSpy;
-            SpyTalkingUIBehavior.OpenSpyQnaPopupEvent -= InactivateMoving;
+            SpySpeechBalloonController.OpenSpyQnaPopupEvent -= InactivateMoving;
         }
 
         private void Update()
@@ -131,7 +126,7 @@ namespace Control.Movement
         {
             this.spy = spy;
             speechBalloon.GetComponent<SpySpeechBalloonController>().spy = spy;
-            speed = isTutorialSample ? 0f : 2f;
+            speed = isTutorialSample ? 0f : spySpeed;
             objectType = MoveObjectType.Spy;
             SetSpyStateType(SpyStateType.Free);
             wanderCoroutine = StartCoroutine(Wander());
@@ -287,7 +282,7 @@ namespace Control.Movement
             StartCoroutine(FadeOut());
         }
 
-        private void InactivateMoving(object _, OpenSpyQnaEventArgs e)
+        private void InactivateMoving(object _, OpenSpyQnaPopupEventArgs e)
         {
             if (e.spy.index != spy.index) return;
             SetSpyStateType(SpyStateType.Examined);

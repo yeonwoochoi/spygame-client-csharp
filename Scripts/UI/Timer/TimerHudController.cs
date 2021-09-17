@@ -32,7 +32,6 @@ namespace UI.Timer
         private bool isSet = false;
         private bool isTutorial = false;
         private bool isClear = false;
-        private bool isPaused = false;
 
         #endregion
 
@@ -65,12 +64,10 @@ namespace UI.Timer
             
             // Stage Scene Event
             StageStateController.StageDoneEvent += StopTimerByStageDone;
-            StagePausePopupController.PauseGameEvent += PauseGame;
             
             // Tutorial Scene Event
             TutorialSceneController.StartTutorialGameEvent += StartTutorialTimer;
             TutorialStateController.TutorialDoneEvent += StopTimerByTutorialDone;
-            TutorialDonePopupController.PauseTutorialEvent += PauseGame;
         }
 
         private void OnDisable()
@@ -79,12 +76,10 @@ namespace UI.Timer
             
             // Stage Scene Event
             StageStateController.StageDoneEvent -= StopTimerByStageDone;
-            StagePausePopupController.PauseGameEvent -= PauseGame;
             
             // Tutorial Scene Event
             TutorialSceneController.StartTutorialGameEvent -= StartTutorialTimer;
             TutorialStateController.TutorialDoneEvent -= StopTimerByTutorialDone;
-            TutorialDonePopupController.PauseTutorialEvent -= PauseGame;
         }
 
         #endregion
@@ -105,10 +100,10 @@ namespace UI.Timer
         {
             while (time >= 0 && !isClear)
             {
-                while (isPaused) yield return null;
+                yield return StartCoroutine(StopTimerByPausing());
                 timerText.text = $"Timer : {time}";
                 time--;
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1f);
             }
 
             if (!isClear)
@@ -130,6 +125,18 @@ namespace UI.Timer
             }
             
             yield return null;
+        }
+        
+        private IEnumerator StopTimerByPausing()
+        {
+            if (!isTutorial)
+            {
+                while (GlobalStageManager.Instance.IsPaused()) yield return null;       
+            }
+            else
+            {
+                while (GlobalTutorialManager.Instance.IsPaused()) yield return null;
+            }
         }
 
         private void StartTutorialTimer(object _, StartTutorialGameEventArgs e)
@@ -171,11 +178,6 @@ namespace UI.Timer
         private void StopTimerByTutorialDone(object _, ExitTutorialEventArgs e)
         {
             isClear = true;
-        }
-        
-        private void PauseGame(object _, PauseGameEventArgs e)
-        {
-            isPaused = e.isPaused;
         }
 
         #endregion

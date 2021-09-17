@@ -19,6 +19,7 @@ namespace Base
 
         private EControlType eControlType;
         private Coroutine onClickSpeechBalloon;
+        private bool isTutorial;
 
         #endregion
 
@@ -58,6 +59,7 @@ namespace Base
 
         private void InitSpeechBalloon()
         {
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
             eControlType = GlobalDataManager.Instance.Get<EControlManager>(GlobalDataKey.ECONTROL).eControlType;
         }
         

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections;
 using Control.Pointer;
+using Control.SpeechBalloon;
 using Domain;
 using Event;
 using Manager;
 using UI.Base;
-using UI.Talking;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using Domain.StageObj;
 using Manager.Data;
-using TutorialScripts;
-using UI.StageScripts.Popup;
 using Util;
 
 namespace UI.Qna
@@ -38,14 +35,13 @@ namespace UI.Qna
         private Item item;
 
         private readonly string popupTitle = "Quiz";
-        private readonly int timer = 3;
+        private readonly int timer = 10;
 
         private Animator bombTimerAnimator;
         private Animator explosionAnimator;
         private CanvasGroup explosionCanvasGroup;
 
         private bool isSolved;
-        private bool isTutorial = false;
 
         #endregion
 
@@ -72,10 +68,8 @@ namespace UI.Qna
         {
             base.Start();
             
-            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
-
             titleText.text = $"{popupTitle}";
-            ItemTalkingUIBehavior.OpenItemQnaPopupEvent += OpenItemQnaPopup;
+            BoxSpeechBalloonController.OpenItemQnaPopupEvent += OpenItemQnaPopup;
 
             bombTimerAnimator = bombTimer.GetComponent<Animator>();
             explosionAnimator = explosion.GetComponent<Animator>();
@@ -94,7 +88,7 @@ namespace UI.Qna
         protected override void OnDisable()
         {
             base.OnDisable();
-            ItemTalkingUIBehavior.OpenItemQnaPopupEvent -= OpenItemQnaPopup;
+            BoxSpeechBalloonController.OpenItemQnaPopupEvent -= OpenItemQnaPopup;
         }
 
         #endregion
@@ -133,9 +127,9 @@ namespace UI.Qna
         private IEnumerator TypingReportContent(bool isCorrect)
         {
             yield return new WaitForSeconds(0.5f);
-            yield return TypingComment(questionText, $"Q : {item.GetQuestion()}");
-            yield return TypingComment(answerText, $"A : {item.GetAnswer()}");
-            
+            questionText.text = $"Q : {item.GetQuestion()}";
+            answerText.text = $"A : {item.GetAnswer()}";
+
             yesButton.SetActive(true);
             noButton.SetActive(true);
             
@@ -175,7 +169,6 @@ namespace UI.Qna
             bombTimerAnimator.SetBool(SpyQnaPopupBehavior.AnimationBomb, true);
             while (remainingTime > 0)
             {
-                while (isPaused) yield return null;
                 if (isSolved)
                 {
                     OnClosePopup();

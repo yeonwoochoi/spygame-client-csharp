@@ -44,12 +44,7 @@ namespace UI.StageScripts.Popup
             OnOpenPopup();
             var currentStage = ChapterManager.Instance.GetStageInfo(LoadingManager.Instance.chapterType,
                 LoadingManager.Instance.stageType);
-            StartCoroutine(ShowMissionText(currentStage.GetStageMissionText()));
-        }
-
-        private IEnumerator ShowMissionText(string mission)
-        {
-            yield return TypingComment(missionText, mission);
+            missionText.text = currentStage.GetStageMissionText();
         }
 
         private void OnClickOKButton()

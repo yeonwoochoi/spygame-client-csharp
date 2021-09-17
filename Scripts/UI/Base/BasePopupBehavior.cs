@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 using DG.Tweening;
+using Manager;
+using Manager.Data;
 
 namespace UI.Base
 {
@@ -23,11 +25,12 @@ namespace UI.Base
 
         [SerializeField] protected Text titleText;
         [SerializeField] protected PopupMoveType moveType;
+        protected bool isTutorial;
 
         #endregion
 
         #region Private Variables
-        
+
         private RectTransform popupUITransform;
         private Vector3 initPosition;
         private float moveSpeed = 10f;
@@ -40,9 +43,10 @@ namespace UI.Base
         protected override void Start()
         {
             base.Start();
+            isTutorial = !GlobalDataManager.Instance.HasKey(GlobalDataKey.TUTORIAL);
+            
             popupUITransform = GetComponent<RectTransform>();
 
-            
             switch (moveType)
             {
                 case PopupMoveType.BottomToTop:
@@ -74,6 +78,7 @@ namespace UI.Base
         {
             if (isOpen) return;
             isOpen = true;
+            PauseGame();
             StartCoroutine(OpenPopup());
         }
 
@@ -81,6 +86,7 @@ namespace UI.Base
         {
             if (!isOpen) return;
             isOpen = false;
+            ContinueGame();
             StartCoroutine(ClosePopup());
             ReactivateSpeechBalloon();
         }
@@ -92,6 +98,30 @@ namespace UI.Base
         #endregion
 
         #region Private Methods
+        
+        private void PauseGame()
+        {
+            if (isTutorial)
+            {
+                GlobalTutorialManager.Instance.PauseGame();
+            }
+            else
+            {
+                GlobalStageManager.Instance.PauseGame();
+            } 
+        }
+
+        private void ContinueGame()
+        {
+            if (isTutorial)
+            {
+                GlobalTutorialManager.Instance.ContinueGame();
+            }
+            else
+            {
+                GlobalStageManager.Instance.ContinueGame();
+            }
+        }
 
         private IEnumerator OpenPopup()
         {

@@ -1,12 +1,9 @@
 ﻿using System;
 using Base;
-using Domain;
 using Domain.StageObj;
 using Event;
 using UI.Qna;
-using UI.Talking;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Control.SpeechBalloon
 {
@@ -20,7 +17,7 @@ namespace Control.SpeechBalloon
 
         #region Event
 
-        public static event EventHandler<OpenSpyQnaEventArgs> OpenSpyQnaEvent;
+        public static event EventHandler<OpenSpyQnaPopupEventArgs> OpenSpyQnaPopupEvent;
 
         #endregion
 
@@ -30,27 +27,21 @@ namespace Control.SpeechBalloon
         {
             base.Start();
             SpyQnaPopupBehavior.SkipSpyQnaEvent += SkipSpyQna;
-            SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyQna;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             SpyQnaPopupBehavior.SkipSpyQnaEvent -= SkipSpyQna;
-            SpyTalkingUIBehavior.SkipSpyQnaEvent -= SkipSpyQna;
         }
 
         #endregion
 
         #region Public Method
 
-        public void EmitOpenSpyQnaEvent(OpenSpyQnaEventArgs e)
+        public void OpenSpyQnaPopup(OpenSpyQnaPopupEventArgs e)
         {
-            if (OpenSpyQnaEvent == null) return;
-            foreach (var invocation in OpenSpyQnaEvent.GetInvocationList())
-            {
-                invocation.DynamicInvoke(this, e);
-            }
+            EmitOpenSpyQnaPopupEvent(e);   
         }
 
         #endregion
@@ -66,7 +57,7 @@ namespace Control.SpeechBalloon
                 if (controller.spy == spy)
                 {
                     clicked = true;
-                    EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs { spy = spy });
+                    OpenSpyQnaPopup(new OpenSpyQnaPopupEventArgs { spy = spy });
                 }
             }
         }
@@ -74,6 +65,15 @@ namespace Control.SpeechBalloon
         #endregion
 
         #region Private Method
+
+        private void EmitOpenSpyQnaPopupEvent(OpenSpyQnaPopupEventArgs e)
+        {
+            if (OpenSpyQnaPopupEvent == null) return;
+            foreach (var invocation in OpenSpyQnaPopupEvent.GetInvocationList())
+            {
+                invocation.DynamicInvoke(this, e);
+            }
+        }
 
         private void SkipSpyQna(object _, SkipSpyQnaEventArgs e)
         {

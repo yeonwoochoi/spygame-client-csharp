@@ -15,7 +15,7 @@ namespace Event
         Interaction, Notice
     }
 
-    public class OpenSpyQnaEventArgs: EventArgs
+    public class OpenSpyQnaPopupEventArgs: EventArgs
     {
         public Spy spy;
     }

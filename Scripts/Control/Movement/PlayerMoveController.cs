@@ -5,6 +5,7 @@ using Base;
 using Control.Collision;
 using Domain;
 using Event;
+using Manager;
 using Manager.Data;
 using UI.StageScripts;
 using UnityEngine;
@@ -85,7 +86,7 @@ namespace Control.Movement
         {
             while (true)
             {
-                while (isPaused) yield return null;
+                yield return StopMoveByPausing();
                 yield return null;
                 var beforePos = transform.position;
                 yield return new WaitForSeconds(0.5f);

@@ -164,7 +164,7 @@ namespace LoadingScripts
 
         private void InitPlayerPrefs()
         {
-            // PlayerPrefs.DeleteAll();
+            PlayerPrefs.DeleteAll();
             
             if (!GlobalDataManager.Instance.HasKey(GlobalDataKey.SOUND))
             {

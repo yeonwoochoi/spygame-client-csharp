@@ -43,11 +43,6 @@ namespace Event
         #endregion
     }
 
-    public class PauseGameEventArgs : EventArgs
-    {
-        public bool isPaused;
-    }
-
     public class OpenStageMissionPopupEventArgs : EventArgs { }
 
     public class ExitStageEventArgs : EventArgs

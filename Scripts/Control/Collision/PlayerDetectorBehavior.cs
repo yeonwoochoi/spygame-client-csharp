@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Base;
 using Control.Item;
@@ -7,7 +6,6 @@ using Control.Movement;
 using Domain;
 using Event;
 using UI.Qna;
-using UI.Talking;
 using UnityEngine;
 
 namespace Control.Collision
@@ -27,8 +25,6 @@ namespace Control.Collision
         protected override void Start()
         {
             base.Start();
-            SpyTalkingUIBehavior.SkipSpyQnaEvent += SkipSpyCapture;
-            ItemTalkingUIBehavior.SkipItemQnaEvent += SkipItemOpen;
             SpyQnaPopupBehavior.SkipSpyQnaEvent += SkipSpyCapture;
             ItemQnaPopupBehavior.SkipItemQnaEvent += SkipItemOpen;
             SpyQnaPopupBehavior.CaptureSpyEvent += RemoveCapturedSpy;
@@ -37,8 +33,6 @@ namespace Control.Collision
 
         private void OnDisable()
         {
-            SpyTalkingUIBehavior.SkipSpyQnaEvent -= SkipSpyCapture;
-            ItemTalkingUIBehavior.SkipItemQnaEvent -= SkipItemOpen;
             SpyQnaPopupBehavior.SkipSpyQnaEvent -= SkipSpyCapture;
             ItemQnaPopupBehavior.SkipItemQnaEvent -= SkipItemOpen;
             SpyQnaPopupBehavior.CaptureSpyEvent -= RemoveCapturedSpy;
@@ -154,20 +148,20 @@ namespace Control.Collision
             isClicked = false;
         }
         
-        
+        // TODO (Event) : 여기에 OpenQnaPopupEvent를 하나 더 만들어야함 원래 (이건 Keyboard 조작방식에서.. 저 speechBalloonController의 OpenQnaPopupEvent는 Mouse 조작방식에서)
         private void EmitEvent(GameObject target)
         {
             if (isClicked) return;
             isClicked = true;
             if (target.TryGetComponent(out ItemBoxController itemBoxController))
             {
-                itemBoxController.boxSpeechBalloonController.EmitOpenItemQnaEvent(new OpenItemQnaEventArgs { item = itemBoxController.GetItem() });
+                itemBoxController.boxSpeechBalloonController.OpenItemQnaPopup(new OpenItemQnaEventArgs { item = itemBoxController.GetItem() });
                 return;
             }
 
             if (target.TryGetComponent(out SpyMoveController spyMoveController))
             {
-                spyMoveController.speechBalloonController.EmitOpenSpyQnaEvent(new OpenSpyQnaEventArgs{ spy = spyMoveController.GetSpy() });
+                spyMoveController.speechBalloonController.OpenSpyQnaPopup(new OpenSpyQnaPopupEventArgs{ spy = spyMoveController.GetSpy() });
             }
         }
 

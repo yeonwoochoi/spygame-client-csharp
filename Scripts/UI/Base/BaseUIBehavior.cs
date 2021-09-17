@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
-using Event;
-using TutorialScripts;
-using UI.StageScripts;
-using UI.StageScripts.Popup;
-using UI.TutorialScripts;
+using Domain;
+using Manager;
+using Manager.Data;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Util;
 
@@ -19,13 +16,6 @@ namespace UI.Base
         [SerializeField] protected CanvasGroup cGroup;
         [SerializeField] protected CanvasGroup bgCanvasGroup;
         protected bool isOpen;
-        protected bool isPaused = false;
-        
-        #endregion
-
-        #region Private Variable
-
-        private bool isClickSpeechBalloon;
 
         #endregion
 
@@ -33,27 +23,13 @@ namespace UI.Base
 
         protected virtual void Start()
         {
-            isClickSpeechBalloon = false;
             isOpen = false;
-            StagePausePopupController.PauseGameEvent += PauseGame;
-            TutorialDonePopupController.PauseTutorialEvent += PauseGame;
         }
-
-        protected virtual void OnDisable()
-        {
-            StagePausePopupController.PauseGameEvent -= PauseGame;
-            TutorialDonePopupController.PauseTutorialEvent -= PauseGame;
-        }
+        
+        protected virtual void OnDisable() {}
 
         #endregion
 
-        #region Public Method
-        public void SkipTyping()
-        {
-            if (!isClickSpeechBalloon) isClickSpeechBalloon = true;
-        }
-
-        #endregion
 
         #region Protected Methods
 
@@ -72,12 +48,6 @@ namespace UI.Base
                 var rate = 1.0f / secondsToFade;
  
                 for (var x = 0.0f; x <= 1.0f; x += Time.deltaTime * rate) {
-                    if (isClickSpeechBalloon)
-                    {
-                        target.Visible();
-                        isClickSpeechBalloon = false;
-                        yield break;
-                    }
                     target.alpha = Mathf.Lerp(startValue, 1, x);
                     yield return null;
                 }
@@ -98,33 +68,18 @@ namespace UI.Base
             
         }
         
+        // TODO : 없애기 상의후
         protected IEnumerator TypingComment(Text target, string comment)
         {
             yield return new WaitForSeconds(1);
             target.text = "";
             foreach (var letter in comment.ToCharArray())
             {
-                while (isPaused) yield return null;
-                if (isClickSpeechBalloon)
-                {
-                    target.text = comment;
-                    isClickSpeechBalloon = false;
-                    yield break;
-                }
                 target.text += letter;
                 yield return new WaitForSeconds(0.05f);
             }
         }
-
-        #endregion
-
-        #region Private Method
-
-        private void PauseGame(object _, PauseGameEventArgs e)
-        {
-            isPaused = e.isPaused;
-        }
-
+        
         #endregion
     }
 }

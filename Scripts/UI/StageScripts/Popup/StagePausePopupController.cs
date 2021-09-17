@@ -23,7 +23,6 @@ namespace UI.StageScripts.Popup
         #endregion
 
         #region Event
-        public static event EventHandler<PauseGameEventArgs> PauseGameEvent;
         public static event EventHandler<ExitStageEventArgs> ExitStageEvent;
 
         #endregion
@@ -67,7 +66,6 @@ namespace UI.StageScripts.Popup
         private void RestartGame()
         {
             OnClosePopup();
-            EmitPauseGameEvent(new PauseGameEventArgs { isPaused = false });
         }
 
         private void RetryGame()
@@ -86,18 +84,9 @@ namespace UI.StageScripts.Popup
 
         private void OpenPausePopup(object _, OpenStagePauseEventArgs e)
         {
-            EmitPauseGameEvent(new PauseGameEventArgs { isPaused = true });
             OnOpenPopup();
         }
-
-        private void EmitPauseGameEvent(PauseGameEventArgs e)
-        {
-            if (PauseGameEvent == null) return;
-            foreach (var invocation in PauseGameEvent.GetInvocationList())
-            {
-                invocation.DynamicInvoke(this, e);
-            }
-        }
+        
 
         private void EmitExitStageEvent(ExitStageEventArgs e)
         {
