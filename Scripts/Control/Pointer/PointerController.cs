@@ -155,10 +155,12 @@ namespace Control.Pointer
 
         private IEnumerator PointerUpDownMove()
         {
+            // 화살표 아래 방향으로 향하게
             pointerTransform.localEulerAngles = Vector3.forward * -90;
 
+            // 위 아래로 움직일 위치 정하기
             var isMoveUp = true;
-            var downPos = (Vector2) targetTransform.position + Vector2.up * targetTransform.localScale / 2;
+            var downPos = (Vector2) targetTransform.position + Vector2.up * targetTransform.localScale * 0.75f;
             var upPos = downPos + Vector2.up;
 
             pointerTransform.position = downPos;

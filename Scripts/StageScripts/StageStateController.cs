@@ -40,7 +40,7 @@ namespace StageScripts
             UpdateState();
             if (currentHp <= 0)
             {
-                EmitStageDoneEvent(new ExitStageEventArgs
+                FinishStage(new ExitStageEventArgs
                 {
                     exitType = StageExitType.GameOver
                 });
@@ -55,7 +55,7 @@ namespace StageScripts
             {
                 if (currentStageInfo.goalNormalSpyCount - captureNormalSpyCount > currentNormalSpyCount)
                 {
-                    EmitStageDoneEvent(new ExitStageEventArgs
+                    FinishStage(new ExitStageEventArgs
                     {
                         exitType = StageExitType.GameOver
                     });
@@ -71,7 +71,7 @@ namespace StageScripts
             {
                 if (currentStageInfo.goalBossSpyCount - captureBossSpyCount > currentBossSpyCount)
                 {
-                    EmitStageDoneEvent(new ExitStageEventArgs
+                    FinishStage(new ExitStageEventArgs
                     {
                         exitType = StageExitType.GameOver
                     });   
@@ -85,7 +85,7 @@ namespace StageScripts
             UpdateState();
             if (currentStageInfo.goalNormalSpyCount <= captureNormalSpyCount && currentStageInfo.goalBossSpyCount <= captureBossSpyCount)
             {
-                EmitStageDoneEvent(new ExitStageEventArgs
+                FinishStage(new ExitStageEventArgs
                 {
                     exitType = StageExitType.StageClear
                 });
@@ -98,7 +98,7 @@ namespace StageScripts
             UpdateState();
             if (currentStageInfo.goalNormalSpyCount <= captureNormalSpyCount && currentStageInfo.goalBossSpyCount <= captureBossSpyCount)
             {
-                EmitStageDoneEvent(new ExitStageEventArgs
+                FinishStage(new ExitStageEventArgs
                 {
                     exitType = StageExitType.StageClear
                 });
@@ -160,6 +160,12 @@ namespace StageScripts
                 if (e.spy.type == SpyType.Normal) SetCaptureNormalSpyCount(captureNormalSpyCount + 1);
                 else SetCaptureBossSpyCount(captureBossSpyCount + 1);
             }
+            
+            if (e.type == CaptureSpyType.Release && !e.spy.isSpy)
+            {
+                if (e.spy.type == SpyType.Normal) SetCaptureNormalSpyCount(captureNormalSpyCount + 1);
+                else SetCaptureBossSpyCount(captureBossSpyCount + 1);
+            }
 
             if (e.spy.type == SpyType.Normal) SetCurrentNormalSpyCount(currentNormalSpyCount - 1);
             else SetCurrentBossSpyCount(currentBossSpyCount - 1);
@@ -198,6 +204,13 @@ namespace StageScripts
             {
                 invocation.DynamicInvoke(this, e);
             }
+        }
+
+        private void FinishStage(ExitStageEventArgs e)
+        {
+            if (GlobalStageManager.Instance.IsStageDone()) return;
+            GlobalStageManager.Instance.FinishGame();
+            EmitStageDoneEvent(e);
         }
         
         private void EmitStageDoneEvent(ExitStageEventArgs e)

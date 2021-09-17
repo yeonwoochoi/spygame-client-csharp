@@ -8,6 +8,7 @@ namespace Manager
         #region Private Variable
 
         private bool isPaused = false;
+        private bool isStageDone = false;
 
         #endregion
 
@@ -25,6 +26,11 @@ namespace Manager
             return isPaused;
         }
         
+        public bool IsStageDone()
+        {
+            return isStageDone;
+        }
+        
         #endregion
 
 
@@ -33,6 +39,7 @@ namespace Manager
         public void InitGame()
         {
             isPaused = false;
+            isStageDone = false;
         }
 
         public void PauseGame()
@@ -43,6 +50,11 @@ namespace Manager
         public void ContinueGame()
         {
             isPaused = false;
+        }
+
+        public void FinishGame()
+        {
+            isStageDone = true;
         }
 
         #endregion
