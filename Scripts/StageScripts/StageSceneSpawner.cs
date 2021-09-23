@@ -11,8 +11,7 @@ using Domain;
 using Domain.StageObj;
 using Event;
 using Manager;
-using UI.StageScripts;
-using UI.StageScripts.Popup;
+using UI.Popup.StageScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -144,6 +143,8 @@ namespace StageScripts
             // Set spies and items
             SetSpy();
             SetItem();
+            
+            GlobalStageManager.Instance.InitGame();
             
             AudioManager.instance.Play(SoundType.Background);
         }

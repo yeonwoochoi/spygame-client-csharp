@@ -51,9 +51,9 @@ namespace StageScripts
             var stageObj = Instantiate(GetStagePrefab(), Vector3.zero, Quaternion.identity);
             stageObj.transform.SetParent(stageParent);
             
-            var stageSceneController = stageObj.GetComponent<StageSceneSpawner>();
-            stageSceneController.SetStageObjParent(stageParent, spyParent, boxParent);
-            stageSceneController.SetCurrentStage(joystickMoveController, eControlType, camera);
+            var stageSceneSpawner = stageObj.GetComponent<StageSceneSpawner>();
+            stageSceneSpawner.SetStageObjParent(stageParent, spyParent, boxParent);
+            stageSceneSpawner.SetCurrentStage(joystickMoveController, eControlType, camera);
         }
 
         #endregion

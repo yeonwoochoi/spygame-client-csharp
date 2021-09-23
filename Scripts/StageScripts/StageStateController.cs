@@ -3,9 +3,8 @@ using Domain;
 using Domain.StageObj;
 using Event;
 using Manager;
-using UI.Qna;
-using UI.StageScripts;
-using UI.StageScripts.Hud;
+using UI.Hud;
+using UI.Popup.Qna;
 using UnityEngine;
 
 

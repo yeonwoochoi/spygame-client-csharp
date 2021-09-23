@@ -118,6 +118,14 @@ namespace Manager
             sound?.source.Stop();
         }
 
+        public void StopAll()
+        {
+            foreach (var sound in sounds)
+            {
+                sound.source.Stop();
+            }
+        }
+
         #endregion
     }
 }

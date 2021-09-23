@@ -2,7 +2,7 @@
 using Base;
 using Domain.StageObj;
 using Event;
-using UI.Qna;
+using UI.Popup.Qna;
 using UnityEngine;
 
 namespace Control.SpeechBalloon

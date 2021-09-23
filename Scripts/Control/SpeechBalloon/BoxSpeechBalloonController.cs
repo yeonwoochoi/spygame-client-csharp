@@ -1,7 +1,7 @@
 ﻿using System;
 using Base;
 using Event;
-using UI.Qna;
+using UI.Popup.Qna;
 using UnityEngine;
 
 namespace Control.SpeechBalloon

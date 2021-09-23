@@ -4,7 +4,7 @@ using Base;
 using Control.SpeechBalloon;
 using Domain.StageObj;
 using Event;
-using UI.Qna;
+using UI.Popup.Qna;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

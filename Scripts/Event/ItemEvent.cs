@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain;
 using Domain.StageObj;
-using UI.Qna;
+using UI.Popup.Qna;
 
 namespace Event
 {

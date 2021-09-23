@@ -10,7 +10,6 @@ using Event;
 using Http;
 using Manager;
 using Manager.Data;
-using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.Networking;
 using Util;

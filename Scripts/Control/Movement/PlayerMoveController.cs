@@ -7,7 +7,6 @@ using Domain;
 using Event;
 using Manager;
 using Manager.Data;
-using UI.StageScripts;
 using UnityEngine;
 
 namespace Control.Movement

@@ -5,8 +5,6 @@ using Domain;
 using Event;
 using Manager;
 using Manager.Data;
-using UI.StageScripts;
-using UI.StageScripts.Popup;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

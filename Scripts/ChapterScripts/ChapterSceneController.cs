@@ -4,7 +4,7 @@ using Domain;
 using MainScripts;
 using Manager;
 using Manager.Data;
-using UI.ChapterScripts;
+using UI.Popup.ChapterScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

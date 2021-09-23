@@ -8,8 +8,9 @@ using Domain;
 using Event;
 using Manager;
 using Manager.Data;
-using UI.Qna;
-using UI.TutorialScripts;
+using UI;
+using UI.Popup.Qna;
+using UI.Popup.TutorialScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Util;
@@ -58,7 +59,12 @@ namespace TutorialScripts
         
         private readonly List<string> fourthComments = new List<string>
         {
-            $"제한시간 {TutorialStageSpawner.time}초 내에 스파이 {TutorialStageSpawner.goalSpyCount-1}명을 색출해보세요."
+            "간단한 설명을 듣고 게임을 진행해보도록 해요.",
+            "스파이는 2종류가 있습니다. 보스 스파이는 일반 스파이보다 문제 난이도가 높습니다.",
+            "문제를 틀릴 경우 위에 Hp가 깎이며 Hp가 0이되면 게임 종료됩니다.",
+            $"제한시간 {TutorialStageSpawner.time}초 내에\r\n" +
+            $"일반 스파이 {TutorialStageSpawner.goalNormalSpyCount}명과\r\n" +
+            $"보스 스파이 {TutorialStageSpawner.goalBossSpyCount}을 색출해보세요."
         };
 
         #endregion

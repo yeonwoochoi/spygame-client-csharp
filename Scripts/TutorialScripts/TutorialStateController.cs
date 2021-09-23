@@ -1,24 +1,119 @@
 ﻿using System;
 using Domain;
+using Domain.StageObj;
 using Event;
 using Manager;
-using UI.Qna;
+using StageScripts;
+using UI.Popup.Qna;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TutorialScripts
 {
     public class TutorialStateController: MonoBehaviour
     {
-        private bool isSampleSpyCapture = true;
-        private int goalSpyCount;
+        #region Private Variables
+
+        [SerializeField] private Text hpText;
+        [SerializeField] private Text normalSpyCountText;
+        [SerializeField] private Text bossSpyCountText;
+
+        private int currentNormalSpyCount;
+        private int currentBossSpyCount;
+        
+        private int captureNormalSpyCount;
+        private int captureBossSpyCount;
+
+        private int currentHp;
+        
+        private int goalNormalSpyCount;
+        private int goalBossSpyCount;
+
+        private bool isSampleSpyCapture;
+
+        #endregion
+
+        #region Event
 
         // Indoor 들어가서 Spy 다 잡았을 때 Emit 하면 됨
+        public static event EventHandler<UpdateStageStateEventArgs> UpdateTutorialStateEvent;
         public static event EventHandler<ExitTutorialEventArgs> TutorialDoneEvent;
+
+        #endregion
+
+        #region Setter
+
+        private void SetTutorialState()
+        {
+            isSampleSpyCapture = true;
+
+            currentHp = StageStateController.PlayerHp;
+            hpText.text = $"{currentHp}";
+
+            currentNormalSpyCount = TutorialStageSpawner.normalSpyCount;
+            currentBossSpyCount = TutorialStageSpawner.bossSpyCount;
+            
+            captureNormalSpyCount = 0;
+            captureBossSpyCount = 0;
+            
+            goalNormalSpyCount = TutorialStageSpawner.goalNormalSpyCount;
+            goalBossSpyCount = TutorialStageSpawner.goalBossSpyCount;
+            
+            normalSpyCountText.text = $"{captureNormalSpyCount} / {goalNormalSpyCount}";
+            bossSpyCountText.text = $"{captureBossSpyCount} / {goalBossSpyCount}";
+        }
+        
+        private void SetCurrentSpyCount(bool isNormalSpy, bool isSuccessCapture)
+        {
+            if (isNormalSpy)
+            {
+                if (isSuccessCapture) captureNormalSpyCount++;
+                currentNormalSpyCount--;
+            }
+            else
+            {
+                if (isSuccessCapture) captureBossSpyCount++;
+                currentBossSpyCount--;
+            }
+            
+            hpText.text = $"{currentHp}";
+            normalSpyCountText.text = $"{captureNormalSpyCount} / {goalNormalSpyCount}";
+            bossSpyCountText.text = $"{captureBossSpyCount} / {goalBossSpyCount}";
+
+            if (currentHp <= 0)
+            {
+                EmitTutorialDoneEvent(new ExitTutorialEventArgs
+                {
+                    tutorialExitType = TutorialExitType.Failure
+                });
+                return;
+            }
+
+            if (captureNormalSpyCount >= goalNormalSpyCount && captureBossSpyCount >= goalBossSpyCount)
+            {
+                EmitTutorialDoneEvent(new ExitTutorialEventArgs
+                {
+                    tutorialExitType = TutorialExitType.Success
+                });
+                return;
+            } 
+            
+            if (currentNormalSpyCount < goalNormalSpyCount - captureNormalSpyCount || currentBossSpyCount < goalBossSpyCount - captureBossSpyCount)
+            {
+                EmitTutorialDoneEvent(new ExitTutorialEventArgs
+                {
+                    tutorialExitType = TutorialExitType.Failure
+                });
+            }
+        }
+
+        #endregion
+
+        #region Event Methods
 
         private void Start()
         {
-            goalSpyCount = TutorialStageSpawner.goalSpyCount - 1;
-            
+            SetTutorialState();
             SpyQnaPopupBehavior.CaptureSpyEvent += UpdateCurrentSpyCount;
         }
 
@@ -27,6 +122,10 @@ namespace TutorialScripts
             SpyQnaPopupBehavior.CaptureSpyEvent -= UpdateCurrentSpyCount;
         }
 
+        #endregion
+
+        #region Private Methods
+
         private void UpdateCurrentSpyCount(object _, CaptureSpyEventArgs e)
         {
             if (isSampleSpyCapture)
@@ -34,32 +133,18 @@ namespace TutorialScripts
                 isSampleSpyCapture = false;
                 return;
             }
+            
             var case1 = e.type == CaptureSpyType.Capture && !e.spy.isSpy;
             var case2 = e.type == CaptureSpyType.Release && e.spy.isSpy;
+
+            if (case1 || case2)
+            {
+                currentHp--;
+            }
             
             AudioManager.instance.Play(!case1 && !case2 ? SoundType.Correct : SoundType.Wrong);
-
-            if (case1)
-            {
-                // 딱 목표 스파이만큼 스파이 만들거니까 하나라도 틀리면 바로 실패
-                EmitTutorialDoneEvent(new ExitTutorialEventArgs
-                {
-                    tutorialExitType = TutorialExitType.Failure
-                });
-                return;
-            }
-
-            if (e.type == CaptureSpyType.Capture && e.spy.isSpy)
-            {
-                goalSpyCount--;
-                if (goalSpyCount <= 0)
-                {
-                    EmitTutorialDoneEvent(new ExitTutorialEventArgs
-                    {
-                        tutorialExitType = TutorialExitType.Success
-                    });
-                }
-            }
+            SetCurrentSpyCount(e.spy.type == SpyType.Normal, !case1 && !case2);
+            EmitUpdateTutorialStateEvent(new UpdateStageStateEventArgs(currentHp, captureNormalSpyCount, captureBossSpyCount, currentNormalSpyCount, currentBossSpyCount));
         }
 
         private void EmitTutorialDoneEvent(ExitTutorialEventArgs e)
@@ -70,5 +155,16 @@ namespace TutorialScripts
                 invocation?.DynamicInvoke(this, e);
             }
         }
+
+        private void EmitUpdateTutorialStateEvent(UpdateStageStateEventArgs e)
+        {
+            if (UpdateTutorialStateEvent == null) return;
+            foreach (var invocation in UpdateTutorialStateEvent.GetInvocationList())
+            {
+                invocation?.DynamicInvoke(this, e);
+            }
+        }
+
+        #endregion
     }
 }

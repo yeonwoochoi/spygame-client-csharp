@@ -3,7 +3,7 @@ using Control.SpeechBalloon;
 using Domain;
 using Event;
 using Manager;
-using UI.Qna;
+using UI.Popup.Qna;
 using UnityEngine;
 
 namespace Control.Item

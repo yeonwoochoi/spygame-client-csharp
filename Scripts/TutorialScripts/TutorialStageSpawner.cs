@@ -14,7 +14,6 @@ using Event;
 using Http;
 using Manager;
 using Manager.Data;
-using UI.TutorialScripts;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Util;
@@ -29,7 +28,8 @@ namespace TutorialScripts
         [SerializeField] private PointerController pointerController;
         
         [SerializeField] private Transform initPlayerTransform;
-        [SerializeField] private Transform[] initSpyTransforms;
+        [SerializeField] private Transform[] initNormalSpyTransforms;
+        [SerializeField] private Transform[] initBossSpyTransforms;
         [SerializeField] private Transform[] initBoxTransforms;
 
         [SerializeField] private UnityEngine.Camera mainCamera;
@@ -38,6 +38,7 @@ namespace TutorialScripts
 
         [SerializeField] private GameObject player;
         [SerializeField] private GameObject normalSpy;
+        [SerializeField] private GameObject bossSpy;
         [SerializeField] private GameObject box;
         [SerializeField] private Transform parent;
         
@@ -48,14 +49,14 @@ namespace TutorialScripts
         
         #region Static Variables
 
-        public static readonly int time = 60;
+        public static readonly int time = 80;
 
-        // 맨 처음 sample spy 까지 포함
-        public static readonly int spyCount = 3;
-        public static readonly int goalSpyCount = 2;
+        public static readonly int normalSpyCount = 3;
+        public static readonly int bossSpyCount = 2;
+        public static readonly int goalNormalSpyCount = 2;
+        public static readonly int goalBossSpyCount = 1;
 
-        // 맨 처음 sample box 까지 포함
-        public static readonly int boxCount = 2;
+        private static readonly int boxCount = 1;
 
         #endregion
 
@@ -68,7 +69,7 @@ namespace TutorialScripts
 
         public Transform GetInitSpyPosition()
         {
-            return initSpyTransforms[0];
+            return initNormalSpyTransforms[0];
         }
         public Transform GetInitBoxPosition()
         {
@@ -115,25 +116,35 @@ namespace TutorialScripts
 
         private void SetSpy()
         {
-            for (var i = 0; i < spyCount; i++)
+            for (var i = 0; i < normalSpyCount+1; i++)
             {
-                var pos = initSpyTransforms[i].position;
+                var pos = initNormalSpyTransforms[i].position;
                 var spyObj = Instantiate(normalSpy, pos, Quaternion.identity);
                 spyObj.transform.SetParent(parent);
                 var spyMoveController = spyObj.GetComponent<SpyMoveController>();
                 spyMoveController.SetTilemap(tilemap);
-                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), false, i < goalSpyCount), i == 0);
+                spyMoveController.Init(new Spy(i+1000, SpyType.Normal, GetRandomQna(QnaDifficulty.Easy), false, i < goalNormalSpyCount), i == 0);
+            }
+            
+            for (var i = 0; i < bossSpyCount; i++)
+            {
+                var pos = initBossSpyTransforms[i].position;
+                var spyObj = Instantiate(bossSpy, pos, Quaternion.identity);
+                spyObj.transform.SetParent(parent);
+                var spyMoveController = spyObj.GetComponent<SpyMoveController>();
+                spyMoveController.SetTilemap(tilemap);
+                spyMoveController.Init(new Spy(i+2000, SpyType.Boss, GetRandomQna(QnaDifficulty.Hard), false, i < goalBossSpyCount));
             }
         }
         
         private void SetItem()
         {
-            for (var i = 0; i < boxCount; i++)
+            for (var i = 0; i < boxCount + 1; i++)
             {
                 var itemObj = Instantiate(box, initBoxTransforms[i].position, Quaternion.identity);
                 itemObj.transform.SetParent(parent);
                 var itemBoxController = itemObj.GetComponent<ItemBoxController>();
-                itemBoxController.Init(new Item(i+2000, GetRandomQna(QnaDifficulty.Hard), false));
+                itemBoxController.Init(new Item(i+3000, GetRandomQna(QnaDifficulty.Easy), false));
             }
         }
         

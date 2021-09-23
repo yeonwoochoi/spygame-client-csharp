@@ -5,8 +5,6 @@ using Event;
 using Manager;
 using Manager.Data;
 using StageScripts;
-using UI.StageScripts;
-using UI.StageScripts.Popup;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -48,7 +46,6 @@ namespace Control.Movement
         public void OnDrag(PointerEventData eventData)
         {
             if (!isSet) return;
-            if (IsPaused()) return;
             MovePlayerByJoystick(eventData.position);
         }
 
@@ -64,7 +61,6 @@ namespace Control.Movement
         public void OnPointerUp(PointerEventData eventData)
         {
             if (!isSet) return;
-            if (IsPaused()) return;
             playerMoveController.MovePlayer(false, Vector2.zero);
             joystickRect.localPosition = Vector2.zero;
         }
@@ -107,8 +103,10 @@ namespace Control.Movement
 
             if (touchOffsetNormal.sqrMagnitude > 0)
             {
-                
-                playerMoveController.MovePlayer(true, touchOffsetNormal);
+                if (!IsPaused())
+                {
+                    playerMoveController.MovePlayer(true, touchOffsetNormal);   
+                }
             }
         }
 

@@ -10,7 +10,7 @@ using Http;
 using Manager;
 using Manager.Data;
 using StageScripts;
-using UI.MainScripts;
+using UI.Popup.MainScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

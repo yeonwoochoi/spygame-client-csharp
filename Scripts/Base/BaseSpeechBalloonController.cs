@@ -25,10 +25,7 @@ namespace Base
 
         #region Event Methods
 
-        protected virtual void Start()
-        {
-            InitSpeechBalloon();
-        }
+        protected virtual void Start() { }
 
         protected virtual void OnDisable()
         {
@@ -41,11 +38,13 @@ namespace Base
 
         public void StartDetection()
         {
+            InitSpeechBalloon();
+            if (eControlType != EControlType.Mouse) return;
             if (onClickSpeechBalloon != null)
             {
                 StopCoroutine(onClickSpeechBalloon);
             }
-            onClickSpeechBalloon = StartCoroutine(OnClickSpeechBalloon());
+            onClickSpeechBalloon = StartCoroutine(DetectClickSpeechBalloon());
         }
 
         #endregion
@@ -71,9 +70,8 @@ namespace Base
             }
         }
 
-        private IEnumerator OnClickSpeechBalloon()
+        private IEnumerator DetectClickSpeechBalloon()
         {
-            if (eControlType != EControlType.Mouse) yield break;
             while (true)
             {
                 if (!Input.GetMouseButtonDown(0) || clicked)

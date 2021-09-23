@@ -5,9 +5,7 @@ using Event;
 using GoogleMobileAds.Api;
 using Manager;
 using UI;
-using UI.StageScripts;
-using UI.StageScripts.Hud;
-using UI.Timer;
+using UI.Hud;
 using UnityEngine;
 
 namespace StageScripts.Ad

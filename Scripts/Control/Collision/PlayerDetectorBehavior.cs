@@ -5,7 +5,7 @@ using Control.Item;
 using Control.Movement;
 using Domain;
 using Event;
-using UI.Qna;
+using UI.Popup.Qna;
 using UnityEngine;
 
 namespace Control.Collision

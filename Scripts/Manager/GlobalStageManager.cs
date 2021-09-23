@@ -54,7 +54,9 @@ namespace Manager
 
         public void FinishGame()
         {
+            PauseGame();
             isStageDone = true;
+            AudioManager.instance.StopAll();
         }
 
         #endregion
