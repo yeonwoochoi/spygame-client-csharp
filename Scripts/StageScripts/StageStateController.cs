@@ -154,13 +154,7 @@ namespace StageScripts
 
         private void ProcessSpyInterviewResult(object _, CaptureSpyEventArgs e)
         {
-            if (e.type == CaptureSpyType.Capture && e.spy.isSpy)
-            {
-                if (e.spy.type == SpyType.Normal) SetCaptureNormalSpyCount(captureNormalSpyCount + 1);
-                else SetCaptureBossSpyCount(captureBossSpyCount + 1);
-            }
-            
-            if (e.type == CaptureSpyType.Release && !e.spy.isSpy)
+            if (e.IsCorrect())
             {
                 if (e.spy.type == SpyType.Normal) SetCaptureNormalSpyCount(captureNormalSpyCount + 1);
                 else SetCaptureBossSpyCount(captureBossSpyCount + 1);
@@ -183,10 +177,7 @@ namespace StageScripts
         
         private void LoseHp(object _, CaptureSpyEventArgs e)
         {
-            var case1 = e.type == CaptureSpyType.Capture && !e.spy.isSpy;
-            var case2 = e.type == CaptureSpyType.Release && e.spy.isSpy;
-
-            if (!case1 && !case2)
+            if (e.IsCorrect())
             {
                 AudioManager.instance.Play(SoundType.Correct);
                 return;

@@ -75,8 +75,8 @@ namespace Control.Pointer
             animator = GetComponent<Animator>();
             pointerSpriteRenderer = GetComponent<SpriteRenderer>();
 
-            borderSizeX = Screen.width * 0.1f;
-            borderSizeY = Screen.height * 0.1f;
+            borderSizeX = Screen.width * 0.05f;
+            borderSizeY = Screen.height * 0.05f;
             
             SetIsPointing(false);
             isSet = true;
@@ -127,9 +127,9 @@ namespace Control.Pointer
                     // 화면 밖에 Target이 있을 때 화살표(pointer) 위치 설정
                     var cappedTargetScreen = targetPositionScreenPoint;
                     if (cappedTargetScreen.x <= 0) cappedTargetScreen.x = borderSizeX;
-                    if (cappedTargetScreen.x >= Screen.width - borderSizeX) cappedTargetScreen.x = Screen.width - borderSizeX;
+                    if (cappedTargetScreen.x >= Screen.width) cappedTargetScreen.x = Screen.width - borderSizeX;
                     if (cappedTargetScreen.y <= 0) cappedTargetScreen.y = borderSizeY;
-                    if (cappedTargetScreen.y >= Screen.height - borderSizeY) cappedTargetScreen.y = Screen.height - borderSizeY;
+                    if (cappedTargetScreen.y >= Screen.height) cappedTargetScreen.y = Screen.height - borderSizeY;
                     
                     SetPointerPosition(cappedTargetScreen);
                 }

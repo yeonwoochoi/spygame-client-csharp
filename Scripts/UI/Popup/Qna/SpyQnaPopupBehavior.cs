@@ -8,6 +8,7 @@ using Event;
 using Manager;
 using StageScripts;
 using UI.Base;
+using UI.Effect;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
@@ -23,6 +24,7 @@ namespace UI.Popup.Qna
     {
         #region Private Variables
 
+        [SerializeField] protected QnaResultAnimController qnaResultAnimController;
         [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text playerQuestionText;
         [SerializeField] private Text spyAnswerText;
@@ -39,6 +41,7 @@ namespace UI.Popup.Qna
         private Coroutine reportCoroutine;
 
         private bool isSolved;
+        private bool isShowingResult;
 
         #endregion
 
@@ -94,6 +97,8 @@ namespace UI.Popup.Qna
             wrongButton.SetActive(false);
 
             titleText.text = PopupTitle;
+
+            isShowingResult = false;
             
             if (isTutorial)
             {
@@ -159,23 +164,41 @@ namespace UI.Popup.Qna
             yield return StartTimer();
         }
 
-        private void OnClickWrongBtn()
-        {
-            OnClosePopup();
-            SetIsSolved(true);
-            EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Capture));
-
-            if (isTutorial) pointerUIController.EndPointing();
-        }
-
         private void OnClickCorrectBtn()
         {
-            OnClosePopup();
-            SetIsSolved(true);
-            EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, CaptureSpyType.Release));
-            
-            if (isTutorial) pointerUIController.EndPointing();
+            if (isShowingResult) return;
+            isShowingResult = true;
+            ShowQnaResult(true);
         }
+
+        private void OnClickWrongBtn()
+        {
+            if (isShowingResult) return;
+            isShowingResult = true;
+            ShowQnaResult(false);
+        }
+        
+        private void ShowQnaResult(bool isClickCorrectBtn)
+        {
+            SetIsSolved(true);
+            
+            var case1 = isClickCorrectBtn && !spy.isSpy;
+            var case2 = !isClickCorrectBtn && spy.isSpy;
+
+            var isCorrect = case1 || case2;
+            
+            qnaResultAnimController.PlayQnaResultAnim(isCorrect);
+        }
+        
+        private void ShowQnaResultCallback(bool isClickCorrectBtn)
+        {
+            OnClosePopup();
+            EmitCaptureSpyEventArgs(new CaptureSpyEventArgs(spy, isClickCorrectBtn ? CaptureSpyType.Release : CaptureSpyType.Capture));
+            qnaResultAnimController.Reset();
+            if (isTutorial) pointerUIController.EndPointing();
+            isShowingResult = false;
+        }
+        
 
         private void EmitCaptureSpyEventArgs(CaptureSpyEventArgs e)
         {

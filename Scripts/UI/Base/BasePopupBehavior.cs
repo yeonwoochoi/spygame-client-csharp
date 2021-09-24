@@ -7,6 +7,7 @@ using Util;
 using DG.Tweening;
 using Manager;
 using Manager.Data;
+using UI.Effect;
 
 namespace UI.Base
 {

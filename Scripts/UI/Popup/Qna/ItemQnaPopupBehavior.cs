@@ -8,6 +8,7 @@ using Event;
 using Manager;
 using StageScripts;
 using UI.Base;
+using UI.Effect;
 using UnityEngine;
 using UnityEngine.UI;
 using Util;
@@ -23,6 +24,7 @@ namespace UI.Popup.Qna
     {
         #region Private Variables
 
+        [SerializeField] protected QnaResultAnimController qnaResultAnimController;
         [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text questionText;
         [SerializeField] private Text answerText;
@@ -43,6 +45,7 @@ namespace UI.Popup.Qna
         private Coroutine reportCoroutine;
 
         private bool isSolved;
+        private bool isShowingResult;
 
         #endregion
 
@@ -80,7 +83,9 @@ namespace UI.Popup.Qna
             
             yesButton.GetComponent<Button>().onClick.AddListener(OnClickYesBtn);
             noButton.GetComponent<Button>().onClick.AddListener(OnClickNoBtn);
-            
+
+            isShowingResult = false;
+
             if (isTutorial)
             {
                 pointerUIController.Init();    
@@ -147,24 +152,34 @@ namespace UI.Popup.Qna
 
         private void OnClickYesBtn()
         {
-            OnClosePopup();
-            SetIsSolved(true);
-            EmitItemGetEvent(item.isCorrect
-                ? new ItemGetEventArgs(item, ItemGetType.Get)
-                : new ItemGetEventArgs(item, ItemGetType.Miss));
-
-            if (isTutorial) pointerUIController.EndPointing();
+            if (isShowingResult) return;
+            isShowingResult = true;
+            ShowQnaResult();
         }
 
         private void OnClickNoBtn()
         {
-            OnClosePopup();
+            if (isShowingResult) return;
+            isShowingResult = true;
+            ShowQnaResult();
+        }
+
+        private void ShowQnaResult()
+        {
             SetIsSolved(true);
+
+            qnaResultAnimController.PlayQnaResultAnim(item.isCorrect);
+        }
+
+        private void ShowQnaResultCallback()
+        {
+            OnClosePopup();
             EmitItemGetEvent(item.isCorrect
                 ? new ItemGetEventArgs(item, ItemGetType.Miss)
                 : new ItemGetEventArgs(item, ItemGetType.Get));
-            
+            qnaResultAnimController.Reset();
             if (isTutorial) pointerUIController.EndPointing();
+            isShowingResult = false;
         }
 
         private IEnumerator StartTimer()

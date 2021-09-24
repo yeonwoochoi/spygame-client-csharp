@@ -15,6 +15,18 @@ namespace Event
 
         #endregion
 
+        #region Getter
+
+        public bool IsCorrect()
+        {
+            var case1 = spy.isSpy && type == CaptureSpyType.Capture;
+            var case2 = !spy.isSpy && type == CaptureSpyType.Release;
+
+            return case1 || case2;
+        }
+
+        #endregion
+
         #region Constructor
 
         public CaptureSpyEventArgs(Spy spy, CaptureSpyType type)

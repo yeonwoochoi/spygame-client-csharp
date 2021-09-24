@@ -33,9 +33,7 @@ namespace UI.Effect
         private void SpyQnaWrongEffect(object _, CaptureSpyEventArgs e)
         {
             if (isPlaying) return;
-            var type1 = e.spy.isSpy && e.type == CaptureSpyType.Release;
-            var type2 = !e.spy.isSpy && e.type == CaptureSpyType.Capture;
-            if (!type1 && !type2) return;
+            if (e.IsCorrect()) return;
             isPlaying = true;
             StartCoroutine(Shake());
         }

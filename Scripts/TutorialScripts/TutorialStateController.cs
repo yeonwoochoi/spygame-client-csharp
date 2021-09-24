@@ -133,17 +133,14 @@ namespace TutorialScripts
                 isSampleSpyCapture = false;
                 return;
             }
-            
-            var case1 = e.type == CaptureSpyType.Capture && !e.spy.isSpy;
-            var case2 = e.type == CaptureSpyType.Release && e.spy.isSpy;
 
-            if (case1 || case2)
+            if (!e.IsCorrect())
             {
                 currentHp--;
             }
             
-            AudioManager.instance.Play(!case1 && !case2 ? SoundType.Correct : SoundType.Wrong);
-            SetCurrentSpyCount(e.spy.type == SpyType.Normal, !case1 && !case2);
+            AudioManager.instance.Play(e.IsCorrect() ? SoundType.Correct : SoundType.Wrong);
+            SetCurrentSpyCount(e.spy.type == SpyType.Normal, e.IsCorrect());
             EmitUpdateTutorialStateEvent(new UpdateStageStateEventArgs(currentHp, captureNormalSpyCount, captureBossSpyCount, currentNormalSpyCount, currentBossSpyCount));
         }
 
