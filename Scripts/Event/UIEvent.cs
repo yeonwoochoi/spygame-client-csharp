@@ -37,6 +37,13 @@ namespace Event
 
     public class OpenStagePauseEventArgs : EventArgs {}
 
+    public class PlayQnaGradingAnimEventArgs : EventArgs
+    {
+        public bool isCorrect;
+        public bool isClickCorrectBtn;
+        public Action<bool> callback;
+    }
+
     public class OutsideClickEventArgs : EventArgs { }
 
     public class AlertOccurredEventArgs : EventArgs

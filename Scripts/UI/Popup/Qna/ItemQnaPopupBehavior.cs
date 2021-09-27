@@ -24,7 +24,6 @@ namespace UI.Popup.Qna
     {
         #region Private Variables
 
-        [SerializeField] protected QnaResultAnimController qnaResultAnimController;
         [SerializeField] private PointerUIController pointerUIController;
         [SerializeField] private Text questionText;
         [SerializeField] private Text answerText;
@@ -53,12 +52,13 @@ namespace UI.Popup.Qna
 
         public static event EventHandler<ItemGetEventArgs> ItemGetEvent;
         public static event EventHandler<SkipItemQnaEventArgs> SkipItemQnaEvent;
+        public static event EventHandler<PlayQnaGradingAnimEventArgs> PlayQnaGradingAnimEvent;
 
         #endregion
 
         #region Setter
 
-        private void SetIsSolved(bool flag)
+        private void IsSolved(bool flag)
         {
             isSolved = flag;
             if (isSolved) AudioManager.instance.Stop(SoundType.Timer);
@@ -126,7 +126,7 @@ namespace UI.Popup.Qna
         private void OpenItemQnaPopup(object _, OpenItemQnaEventArgs e)
         {
             item = e.item;
-            SetIsSolved(false);
+            IsSolved(false);
             ResetAll();
             OnOpenPopup();
             if (reportCoroutine != null) StopCoroutine(reportCoroutine);
@@ -149,35 +149,46 @@ namespace UI.Popup.Qna
 
             yield return StartTimer();
         }
-
+        
         private void OnClickYesBtn()
         {
             if (isShowingResult) return;
             isShowingResult = true;
-            ShowQnaResult();
+            ShowQnaResult(item.isCorrect, true);
         }
 
         private void OnClickNoBtn()
         {
             if (isShowingResult) return;
             isShowingResult = true;
-            ShowQnaResult();
+            ShowQnaResult(!item.isCorrect, false);
         }
-
-        private void ShowQnaResult()
+        
+        private void ShowQnaResult(bool isCorrect, bool isClickCorrectBtn)
         {
-            SetIsSolved(true);
+            IsSolved(true);
 
-            qnaResultAnimController.PlayQnaResultAnim(item.isCorrect);
+            EmitPlayQnaGradingAnimEvent(new PlayQnaGradingAnimEventArgs
+            {
+                isCorrect = isCorrect,
+                isClickCorrectBtn = isClickCorrectBtn,
+                callback = ShowQnaResultCallback
+            });
         }
-
-        private void ShowQnaResultCallback()
+        
+        private void ShowQnaResultCallback(bool isClickCorrectBtn)
         {
             OnClosePopup();
-            EmitItemGetEvent(item.isCorrect
-                ? new ItemGetEventArgs(item, ItemGetType.Miss)
-                : new ItemGetEventArgs(item, ItemGetType.Get));
-            qnaResultAnimController.Reset();
+            
+            var case1 = isClickCorrectBtn && item.isCorrect;
+            var case2 = !isClickCorrectBtn && !item.isCorrect;
+
+            var isCorrect = case1 || case2;
+            
+            EmitItemGetEvent(isCorrect
+                ? new ItemGetEventArgs(item, ItemGetType.Get)
+                : new ItemGetEventArgs(item, ItemGetType.Miss));        
+            
             if (isTutorial) pointerUIController.EndPointing();
             isShowingResult = false;
         }
@@ -246,6 +257,15 @@ namespace UI.Popup.Qna
             foreach (var invocation in SkipItemQnaEvent.GetInvocationList())
             {
                 invocation.DynamicInvoke(this, e);
+            }
+        }
+        
+        private void EmitPlayQnaGradingAnimEvent(PlayQnaGradingAnimEventArgs e)
+        {
+            if (PlayQnaGradingAnimEvent == null) return;
+            foreach (var invocation in PlayQnaGradingAnimEvent.GetInvocationList())
+            {
+                invocation?.DynamicInvoke(this, e);
             }
         }
         #endregion

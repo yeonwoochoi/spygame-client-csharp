@@ -6961,10 +6961,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2676077930566818546, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 6.123169
-      objectReference: {fileID: 0}
     - target: {fileID: 3241597495553036585, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
       propertyPath: m_Name
       value: Spy Qna Popup Panel
@@ -7015,26 +7011,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4668993209066260288, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4796753374387830106, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.09562683
-      objectReference: {fileID: 0}
-    - target: {fileID: 4796753374387830106, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.0000019073486
-      objectReference: {fileID: 0}
-    - target: {fileID: 6864130736992089670, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6864130736992089670, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6864130736992089670, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_BlocksRaycasts
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7379905202159121862, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
@@ -10784,22 +10760,6 @@ PrefabInstance:
       propertyPath: bgCanvasGroup
       value: 
       objectReference: {fileID: 198128164}
-    - target: {fileID: 2387877247913558587, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387877247913558587, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387877247913558587, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_BlocksRaycasts
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387877248146861096, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 6.123169
-      objectReference: {fileID: 0}
     - target: {fileID: 2387877248206065432, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -10847,10 +10807,6 @@ PrefabInstance:
     - target: {fileID: 2387877248607539329, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387877248689811565, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
