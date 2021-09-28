@@ -101,7 +101,7 @@ namespace StageScripts
             boxObjParent = boxParent;
         }
         
-        public void SetCurrentStage(JoystickMoveController joystick, EControlType e, UnityEngine.Camera camera)
+        public void SetCurrentStage(JoystickMoveController joystick, EControlType e, UnityEngine.Camera mainCamera, UnityEngine.Camera minimapCamera)
         {
             qna = QnaManager.Instance.qna;
             currentChapterType = LoadingManager.Instance.chapterType;
@@ -129,11 +129,12 @@ namespace StageScripts
             if (eControlType == EControlType.Mouse)
             {
                 var lineGenerator = gameObject.AddComponent<LineGenerator>();
-                lineGenerator.Init(tilemaps[0], line, playerObj, eControlType, camera);
+                lineGenerator.Init(tilemaps[0], line, playerObj, eControlType, mainCamera);
             }
 
             // Set Camera offset
-            camera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
+            mainCamera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
+            minimapCamera.GetComponent<CameraFollowController>().SetOffset(playerObj.transform);
 
             // Init stage game object positions
             normalSpyPositions = new List<NodeInfo>();

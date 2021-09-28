@@ -9,8 +9,8 @@ namespace Camera
         #region Private Variables
         private Transform target;
         private float lerpSpeed = 2.5f;
-        private Vector3 offset;
-        private Vector3 targetPos;
+        private Vector2 offset;
+        private Vector2 targetPos;
         #endregion
 
         #region Public Method
@@ -31,13 +31,11 @@ namespace Camera
             while (true)
             {
                 yield return null;
-                targetPos = target.position + offset;
-                if (transform.position == targetPos) continue;
-                transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
-                if (transform.position.z > -1)
-                {
-                    transform.position += new Vector3(0, 0, -10);
-                }
+                targetPos = (Vector2) target.position + offset;
+                var distance = ((Vector2) transform.position - targetPos).sqrMagnitude;
+                if (distance < 0.0001f) continue;
+                var pos = Vector2.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
+                transform.position = new Vector3(pos.x, pos.y, -10);
             }
         }
 

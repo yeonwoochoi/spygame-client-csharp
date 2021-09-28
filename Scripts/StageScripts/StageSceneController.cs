@@ -11,7 +11,8 @@ namespace StageScripts
         #region Private Variables
 
         [SerializeField] private GameObject[] stagePrefabs;
-        [SerializeField] private UnityEngine.Camera camera;
+        [SerializeField] private UnityEngine.Camera mainCamera;
+        [SerializeField] private UnityEngine.Camera minimapCamera;
         [SerializeField] private Transform stageParent;
         [SerializeField] private Transform spyParent;
         [SerializeField] private Transform boxParent;
@@ -53,7 +54,7 @@ namespace StageScripts
             
             var stageSceneSpawner = stageObj.GetComponent<StageSceneSpawner>();
             stageSceneSpawner.SetStageObjParent(stageParent, spyParent, boxParent);
-            stageSceneSpawner.SetCurrentStage(joystickMoveController, eControlType, camera);
+            stageSceneSpawner.SetCurrentStage(joystickMoveController, eControlType, mainCamera, minimapCamera);
         }
 
         #endregion
