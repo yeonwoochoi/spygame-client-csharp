@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 4482352772300181318}
   - component: {fileID: 4482352772300181312}
   - component: {fileID: 4482352772300181313}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Layer 2 - Floor Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3796,7 +3796,7 @@ GameObject:
   - component: {fileID: 4482352772945232712}
   - component: {fileID: 4482352772945232714}
   - component: {fileID: 4482352772945232715}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: House 1 - Floor Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46088,7 +46088,7 @@ GameObject:
   - component: {fileID: 4482352773013082894}
   - component: {fileID: 4482352773013082895}
   - component: {fileID: 4482352773013082892}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: House 1 - Prop Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47408,7 +47408,7 @@ GameObject:
   - component: {fileID: 4482352773226520606}
   - component: {fileID: 4482352773226520600}
   - component: {fileID: 4482352773226520601}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Layer 1 - Floor Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121595,7 +121595,7 @@ GameObject:
   - component: {fileID: 4482352773227549041}
   - component: {fileID: 4482352773227549043}
   - component: {fileID: 4482352773227549040}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: House 1 - Wall Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123965,7 +123965,7 @@ GameObject:
   - component: {fileID: 4482352773274401725}
   - component: {fileID: 4482352773274401602}
   - component: {fileID: 4581171193823056751}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Layer 1 - Wall Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126265,7 +126265,7 @@ GameObject:
   - component: {fileID: 4482352773381947677}
   - component: {fileID: 4482352773381947679}
   - component: {fileID: 4482352773381947676}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: House 1 - Prop 2 Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126684,7 +126684,7 @@ GameObject:
   - component: {fileID: 4482352773430453849}
   - component: {fileID: 4482352773430453854}
   - component: {fileID: 4482352773430453855}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Layer 2 - Wall Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128407,7 +128407,7 @@ GameObject:
   - component: {fileID: 4482352774189478623}
   - component: {fileID: 4482352774189478617}
   - component: {fileID: 4482352774189478622}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: House 1 - Prop 3 Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
