@@ -116,7 +116,7 @@ namespace UI.Hud
                 {
                     EmitGameOverEvent(new ExitStageEventArgs
                     {
-                        exitType = StageExitType.GameOver
+                        exitType = StageExitType.GameOver,
                     });       
                 }
             }

@@ -17,10 +17,12 @@ namespace UI.Effect
         [SerializeField] private List<Image> wrongImages;
         [SerializeField] private bool isSpyQna = true;
         
+        private readonly float popupCloseDelay = 0.5f;
+        private readonly float speed = 4f;
+
         private bool isRun;
-
         private Action<bool> gradingCallback;
-
+        
         #endregion
 
         #region Event Methods
@@ -76,7 +78,7 @@ namespace UI.Effect
         private IEnumerator PlayCorrectAnim(bool isClickCorrectBtn)
         {
             yield return StartCoroutine(PlayQnaResultAnim(correctImage));
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(popupCloseDelay);
             Debug.Log("Correct!");
             gradingCallback?.Invoke(isClickCorrectBtn);
             Reset();
@@ -86,7 +88,7 @@ namespace UI.Effect
         {
             yield return StartCoroutine(PlayQnaResultAnim(wrongImages[0]));
             yield return StartCoroutine(PlayQnaResultAnim(wrongImages[1]));
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(popupCloseDelay);
             Debug.Log("Wrong!");
             gradingCallback?.Invoke(isClickCorrectBtn);
             Reset();
@@ -94,13 +96,17 @@ namespace UI.Effect
 
         private IEnumerator PlayQnaResultAnim(Image target)
         {
+            var start = 0f;
             var goal = 1f;
-            var speed = 5f;
-            for (var f = 0f; f <= goal; f += Time.deltaTime * speed)
+            
+            while (target.fillAmount < goal)
             {
-                target.fillAmount = f;
+                start += Time.deltaTime * speed;
+                target.fillAmount = start;
                 yield return null;
             }
+            
+            Debug.Log(target.fillAmount);
             
             target.fillAmount = goal;
             yield return null;

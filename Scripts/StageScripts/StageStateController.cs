@@ -41,7 +41,7 @@ namespace StageScripts
             {
                 FinishStage(new ExitStageEventArgs
                 {
-                    exitType = StageExitType.GameOver
+                    exitType = StageExitType.GameOver,
                 });
             }
         }
@@ -56,7 +56,7 @@ namespace StageScripts
                 {
                     FinishStage(new ExitStageEventArgs
                     {
-                        exitType = StageExitType.GameOver
+                        exitType = StageExitType.GameOver,
                     });
                 }
             }
@@ -72,7 +72,7 @@ namespace StageScripts
                 {
                     FinishStage(new ExitStageEventArgs
                     {
-                        exitType = StageExitType.GameOver
+                        exitType = StageExitType.GameOver,
                     });   
                 }
             }

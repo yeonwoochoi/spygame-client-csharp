@@ -13,6 +13,7 @@ namespace Control.Item
         #region Public Variables
 
         [SerializeField] public GameObject speechBalloon;
+        [SerializeField] public GameObject minimapIcon;
 
         [HideInInspector] public BoxSpeechBalloonController boxSpeechBalloonController;
 
@@ -99,6 +100,7 @@ namespace Control.Item
             if (e.item.index != item.index) return;
             SetIsOpen(true);
             speechBalloon.SetActive(false);
+            Destroy(minimapIcon);
         }
 
         #endregion

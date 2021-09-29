@@ -57,6 +57,7 @@ namespace StageScripts
         private StageType currentStageType;
         
         private int currentLayer1ObjCount = 0;
+        private readonly string minimapTag = "Minimap";
 
         #endregion
 
@@ -359,6 +360,7 @@ namespace StageScripts
         private void SetObjectLayer(GameObject targetObj, LayerType layerType)
         {
             targetObj.layer = LayerMask.NameToLayer(layerType.LayerTypeToString());
+            targetObj.FindComponentInChildWithTag<SpriteRenderer>(minimapTag).sortingLayerName = layerType.LayerTypeToString();
             targetObj.GetComponent<SpriteRenderer>().sortingLayerName = layerType.LayerTypeToString();
         }
 
