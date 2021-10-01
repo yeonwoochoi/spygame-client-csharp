@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Event;
-using UI.Popup.Qna;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI.Effect
 {
     public class QnaResultAnimController: MonoBehaviour
     {
+        #region Delegate
+        public delegate void GradingCallback(bool isClickCorrectBtn);
+
+        #endregion
+        
         #region Private Variables
 
         [SerializeField] private Image correctImage;
         [SerializeField] private List<Image> wrongImages;
-        [SerializeField] private bool isSpyQna = true;
+        
+        private IEnumerator correctAnimEnumerator = null;
+        private IEnumerator wrongAnimEnumerator1 = null;
+        private IEnumerator wrongAnimEnumerator2 = null;
         
         private readonly float popupCloseDelay = 0.5f;
         private readonly float speed = 4f;
 
         private bool isRun;
-        private Action<bool> gradingCallback;
+        private GradingCallback gradingCallback;
         
         #endregion
 
@@ -29,41 +34,35 @@ namespace UI.Effect
 
         private void Start()
         {
-            isRun = false;
-            if (isSpyQna)
-            {
-                SpyQnaPopupBehavior.PlayQnaGradingAnimEvent += PlayQnaGrading;   
-            }
-            else
-            {
-                ItemQnaPopupBehavior.PlayQnaGradingAnimEvent += PlayQnaGrading;   
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (isSpyQna)
-            {
-                SpyQnaPopupBehavior.PlayQnaGradingAnimEvent -= PlayQnaGrading;   
-            }
-            else
-            {
-                ItemQnaPopupBehavior.PlayQnaGradingAnimEvent -= PlayQnaGrading;   
-            }
+            Reset();
         }
 
         #endregion
 
-        private void PlayQnaGrading(object _, PlayQnaGradingAnimEventArgs e)
+        #region Public Method
+
+        public void Play(bool isCorrect, bool isClickCorrectBtn, GradingCallback callback)
         {
             if (isRun) return;
             isRun = true;
-            gradingCallback = e.callback;
-            StartCoroutine(e.isCorrect ? PlayCorrectAnim(e.isClickCorrectBtn) : PlayWrongAnim(e.isClickCorrectBtn));        
+            gradingCallback = callback;
+            StartCoroutine(isCorrect ? PlayCorrectAnim(isClickCorrectBtn) : PlayWrongAnim(isClickCorrectBtn));        
         }
-        
+
+        #endregion
+
+
+        #region Private Method
+
         private void Reset()
         {
+            if (correctAnimEnumerator != null) StopCoroutine(correctAnimEnumerator);
+            if (wrongAnimEnumerator1 != null) StopCoroutine(wrongAnimEnumerator1);
+            if (wrongAnimEnumerator2 != null) StopCoroutine(wrongAnimEnumerator2);
+            correctAnimEnumerator = null;
+            wrongAnimEnumerator1 = null;
+            wrongAnimEnumerator2 = null;
+            
             gradingCallback = null;
             correctImage.fillAmount = 0;
             foreach (var wrongImage in wrongImages)
@@ -72,25 +71,26 @@ namespace UI.Effect
             }
             isRun = false;
         }
-        
-        #region Private Method
+
 
         private IEnumerator PlayCorrectAnim(bool isClickCorrectBtn)
         {
-            yield return StartCoroutine(PlayQnaResultAnim(correctImage));
+            wrongAnimEnumerator2 = PlayQnaResultAnim(correctImage);
+            yield return StartCoroutine(wrongAnimEnumerator2);
             yield return new WaitForSeconds(popupCloseDelay);
-            Debug.Log("Correct!");
-            gradingCallback?.Invoke(isClickCorrectBtn);
+            gradingCallback(isClickCorrectBtn);
             Reset();
         }
 
         private IEnumerator PlayWrongAnim(bool isClickCorrectBtn)
         {
-            yield return StartCoroutine(PlayQnaResultAnim(wrongImages[0]));
-            yield return StartCoroutine(PlayQnaResultAnim(wrongImages[1]));
+            correctAnimEnumerator = PlayQnaResultAnim(wrongImages[0]);
+            wrongAnimEnumerator1 = PlayQnaResultAnim(wrongImages[1]);
+            yield return StartCoroutine(correctAnimEnumerator);
+            yield return StartCoroutine(wrongAnimEnumerator1);
+ 
             yield return new WaitForSeconds(popupCloseDelay);
-            Debug.Log("Wrong!");
-            gradingCallback?.Invoke(isClickCorrectBtn);
+            gradingCallback(isClickCorrectBtn);
             Reset();
         }
 
@@ -105,8 +105,6 @@ namespace UI.Effect
                 target.fillAmount = start;
                 yield return null;
             }
-            
-            Debug.Log(target.fillAmount);
             
             target.fillAmount = goal;
             yield return null;

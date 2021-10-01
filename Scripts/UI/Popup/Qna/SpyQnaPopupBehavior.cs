@@ -25,6 +25,7 @@ namespace UI.Popup.Qna
         #region Private Variables
 
         [SerializeField] private PointerUIController pointerUIController;
+        [SerializeField] private QnaResultAnimController qnaResultAnimController;
         [SerializeField] private Text playerQuestionText;
         [SerializeField] private Text spyAnswerText;
         [SerializeField] private GameObject wrongButton;
@@ -181,12 +182,15 @@ namespace UI.Popup.Qna
         private void ShowQnaResult(bool isCorrect, bool isClickCorrectBtn)
         {
             IsSolved(true);
+            /*
             EmitPlayQnaGradingAnimEvent(new PlayQnaGradingAnimEventArgs
             {
                 isCorrect = isCorrect,
                 isClickCorrectBtn = isClickCorrectBtn,
                 callback = ShowQnaResultCallback
             });
+            */
+            qnaResultAnimController.Play(isCorrect, isClickCorrectBtn, ShowQnaResultCallback);
         }
         
         private void ShowQnaResultCallback(bool isClickCorrectBtn)

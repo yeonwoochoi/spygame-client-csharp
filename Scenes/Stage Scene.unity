@@ -7242,10 +7242,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1556043385}
     m_Modifications:
-    - target: {fileID: 866575332076936079, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00012207031
-      objectReference: {fileID: 0}
     - target: {fileID: 1381154534270323273, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7293,10 +7289,6 @@ PrefabInstance:
     - target: {fileID: 1846744867973113815, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2676077930566818546, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 6.123169
       objectReference: {fileID: 0}
     - target: {fileID: 3241597495553036585, guid: 5f0fcb810c4dade45b39feb8eeb4c83a, type: 3}
       propertyPath: m_Name
@@ -11191,10 +11183,6 @@ PrefabInstance:
       propertyPath: bgCanvasGroup
       value: 
       objectReference: {fileID: 198128164}
-    - target: {fileID: 2387877248146861096, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 6.123169
-      objectReference: {fileID: 0}
     - target: {fileID: 2387877248206065432, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -11242,10 +11230,6 @@ PrefabInstance:
     - target: {fileID: 2387877248607539329, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5765776659496844878, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.00012207031
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f8ce7b726a965b48b206c278cba1c5f, type: 3}
