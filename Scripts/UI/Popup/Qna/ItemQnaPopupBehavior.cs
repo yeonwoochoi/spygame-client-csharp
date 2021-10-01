@@ -53,7 +53,6 @@ namespace UI.Popup.Qna
 
         public static event EventHandler<ItemGetEventArgs> ItemGetEvent;
         public static event EventHandler<SkipItemQnaEventArgs> SkipItemQnaEvent;
-        public static event EventHandler<PlayQnaGradingAnimEventArgs> PlayQnaGradingAnimEvent;
 
         #endregion
 
@@ -168,14 +167,6 @@ namespace UI.Popup.Qna
         private void ShowQnaResult(bool isCorrect, bool isClickCorrectBtn)
         {
             IsSolved(true);
-            /*
-            EmitPlayQnaGradingAnimEvent(new PlayQnaGradingAnimEventArgs
-            {
-                isCorrect = isCorrect,
-                isClickCorrectBtn = isClickCorrectBtn,
-                callback = ShowQnaResultCallback
-            });
-            */
             qnaResultAnimController.Play(isCorrect, isClickCorrectBtn, ShowQnaResultCallback);
         }
         
@@ -263,14 +254,6 @@ namespace UI.Popup.Qna
             }
         }
         
-        private void EmitPlayQnaGradingAnimEvent(PlayQnaGradingAnimEventArgs e)
-        {
-            if (PlayQnaGradingAnimEvent == null) return;
-            foreach (var invocation in PlayQnaGradingAnimEvent.GetInvocationList())
-            {
-                invocation?.DynamicInvoke(this, e);
-            }
-        }
         #endregion
     }
 }

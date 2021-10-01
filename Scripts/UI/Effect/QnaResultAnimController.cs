@@ -17,11 +17,11 @@ namespace UI.Effect
 
         [SerializeField] private Image correctImage;
         [SerializeField] private List<Image> wrongImages;
-        
+
         private IEnumerator correctAnimEnumerator = null;
         private IEnumerator wrongAnimEnumerator1 = null;
         private IEnumerator wrongAnimEnumerator2 = null;
-        
+
         private readonly float popupCloseDelay = 0.5f;
         private readonly float speed = 4f;
 
@@ -62,7 +62,7 @@ namespace UI.Effect
             correctAnimEnumerator = null;
             wrongAnimEnumerator1 = null;
             wrongAnimEnumerator2 = null;
-            
+
             gradingCallback = null;
             correctImage.fillAmount = 0;
             foreach (var wrongImage in wrongImages)
@@ -75,22 +75,24 @@ namespace UI.Effect
 
         private IEnumerator PlayCorrectAnim(bool isClickCorrectBtn)
         {
-            wrongAnimEnumerator2 = PlayQnaResultAnim(correctImage);
-            yield return StartCoroutine(wrongAnimEnumerator2);
+            correctAnimEnumerator = PlayQnaResultAnim(correctImage);
+            yield return StartCoroutine(correctAnimEnumerator);
             yield return new WaitForSeconds(popupCloseDelay);
             gradingCallback(isClickCorrectBtn);
+            yield return new WaitForSeconds(popupCloseDelay);
             Reset();
         }
 
         private IEnumerator PlayWrongAnim(bool isClickCorrectBtn)
         {
-            correctAnimEnumerator = PlayQnaResultAnim(wrongImages[0]);
-            wrongAnimEnumerator1 = PlayQnaResultAnim(wrongImages[1]);
-            yield return StartCoroutine(correctAnimEnumerator);
+            wrongAnimEnumerator1 = PlayQnaResultAnim(wrongImages[0]);
+            wrongAnimEnumerator2 = PlayQnaResultAnim(wrongImages[1]);
             yield return StartCoroutine(wrongAnimEnumerator1);
+            yield return StartCoroutine(wrongAnimEnumerator2);
  
             yield return new WaitForSeconds(popupCloseDelay);
             gradingCallback(isClickCorrectBtn);
+            yield return new WaitForSeconds(popupCloseDelay);
             Reset();
         }
 
