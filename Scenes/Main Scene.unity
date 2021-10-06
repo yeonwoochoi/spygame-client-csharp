@@ -1198,6 +1198,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2773281278571475069, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 856e9fabb0203da4a98acd1cf247c289, type: 3}
     - target: {fileID: 3538314092666957096, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: chapterType
       value: 5
@@ -2765,6 +2769,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2773281278571475069, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 856e9fabb0203da4a98acd1cf247c289, type: 3}
     - target: {fileID: 3538314092666957096, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: chapterType
       value: 4
@@ -3896,6 +3904,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2773281278571475069, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 856e9fabb0203da4a98acd1cf247c289, type: 3}
     - target: {fileID: 3538314092666957096, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: chapterType
       value: 3
@@ -4266,6 +4278,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2773281278571475069, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 856e9fabb0203da4a98acd1cf247c289, type: 3}
     - target: {fileID: 3538314092666957096, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: chapterType
       value: 2

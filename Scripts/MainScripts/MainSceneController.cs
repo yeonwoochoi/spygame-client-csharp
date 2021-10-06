@@ -64,9 +64,11 @@ namespace MainScripts
 
         private bool IsChapterLocked(ChapterType chapterType)
         {
+            
             if (chapterType == ChapterType.Chapter1) return false;
             var index = (int) chapterType;
             var prevChapter = (ChapterType) (index - 1);
+            if (index > 1) return true; // Chapter 2까지만 open됨.. Chapter 3부터는 준비중
             return !IsChapterClear(prevChapter);
         }
 
