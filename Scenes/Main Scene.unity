@@ -415,7 +415,11 @@ PrefabInstance:
     - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0f1e5a2c4b7e38244bf108a29b290fd4, type: 3}
+      objectReference: {fileID: 21300000, guid: b85ff69cfa977ab4ba43f74ccbb46fa8, type: 3}
+    - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
 --- !u!224 &150238592 stripped
@@ -1221,7 +1225,11 @@ PrefabInstance:
     - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3beec719995cef744a09be0e3a793a82, type: 3}
+      objectReference: {fileID: 21300000, guid: 8c102c493bb6fc94ea4ca51d5d497230, type: 3}
+    - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5573581102700120541, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.2130127
@@ -2140,7 +2148,11 @@ PrefabInstance:
     - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 784df9e45a4cee441b9cafc10a8085cb, type: 3}
+      objectReference: {fileID: 21300000, guid: f0534f1e16d312047bf6514f0743eaed, type: 3}
+    - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
 --- !u!224 &1027571098 stripped
@@ -2792,7 +2804,11 @@ PrefabInstance:
     - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 35148f099dcd59545acc99f18b4ecc3e, type: 3}
+      objectReference: {fileID: 21300000, guid: aa086c358d37a894ea3327f0a9899e53, type: 3}
+    - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5573581102700120541, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.2130127
@@ -3927,7 +3943,11 @@ PrefabInstance:
     - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 25a7aa5fe87b71941a25e03692c2315c, type: 3}
+      objectReference: {fileID: 21300000, guid: 490deecbde7d05d4e9a39340a6d50c4c, type: 3}
+    - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5573581102700120541, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.2130127
@@ -4301,7 +4321,11 @@ PrefabInstance:
     - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 05057f71026d3eb45a7c414a259fd3fb, type: 3}
+      objectReference: {fileID: 21300000, guid: 5b04ce21c5a63eb4595ce4e8977b9fbf, type: 3}
+    - target: {fileID: 5472603040547952200, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b457a58e1a06514f920b1f5091dab3e, type: 3}
 --- !u!224 &2074184947 stripped
