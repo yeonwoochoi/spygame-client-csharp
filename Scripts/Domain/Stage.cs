@@ -10,7 +10,7 @@ namespace Domain
 
     public enum StageType
     {
-        Stage1, Stage2, Stage3, Stage4, Stage5, Stage6
+        Stage1, Stage2, Stage3, Stage4, Stage5, Stage6, Stage7, Stage8, Stage9, Stage10, Stage11, Stage12, Stage13, Stage14, Stage15
     }
 
     public enum ChapterType
@@ -24,12 +24,12 @@ namespace Domain
         public const int totalChapterCounts = 6;
         public static readonly Dictionary<ChapterType, int> totalStageCounts = new Dictionary<ChapterType, int>
         {
-            [ChapterType.Chapter1] = 6,
-            [ChapterType.Chapter2] = 6,
-            [ChapterType.Chapter3] = 6,
-            [ChapterType.Chapter4] = 6,
-            [ChapterType.Chapter5] = 6,
-            [ChapterType.Chapter6] = 6
+            [ChapterType.Chapter1] = 15,
+            [ChapterType.Chapter2] = 15,
+            [ChapterType.Chapter3] = 15,
+            [ChapterType.Chapter4] = 15,
+            [ChapterType.Chapter5] = 15,
+            [ChapterType.Chapter6] = 15
         };
     }
 

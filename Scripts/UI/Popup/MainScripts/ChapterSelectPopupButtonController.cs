@@ -10,6 +10,7 @@ namespace UI.Popup.MainScripts
         #region Private Variables
 
         [SerializeField] private Text titleText;
+        [SerializeField] private Image chapterImage;
         [SerializeField] private CanvasGroup lockCanvasGroup;
         
         private bool isLocked;
@@ -37,10 +38,11 @@ namespace UI.Popup.MainScripts
 
         #region Public Method
 
-        public void SetChapterSelectButtons(ChapterInfo chapterInfo, bool flag)
+        public void SetChapterSelectButtons(ChapterInfo chapterInfo, Sprite chapterSprite, bool flag)
         {
             SetIsLocked(flag);
             titleText.text = chapterInfo.title;
+            chapterImage.sprite = chapterSprite;
         }
 
         #endregion

@@ -30,7 +30,7 @@ namespace Control.Movement
 
         #region Private Variables
 
-        private readonly int spySpeed = 3;
+        private readonly int spySpeed = 1;
         private readonly int wanderRange = 3;
         private readonly float wanderDelay = 3f;
         private Coroutine wanderCoroutine;

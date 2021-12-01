@@ -55,7 +55,7 @@ namespace Base
         private static readonly int AnimatorIdHorizontal = Animator.StringToHash(AnimatorParamHorizontal);
         private static readonly int AnimatorIdVertical = Animator.StringToHash(AnimatorParamVertical);
         private static readonly int AnimatorIdSpeed = Animator.StringToHash(AnimatorParamSpeed);
-        
+
         protected const string AnimatorParamHorizontal = "Horizontal";
         protected const string AnimatorParamVertical = "Vertical";
         private const string AnimatorParamSpeed = "Speed";
@@ -119,7 +119,7 @@ namespace Base
                     yield return StartCoroutine(StopMoveByPausing());
                     if (rb2D != null)
                     {
-                        var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.deltaTime);
+                        var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.fixedDeltaTime);
                         rb2D.MovePosition(newPosition);
                         offset = pos - transform.position;
                         animator.SetFloat(AnimatorIdHorizontal, offset.x * 50);

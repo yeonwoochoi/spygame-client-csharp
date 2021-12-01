@@ -22,6 +22,8 @@ namespace MainScripts
         #region Private Variables
 
         [SerializeField] private Button[] chapterButtons;
+        [SerializeField] private ChapterSelectPopupImageSelector chapterImageSelector;
+
         private bool isSet = false;
         
         #endregion
@@ -64,7 +66,6 @@ namespace MainScripts
 
         private bool IsChapterLocked(ChapterType chapterType)
         {
-            
             if (chapterType == ChapterType.Chapter1) return false;
             var index = (int) chapterType;
             var prevChapter = (ChapterType) (index - 1);
@@ -79,6 +80,7 @@ namespace MainScripts
         private void Init()
         {
             if (isSet) return;
+            chapterImageSelector.Init();
             SetButtonEvent();
             isSet = true;
         }
@@ -94,7 +96,8 @@ namespace MainScripts
         private void SetButtonController(Button button, ChapterType chapterType)
         {
             var controller = button.GetComponent<ChapterSelectPopupButtonController>();
-            controller.SetChapterSelectButtons(GetChapterInfo(chapterType), IsChapterLocked(chapterType));
+            var chapterInfo = GetChapterInfo(chapterType);
+            controller.SetChapterSelectButtons(chapterInfo, chapterImageSelector.GetRandomImg(chapterInfo), IsChapterLocked(chapterType));
             button.onClick.AddListener(() =>
             {
                 if (controller.GetIsLocked()) return;
@@ -118,7 +121,7 @@ namespace MainScripts
                     SceneManager.LoadScene(nextScene);
                 }));
         }
-
+        
         private void Quit()
         {
 #if UNITY_EDITOR

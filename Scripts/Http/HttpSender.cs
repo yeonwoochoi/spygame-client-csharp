@@ -99,7 +99,7 @@ namespace Http
     public static class RequestUrlUtils
     {
         private static readonly string qnaUrl = "https://script.google.com/macros/s/AKfycbwU8u17GcS4Bm1Sjz6GHsGPk50SINdoUwji7J01Pp_xh4SgsoGjgG9NNHaAc7ZcqbPq5g/exec";
-        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbzZaoqioJ4watZMqCAS7WyeGdMWNBJVobKvT71PaNQeqF3yqs9QwShCWtDSyjY1lTQH/exec";
+        private static readonly string chapterUrl = "https://script.google.com/macros/s/AKfycbz4e3-9Rme7tJZtYiHy5qETKRjLTMGmig1c4SHHLdtpbMQBZvryYwgwnE9Cd2VUFNdD/exec";
         public static string TypeToUrl(RequestUrlType type)
         {
             switch (type)

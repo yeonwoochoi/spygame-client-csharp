@@ -25,7 +25,7 @@ namespace UI.Popup.ChapterScripts
             titleText.text = $"{stageInfo.stageType}";
             starHandler.ShowStars(score);
             stageMapImage.sprite = mapPreview;
-            stageExplanationText.text = $"{stageInfo.GetStageMissionText()}";
+            stageExplanationText.text = $"{stageInfo.GetStageTopic()}";
             playButton.onClick.AddListener(() => { loadStageAction?.Invoke(stageInfo.stageType);});
             cancelButton.onClick.AddListener(OnClickCancelButton);
             OnOpenPopup();

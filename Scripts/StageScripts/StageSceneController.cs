@@ -34,11 +34,13 @@ namespace StageScripts
 
         #region Getter
 
+        //TODO : 하드코딩이니 수정
         private GameObject GetStagePrefab()
         {
             var chapterIndex = (int) LoadingManager.Instance.chapterType;
             var stageIndex = (int) LoadingManager.Instance.stageType;
-            var index = chapterIndex * 6 + stageIndex;
+            //var index = chapterIndex * StageCountManager.totalChapterCounts + stageIndex;
+            var index = stageIndex;
             return stagePrefabs[index];
         }
 

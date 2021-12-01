@@ -16,17 +16,17 @@ namespace ChapterScripts
     {
         #region Private Variables
 
-        [SerializeField] private GameObject[] chapterMapPrefabs;
+        //[SerializeField] private GameObject[] chapterMapPrefabs;
         [SerializeField] private Sprite[] stageMapPreviewSprites;
         [SerializeField] private CanvasGroup loadingCanvasGroup;
+        [SerializeField] private ChapterButtonController chapterButtonController;
         [SerializeField] private StagePlayReadyPopupController stagePlayReadyPopupController;
         [SerializeField] private Button backButton;
         [SerializeField] private Text chapterText;
-        [SerializeField] private Transform parent;
+        //[SerializeField] private Transform parent;
 
         private ChapterInfo currentChapterInfo;
         private ChapterType currentChapterType;
-        private ChapterButtonController chapterButtonController;
         private StageScoreManager stageScoreManager;
 
         private bool isSet = false;
@@ -51,7 +51,8 @@ namespace ChapterScripts
         {
             var chapterIndex = (int) currentChapterInfo.chapterType;
             var stageIndex = (int) stageType;
-            var index = chapterIndex * 6 + stageIndex;
+            //var index = chapterIndex * StageCountManager.totalChapterCounts + stageIndex;
+            var index = stageIndex;
             return stageMapPreviewSprites[index];
         }
 
@@ -69,13 +70,14 @@ namespace ChapterScripts
             
             var index = (int) currentChapterType;
 
+            /*
             // map setting
             var currentChapterMap = Instantiate(chapterMapPrefabs[index], parent.position, Quaternion.identity);
             currentChapterMap.transform.SetParent(parent);
             currentChapterMap.GetComponent<RectTransform>().localScale = Vector3.one;
+            */
             
             // map controller setting
-            chapterButtonController = currentChapterMap.GetComponent<ChapterButtonController>();
             chapterButtonController.SetStageButtonEvent(OnClickStageBtn, currentChapterType);
             chapterText.text = $"{currentChapterInfo.title}";
             
