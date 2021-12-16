@@ -22,6 +22,11 @@ namespace Base
         Idle, Move
     }
 
+    public enum WeaponType
+    {
+        Arrow, Spear, Sword
+    }
+
     #endregion
 
     public abstract class BaseMoveController: MonoBehaviour
@@ -40,6 +45,12 @@ namespace Base
         protected Coroutine moveCoroutine;
         protected Vector2 nodeSize;
         protected bool isSet = false;
+        
+        // R
+        protected float x, y;
+        protected bool isWalking = false;
+        protected bool isDeath = false;
+        protected Vector3 moveDir;
 
         #endregion
 
@@ -51,14 +62,29 @@ namespace Base
         #endregion
 
         #region Static Variables
-        
-        private static readonly int AnimatorIdHorizontal = Animator.StringToHash(AnimatorParamHorizontal);
-        private static readonly int AnimatorIdVertical = Animator.StringToHash(AnimatorParamVertical);
-        private static readonly int AnimatorIdSpeed = Animator.StringToHash(AnimatorParamSpeed);
 
-        protected const string AnimatorParamHorizontal = "Horizontal";
-        protected const string AnimatorParamVertical = "Vertical";
-        private const string AnimatorParamSpeed = "Speed";
+        // R
+        private static readonly int AnimatorIdX = Animator.StringToHash(AnimatorParamX);
+        private static readonly int AnimatorIdY = Animator.StringToHash(AnimatorParamY);
+        private static readonly int AnimatorIdIsMoving = Animator.StringToHash(AnimatorParamIsMoving);
+
+        // R
+        private const string AnimatorParamX = "X";
+        private const string AnimatorParamY = "Y";
+        private const string AnimatorParamIsMoving = "IsMoving";
+
+        #endregion
+        
+        // R
+        #region Setter
+
+        protected void SetDirection(float xDir, float yDir)
+        {
+            x = xDir;
+            y = yDir;
+            animator.SetFloat(AnimatorIdX, x);
+            animator.SetFloat(AnimatorIdY, y);
+        }
 
         #endregion
         
@@ -94,21 +120,34 @@ namespace Base
             var posY = (int) (position.y / nodeSize.y) * nodeSize.y + nodeSize.y / 2;
             return new Vector3(posX, posY, 0);
         }
+        
+        protected void StartMoving()
+        {
+            rb2D.velocity = moveDir * speed * Time.fixedDeltaTime;    
+        }
+
+        protected void StopMoving()
+        {
+            rb2D.velocity = Vector3.zero;
+        }
         #endregion
 
         #region Protected Methods
         protected void SetCurrentState(MoveStateType moveStateType)
         {
             currentState = moveStateType;
-            animator.SetFloat(AnimatorIdSpeed, currentState == MoveStateType.Idle ? 0 : 1);
+            isWalking = currentState == MoveStateType.Move;
+            animator.SetBool(AnimatorIdIsMoving, isWalking);
+            if (!isWalking) StopMoving();
         }
 
         protected IEnumerator Move(List<Vector3> positions)
         {
             if (positions.Count == 0) yield break;
+            if (isWalking) yield break;
 
             SetCurrentState(MoveStateType.Move);
-
+            
             foreach (var pos in positions)
             {
                 var offset = pos - transform.position;
@@ -122,13 +161,13 @@ namespace Base
                         var newPosition = Vector2.MoveTowards(rb2D.position, pos, speed * Time.fixedDeltaTime);
                         rb2D.MovePosition(newPosition);
                         offset = pos - transform.position;
-                        animator.SetFloat(AnimatorIdHorizontal, offset.x * 50);
-                        animator.SetFloat(AnimatorIdVertical, offset.y * 50);
+                        SetDirection(offset.x * 50, offset.y * 50);
                         remainingDistance = offset.sqrMagnitude;
                     }
                     yield return new WaitForFixedUpdate();
                 }
             }
+            
             SetCurrentState(MoveStateType.Idle);
         }
 
@@ -136,11 +175,17 @@ namespace Base
         {
             if (!isTutorial)
             {
-                while (GlobalStageManager.Instance.IsPaused()) yield return null;       
+                while (GlobalStageManager.Instance.IsPaused())
+                {
+                    yield return null;
+                }       
             }
             else
             {
-                while (GlobalTutorialManager.Instance.IsPaused()) yield return null;
+                while (GlobalTutorialManager.Instance.IsPaused())
+                {
+                    yield return null;
+                }
             }
         }
         #endregion

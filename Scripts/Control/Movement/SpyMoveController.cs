@@ -30,7 +30,7 @@ namespace Control.Movement
 
         #region Private Variables
 
-        private readonly int spySpeed = 1;
+        private readonly int spySpeed = 2;
         private readonly int wanderRange = 3;
         private readonly float wanderDelay = 3f;
         private Coroutine wanderCoroutine;
@@ -139,7 +139,7 @@ namespace Control.Movement
             if (wanderCoroutine != null) StopCoroutine(wanderCoroutine);
             if (moveCoroutine != null) StopCoroutine(moveCoroutine);
             wanderCoroutine = StartCoroutine(Wander());
-            SetCurrentState(MoveStateType.Move);
+            // SetCurrentState(MoveStateType.Move);
         }
 
         #endregion
@@ -170,6 +170,7 @@ namespace Control.Movement
                     if (spyStateType == SpyStateType.Free)
                     {
                         StopWandering();
+                        yield return new WaitForSeconds(0.5f);
                         StartWandering();   
                     }
                 }
@@ -178,8 +179,8 @@ namespace Control.Movement
 
         private List<Vector3> GetRandomDestination()
         {
-            var dirX = Vector2.right;
-            var dirY = Vector2.up;
+            var dirX = Vector2.right * (Random.value >= 0.5f ? -1 : 1);
+            var dirY = Vector2.up * (Random.value >= 0.5f ? -1 : 1);
             
             var hitX = Physics2D.RaycastAll(transform.position, dirX, nodeSize.x * 2);
             var hitY = Physics2D.RaycastAll(transform.position, dirY, nodeSize.y * 2);

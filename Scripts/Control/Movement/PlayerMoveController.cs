@@ -30,12 +30,12 @@ namespace Control.Movement
             
             if (eControlType == EControlType.KeyBoard)
             {
-                speed = 3f;
+                speed = 200f;
                 isSet = true;
                 return;
             }
             
-            speed = 4f;
+            speed = 3f;
             StartCoroutine(CheckIdle());
             isSet = true;
         }
@@ -50,19 +50,44 @@ namespace Control.Movement
             moveCoroutine = StartCoroutine(Move(positions));
         }
 
+        // Move by joystick
         public void MovePlayer(bool isMove, Vector2 dir)
         {
             if (!isMove)
             {
                 SetCurrentState(MoveStateType.Idle);
-                rb2D.velocity = Vector3.zero;
+                // rb2D.velocity = Vector3.zero;
                 return;
             }
 
             SetCurrentState(MoveStateType.Move);
+            /*
             rb2D.velocity = dir * speed;
             animator.SetFloat(AnimatorParamHorizontal, dir.x * 50);
             animator.SetFloat(AnimatorParamVertical, dir.y * 50);
+            */
+            
+            // R
+            var tempX = dir.x;
+            var tempY = dir.y;
+            if (tempX != 0 || tempY != 0)
+            {
+                SetDirection(tempX, tempY);
+                if (!isWalking)
+                {
+                    SetCurrentState(MoveStateType.Move);
+                }
+            }
+            else
+            {
+                if (isWalking)
+                {
+                    SetCurrentState(MoveStateType.Idle);
+                }
+            }
+            
+            moveDir = new Vector3(tempX, tempY).normalized;
+            StartMoving();
         }
 
         public void StopMove()
